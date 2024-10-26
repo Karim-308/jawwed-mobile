@@ -20,7 +20,7 @@ const MoshafPage = () => {
 
     const loadFonts = async () => {
         await Font.loadAsync({
-            'UthmanicHafs': require('../../../assets/fonts/alfont_com_ArbFONTS-digitalkhatt2.otf'),
+            'UthmanicHafs': require('../../../assets/fonts/UthmanicHafs1B Ver13.ttf'),
         });
         setFontLoaded(true); // Update state once the font is loaded
     };
@@ -61,7 +61,6 @@ export default MoshafPage;
 
 const styles = StyleSheet.create({
     textAreaContainer: {
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'balck',
@@ -72,6 +71,7 @@ const styles = StyleSheet.create({
         writingDirection : 'rtl',
         letterSpacing: 10,
         fontSize: 20,
+        fontWeight: 'semibold',
         textAlign: "right",  // Ensures text stretches evenly
         fontFamily: 'UthmanicHafs',  // Font family for the text
           // Optional padding
