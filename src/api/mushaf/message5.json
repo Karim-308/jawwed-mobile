@@ -1,0 +1,308 @@
+[
+    {
+        "lineID": 9033,
+        "lineNumber": 3,
+        "lineType": "ayah",
+        "surahNumber": 112,
+        "pageNumber": 604,
+        "text": "قُلْ هُوَ ٱللَّهُ أَحَدٌ ١ ٱللَّهُ ٱلصَّمَدُ ٢ لَمْ يَلِدْ وَلَمْ يُولَدْ ٣",
+        "isCentered": false,
+        "versesKeys": "112:1,112:2,112:3",
+        "verses": [
+            {
+                "verseID": 6222,
+                "verseNumber": 1,
+                "juzNumber": 30,
+                "hizbNumber": 1,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": " قُلْ هُوَ ٱللَّهُ أَحَدٌ",
+                "chapterID": 112,
+                "chapter": null
+            },
+            {
+                "verseID": 6223,
+                "verseNumber": 2,
+                "juzNumber": 30,
+                "hizbNumber": 2,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "ٱللَّهُ ٱلصَّمَدُ",
+                "chapterID": 112,
+                "chapter": null
+            },
+            {
+                "verseID": 6224,
+                "verseNumber": 3,
+                "juzNumber": 30,
+                "hizbNumber": 3,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+                "chapterID": 112,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9037,
+        "lineNumber": 7,
+        "lineType": "ayah",
+        "surahNumber": 113,
+        "pageNumber": 604,
+        "text": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ ١ مِن شَرِّ مَا خَلَقَ ٢ وَمِن شَرِّ",
+        "isCentered": false,
+        "versesKeys": "113:1,113:2,113:3",
+        "verses": [
+            {
+                "verseID": 6226,
+                "verseNumber": 1,
+                "juzNumber": 30,
+                "hizbNumber": 1,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": " قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ",
+                "chapterID": 113,
+                "chapter": null
+            },
+            {
+                "verseID": 6227,
+                "verseNumber": 2,
+                "juzNumber": 30,
+                "hizbNumber": 2,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "مِن شَرِّ مَا خَلَقَ",
+                "chapterID": 113,
+                "chapter": null
+            },
+            {
+                "verseID": 6228,
+                "verseNumber": 3,
+                "juzNumber": 30,
+                "hizbNumber": 3,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+                "chapterID": 113,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9042,
+        "lineNumber": 12,
+        "lineType": "ayah",
+        "surahNumber": 114,
+        "pageNumber": 604,
+        "text": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ ١ مَلِكِ ٱلنَّاسِ ٢ إِلَـٰهِ",
+        "isCentered": false,
+        "versesKeys": "114:1,114:2,114:3",
+        "verses": [
+            {
+                "verseID": 6231,
+                "verseNumber": 1,
+                "juzNumber": 30,
+                "hizbNumber": 1,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": " قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            },
+            {
+                "verseID": 6232,
+                "verseNumber": 2,
+                "juzNumber": 30,
+                "hizbNumber": 2,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "مَلِكِ ٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            },
+            {
+                "verseID": 6233,
+                "verseNumber": 3,
+                "juzNumber": 30,
+                "hizbNumber": 3,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "إِلَـٰهِ ٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9038,
+        "lineNumber": 8,
+        "lineType": "ayah",
+        "surahNumber": 113,
+        "pageNumber": 604,
+        "text": "غَاسِقٍ إِذَا وَقَبَ ٣ وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ ٤",
+        "isCentered": false,
+        "versesKeys": "113:3,113:4",
+        "verses": [
+            {
+                "verseID": 6228,
+                "verseNumber": 3,
+                "juzNumber": 30,
+                "hizbNumber": 3,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+                "chapterID": 113,
+                "chapter": null
+            },
+            {
+                "verseID": 6229,
+                "verseNumber": 4,
+                "juzNumber": 30,
+                "hizbNumber": 4,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "وَمِن شَرِّ ٱلنَّفَّـٰثَـٰتِ فِى ٱلْعُقَدِ",
+                "chapterID": 113,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9043,
+        "lineNumber": 13,
+        "lineType": "ayah",
+        "surahNumber": 114,
+        "pageNumber": 604,
+        "text": "ٱلنَّاسِ ٣ مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ ٤ ٱلَّذِى",
+        "isCentered": false,
+        "versesKeys": "114:3,114:4,114:5",
+        "verses": [
+            {
+                "verseID": 6233,
+                "verseNumber": 3,
+                "juzNumber": 30,
+                "hizbNumber": 3,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "إِلَـٰهِ ٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            },
+            {
+                "verseID": 6234,
+                "verseNumber": 4,
+                "juzNumber": 30,
+                "hizbNumber": 4,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            },
+            {
+                "verseID": 6235,
+                "verseNumber": 5,
+                "juzNumber": 30,
+                "hizbNumber": 5,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9034,
+        "lineNumber": 4,
+        "lineType": "ayah",
+        "surahNumber": 112,
+        "pageNumber": 604,
+        "text": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ ٤",
+        "isCentered": true,
+        "versesKeys": "112:4",
+        "verses": [
+            {
+                "verseID": 6225,
+                "verseNumber": 4,
+                "juzNumber": 30,
+                "hizbNumber": 4,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ",
+                "chapterID": 112,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9039,
+        "lineNumber": 9,
+        "lineType": "ayah",
+        "surahNumber": 113,
+        "pageNumber": 604,
+        "text": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ٥",
+        "isCentered": true,
+        "versesKeys": "113:5",
+        "verses": [
+            {
+                "verseID": 6230,
+                "verseNumber": 5,
+                "juzNumber": 30,
+                "hizbNumber": 5,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+                "chapterID": 113,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9044,
+        "lineNumber": 14,
+        "lineType": "ayah",
+        "surahNumber": 114,
+        "pageNumber": 604,
+        "text": "يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ ٥",
+        "isCentered": true,
+        "versesKeys": "114:5",
+        "verses": [
+            {
+                "verseID": 6235,
+                "verseNumber": 5,
+                "juzNumber": 30,
+                "hizbNumber": 5,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 9045,
+        "lineNumber": 15,
+        "lineType": "ayah",
+        "surahNumber": 114,
+        "pageNumber": 604,
+        "text": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ ٦",
+        "isCentered": true,
+        "versesKeys": "114:6",
+        "verses": [
+            {
+                "verseID": 6236,
+                "verseNumber": 6,
+                "juzNumber": 30,
+                "hizbNumber": 6,
+                "page": 604,
+                "sajdah": false,
+                "textUthmani": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ",
+                "chapterID": 114,
+                "chapter": null
+            }
+        ]
+    }
+]
