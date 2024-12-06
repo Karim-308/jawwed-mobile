@@ -1,9 +1,15 @@
-import message from '../api/mushaf/message.json';
+import message from '../api/mushaf/sajda.json';
 
 const QuranPageJsonParser = () => {
     // Function to remove the '۝' symbol from a line
-    const removeSymbol = (text) => {
-        return text.replace(/۝/g, ''); // Removes all instances of ۝
+    const removeAndReplaceTajweedSymbols = (text) => {
+        // Replace all instances of ۟ with the sukūn character ْ
+        text = text.replace(/۟/g, 'ْ');  // SUKUN
+        text = text.replace(/ࣰ/g, 'ٗ'); //FATHA
+        text = text.replace(/ࣱ/g, 'ٞ'); //DAMMA
+        text = text.replace(/ࣲ/g, 'ٖ'); //KASRA
+        // Removes all instances of ۝
+        return text.replace(/۝/g, '');
     };
 
     const getLineText = (line) => {
@@ -15,9 +21,9 @@ const QuranPageJsonParser = () => {
 
         return message.map(line => {
             if (line.lineNumber === 15) {
-                return removeSymbol(line.text); // Fetch the text and add a newline
+                return removeAndReplaceTajweedSymbols(line.text); // Fetch the text and add a newline
             }
-            return removeSymbol(line.text) + "\n"; // Remove '۝' and join with a newline
+            return removeAndReplaceTajweedSymbols(line.text) + "\n"; // Remove '۝' and join with a newline
         });
     };
 

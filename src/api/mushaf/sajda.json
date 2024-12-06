@@ -1,0 +1,424 @@
+[
+    {
+        "lineID": 7172,
+        "lineNumber": 1,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "إِنَّ ٱلَّذِينَ قَالُوا۟ رَبُّنَا ٱللَّهُ ثُمَّ ٱسْتَقَٰمُوا۟ تَتَنَزَّلُ عَلَيْهِمُ",
+        "isCentered": false,
+        "versesKeys": "41:30",
+        "verses": [
+            {
+                "verseID": 4248,
+                "verseNumber": 30,
+                "juzNumber": 24,
+                "hizbNumber": 30,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "إِنَّ ٱلَّذِينَ قَالُوا۟ رَبُّنَا ٱللَّهُ ثُمَّ ٱسْتَقَـٰمُوا۟ تَتَنَزَّلُ عَلَيْهِمُ ٱلْمَلَـٰٓئِكَةُ أَلَّا تَخَافُوا۟ وَلَا تَحْزَنُوا۟ وَأَبْشِرُوا۟ بِٱلْجَنَّةِ ٱلَّتِى كُنتُمْ تُوعَدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7173,
+        "lineNumber": 2,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "ٱلْمَلَٰٓئِكَةُ أَلَّا تَخَافُوا۟ وَلَا تَحْزَنُوا۟ وَأَبْشِرُوا۟ بِٱلْجَنَّةِ",
+        "isCentered": false,
+        "versesKeys": "41:30",
+        "verses": [
+            {
+                "verseID": 4248,
+                "verseNumber": 30,
+                "juzNumber": 24,
+                "hizbNumber": 30,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "إِنَّ ٱلَّذِينَ قَالُوا۟ رَبُّنَا ٱللَّهُ ثُمَّ ٱسْتَقَـٰمُوا۟ تَتَنَزَّلُ عَلَيْهِمُ ٱلْمَلَـٰٓئِكَةُ أَلَّا تَخَافُوا۟ وَلَا تَحْزَنُوا۟ وَأَبْشِرُوا۟ بِٱلْجَنَّةِ ٱلَّتِى كُنتُمْ تُوعَدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7174,
+        "lineNumber": 3,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "ٱلَّتِي كُنتُمْ تُوعَدُونَ ۝٣٠ نَحْنُ أَوْلِيَآؤُكُمْ فِي ٱلْحَيَوٰةِ",
+        "isCentered": false,
+        "versesKeys": "41:30,41:31",
+        "verses": [
+            {
+                "verseID": 4248,
+                "verseNumber": 30,
+                "juzNumber": 24,
+                "hizbNumber": 30,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "إِنَّ ٱلَّذِينَ قَالُوا۟ رَبُّنَا ٱللَّهُ ثُمَّ ٱسْتَقَـٰمُوا۟ تَتَنَزَّلُ عَلَيْهِمُ ٱلْمَلَـٰٓئِكَةُ أَلَّا تَخَافُوا۟ وَلَا تَحْزَنُوا۟ وَأَبْشِرُوا۟ بِٱلْجَنَّةِ ٱلَّتِى كُنتُمْ تُوعَدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4249,
+                "verseNumber": 31,
+                "juzNumber": 24,
+                "hizbNumber": 31,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "نَحْنُ أَوْلِيَآؤُكُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَفِى ٱلْـَٔاخِرَةِ ۖ وَلَكُمْ فِيهَا مَا تَشْتَهِىٓ أَنفُسُكُمْ وَلَكُمْ فِيهَا مَا تَدَّعُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7175,
+        "lineNumber": 4,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "ٱلدُّنْيَا وَفِي ٱلۡأٓخِرَةِۖ وَلَكُمْ فِيهَا مَا تَشْتَهِيٓ أَنفُسُكُمْ",
+        "isCentered": false,
+        "versesKeys": "41:31",
+        "verses": [
+            {
+                "verseID": 4249,
+                "verseNumber": 31,
+                "juzNumber": 24,
+                "hizbNumber": 31,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "نَحْنُ أَوْلِيَآؤُكُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَفِى ٱلْـَٔاخِرَةِ ۖ وَلَكُمْ فِيهَا مَا تَشْتَهِىٓ أَنفُسُكُمْ وَلَكُمْ فِيهَا مَا تَدَّعُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7176,
+        "lineNumber": 5,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "وَلَكُمْ فِيهَا مَا تَدَّعُونَ ۝٣١ نُزُلࣰا مِّنْ غَفُورࣲ رَّحِيمࣲ ۝٣٢",
+        "isCentered": false,
+        "versesKeys": "41:31,41:32",
+        "verses": [
+            {
+                "verseID": 4249,
+                "verseNumber": 31,
+                "juzNumber": 24,
+                "hizbNumber": 31,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "نَحْنُ أَوْلِيَآؤُكُمْ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَفِى ٱلْـَٔاخِرَةِ ۖ وَلَكُمْ فِيهَا مَا تَشْتَهِىٓ أَنفُسُكُمْ وَلَكُمْ فِيهَا مَا تَدَّعُونَ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4250,
+                "verseNumber": 32,
+                "juzNumber": 24,
+                "hizbNumber": 32,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "نُزُلًا مِّنْ غَفُورٍ رَّحِيمٍ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7177,
+        "lineNumber": 6,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "وَمَنْ أَحْسَنُ قَوْلࣰا مِّمَّن دَعَآ إِلَى ٱللَّهِ وَعَمِلَ صَٰلِحࣰا وَقَالَ",
+        "isCentered": false,
+        "versesKeys": "41:33",
+        "verses": [
+            {
+                "verseID": 4251,
+                "verseNumber": 33,
+                "juzNumber": 24,
+                "hizbNumber": 33,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمَنْ أَحْسَنُ قَوْلًا مِّمَّن دَعَآ إِلَى ٱللَّهِ وَعَمِلَ صَـٰلِحًا وَقَالَ إِنَّنِى مِنَ ٱلْمُسْلِمِينَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7178,
+        "lineNumber": 7,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "إِنَّنِي مِنَ ٱلْمُسْلِمِينَ ۝٣٣ وَلَا تَسْتَوِي ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُۚ",
+        "isCentered": false,
+        "versesKeys": "41:33,41:34",
+        "verses": [
+            {
+                "verseID": 4251,
+                "verseNumber": 33,
+                "juzNumber": 24,
+                "hizbNumber": 33,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمَنْ أَحْسَنُ قَوْلًا مِّمَّن دَعَآ إِلَى ٱللَّهِ وَعَمِلَ صَـٰلِحًا وَقَالَ إِنَّنِى مِنَ ٱلْمُسْلِمِينَ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4252,
+                "verseNumber": 34,
+                "juzNumber": 24,
+                "hizbNumber": 34,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَٰوَةٌ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7179,
+        "lineNumber": 8,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "ٱدْفَعْ بِٱلَّتِي هِيَ أَحْسَنُ فَإِذَا ٱلَّذِي بَيْنَكَ وَبَيْنَهُۥ عَدَٰوَةࣱ كَأَنَّهُۥ",
+        "isCentered": false,
+        "versesKeys": "41:34",
+        "verses": [
+            {
+                "verseID": 4252,
+                "verseNumber": 34,
+                "juzNumber": 24,
+                "hizbNumber": 34,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَٰوَةٌ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7180,
+        "lineNumber": 9,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "وَلِيٌّ حَمِيمࣱ ۝٣٤ وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟ وَمَا يُلَقَّىٰهَآ",
+        "isCentered": false,
+        "versesKeys": "41:34,41:35",
+        "verses": [
+            {
+                "verseID": 4252,
+                "verseNumber": 34,
+                "juzNumber": 24,
+                "hizbNumber": 34,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَلَا تَسْتَوِى ٱلْحَسَنَةُ وَلَا ٱلسَّيِّئَةُ ۚ ٱدْفَعْ بِٱلَّتِى هِىَ أَحْسَنُ فَإِذَا ٱلَّذِى بَيْنَكَ وَبَيْنَهُۥ عَدَٰوَةٌ كَأَنَّهُۥ وَلِىٌّ حَمِيمٌ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4253,
+                "verseNumber": 35,
+                "juzNumber": 24,
+                "hizbNumber": 35,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟ وَمَا يُلَقَّىٰهَآ إِلَّا ذُو حَظٍّ عَظِيمٍ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7181,
+        "lineNumber": 10,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "إِلَّا ذُو حَظٍّ عَظِيمࣲ ۝٣٥ وَإِمَّا يَنزَغَنَّكَ مِنَ ٱلشَّيْطَٰنِ نَزْغࣱ",
+        "isCentered": false,
+        "versesKeys": "41:35,41:36",
+        "verses": [
+            {
+                "verseID": 4253,
+                "verseNumber": 35,
+                "juzNumber": 24,
+                "hizbNumber": 35,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمَا يُلَقَّىٰهَآ إِلَّا ٱلَّذِينَ صَبَرُوا۟ وَمَا يُلَقَّىٰهَآ إِلَّا ذُو حَظٍّ عَظِيمٍ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4254,
+                "verseNumber": 36,
+                "juzNumber": 24,
+                "hizbNumber": 36,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَإِمَّا يَنزَغَنَّكَ مِنَ ٱلشَّيْطَـٰنِ نَزْغٌ فَٱسْتَعِذْ بِٱللَّهِ ۖ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7182,
+        "lineNumber": 11,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "فَٱسْتَعِذْ بِٱللَّهِۖ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ ۝٣٦ وَمِنْ ءَايَٰتِهِ",
+        "isCentered": false,
+        "versesKeys": "41:36,41:37",
+        "verses": [
+            {
+                "verseID": 4254,
+                "verseNumber": 36,
+                "juzNumber": 24,
+                "hizbNumber": 36,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَإِمَّا يَنزَغَنَّكَ مِنَ ٱلشَّيْطَـٰنِ نَزْغٌ فَٱسْتَعِذْ بِٱللَّهِ ۖ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4255,
+                "verseNumber": 37,
+                "juzNumber": 24,
+                "hizbNumber": 37,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمِنْ ءَايَـٰتِهِ ٱلَّيْلُ وَٱلنَّهَارُ وَٱلشَّمْسُ وَٱلْقَمَرُ ۚ لَا تَسْجُدُوا۟ لِلشَّمْسِ وَلَا لِلْقَمَرِ وَٱسْجُدُوا۟ لِلَّهِ ٱلَّذِى خَلَقَهُنَّ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7183,
+        "lineNumber": 12,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "ٱلَّيْلُ وَٱلنَّهَارُ وَٱلشَّمْسُ وَٱلْقَمَرُۚ لَا تَسْجُدُوا۟ لِلشَّمْسِ",
+        "isCentered": false,
+        "versesKeys": "41:37",
+        "verses": [
+            {
+                "verseID": 4255,
+                "verseNumber": 37,
+                "juzNumber": 24,
+                "hizbNumber": 37,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمِنْ ءَايَـٰتِهِ ٱلَّيْلُ وَٱلنَّهَارُ وَٱلشَّمْسُ وَٱلْقَمَرُ ۚ لَا تَسْجُدُوا۟ لِلشَّمْسِ وَلَا لِلْقَمَرِ وَٱسْجُدُوا۟ لِلَّهِ ٱلَّذِى خَلَقَهُنَّ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7184,
+        "lineNumber": 13,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "وَلَا لِلْقَمَرِ وَٱسْجُدُوا۟ لِلَّهِ ٱلَّذِي خَلَقَهُنَّ إِن كُنتُمْ",
+        "isCentered": false,
+        "versesKeys": "41:37",
+        "verses": [
+            {
+                "verseID": 4255,
+                "verseNumber": 37,
+                "juzNumber": 24,
+                "hizbNumber": 37,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمِنْ ءَايَـٰتِهِ ٱلَّيْلُ وَٱلنَّهَارُ وَٱلشَّمْسُ وَٱلْقَمَرُ ۚ لَا تَسْجُدُوا۟ لِلشَّمْسِ وَلَا لِلْقَمَرِ وَٱسْجُدُوا۟ لِلَّهِ ٱلَّذِى خَلَقَهُنَّ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7185,
+        "lineNumber": 14,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "إِيَّاهُ تَعْبُدُونَ ۝٣٧ فَإِنِ ٱسْتَكْبَرُوا۟ فَٱلَّذِينَ عِندَ",
+        "isCentered": false,
+        "versesKeys": "41:37,41:38",
+        "verses": [
+            {
+                "verseID": 4255,
+                "verseNumber": 37,
+                "juzNumber": 24,
+                "hizbNumber": 37,
+                "page": 480,
+                "sajdah": false,
+                "textUthmani": "وَمِنْ ءَايَـٰتِهِ ٱلَّيْلُ وَٱلنَّهَارُ وَٱلشَّمْسُ وَٱلْقَمَرُ ۚ لَا تَسْجُدُوا۟ لِلشَّمْسِ وَلَا لِلْقَمَرِ وَٱسْجُدُوا۟ لِلَّهِ ٱلَّذِى خَلَقَهُنَّ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ",
+                "chapterID": 41,
+                "chapter": null
+            },
+            {
+                "verseID": 4256,
+                "verseNumber": 38,
+                "juzNumber": 24,
+                "hizbNumber": 38,
+                "page": 480,
+                "sajdah": true,
+                "textUthmani": "فَإِنِ ٱسْتَكْبَرُوا۟ فَٱلَّذِينَ عِندَ رَبِّكَ يُسَبِّحُونَ لَهُۥ بِٱلَّيْلِ وَٱلنَّهَارِ وَهُمْ لَا يَسْـَٔمُونَ ۩",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    },
+    {
+        "lineID": 7186,
+        "lineNumber": 15,
+        "lineType": "ayah",
+        "surahNumber": 41,
+        "pageNumber": 480,
+        "text": "رَبِّكَ يُسَبِّحُونَ لَهُۥ بِٱلَّيْلِ وَٱلنَّهَارِ وَهُمْ لَا يَسْـَٔمُونَ۩ ۝٣٨",
+        "isCentered": false,
+        "versesKeys": "41:38",
+        "verses": [
+            {
+                "verseID": 4256,
+                "verseNumber": 38,
+                "juzNumber": 24,
+                "hizbNumber": 38,
+                "page": 480,
+                "sajdah": true,
+                "textUthmani": "فَإِنِ ٱسْتَكْبَرُوا۟ فَٱلَّذِينَ عِندَ رَبِّكَ يُسَبِّحُونَ لَهُۥ بِٱلَّيْلِ وَٱلنَّهَارِ وَهُمْ لَا يَسْـَٔمُونَ ۩",
+                "chapterID": 41,
+                "chapter": null
+            }
+        ]
+    }
+]
