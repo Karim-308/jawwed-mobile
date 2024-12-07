@@ -1,5 +1,6 @@
 import { SafeAreaView,StyleSheet } from 'react-native';
 import MoshafPage1 from './components/MoshafPage1';
+import MoshafPage from './components/MoshafPage';
 import Header from './components/MoshafHeader';
 import QuranText from './components/QuranText';
 import BottomNavigationBar from './components/BottomNav';
