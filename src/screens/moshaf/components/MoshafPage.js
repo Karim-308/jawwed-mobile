@@ -41,17 +41,19 @@ const MoshafPage = () => {
             const trimmedLine = line.trimEnd(); // Remove extra spaces at the end of the line
             console.log(trimmedLine);
             return (
+                <View>
             <View key={index} style={[styles.lineWrapper]}>
                 {trimmedLine.split(' ').map((word, index) => (
                 <Text key={index} style={[styles.ayahText, { color: "white" }]}>{word}</Text>
                 ))}
             </View>
+                </View>
             );
         });
     };
 
     return (
-        <View style={styles.textAreaContainer}>
+        <View style={styles.MushafVeiwContainer}>
             {fontLoaded && renderAyahLines()}
         </View>
     );
@@ -60,9 +62,9 @@ const MoshafPage = () => {
 export default MoshafPage;
 
 const styles = StyleSheet.create({
-    textAreaContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    MushafVeiwContainer: {
+        justifyContent: 'space-between',
+        alignItems: 'space-between',
         backgroundColor: 'balck',
         writingDirection: 'rtl',
         direction: 'rtl',
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row-reverse',
         paddingHorizontal: 10,
         paddingVertical:0,
-        width: "97%",
+        width: "100%",
         justifyContent: 'space-between',
         textAlign: 'right',
         alignItems: 'center',

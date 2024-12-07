@@ -1,5 +1,5 @@
 import { SafeAreaView,StyleSheet } from 'react-native';
-import MoshafPage from './components/MoshafPage';
+import MoshafPage1 from './components/MoshafPage1';
 import Header from './components/MoshafHeader';
 import QuranText from './components/QuranText';
 import BottomNavigationBar from './components/BottomNav';
@@ -9,14 +9,14 @@ import store from '../../redux/store';
 
 const MoshafScreen = () => {
     return (
-        <Provider store={store}>
         <SafeAreaView style={styles.PageContainer}>
+        <Provider store={store}>
             <Header />
-            <MoshafPage />
-            <BlankNavBar />
+            <MoshafPage1 />
+            {/*<BlankNavBar />*/}
             <BottomNavigationBar />
-        </SafeAreaView>
         </Provider>
+        </SafeAreaView>
     );
 }
 
@@ -25,10 +25,10 @@ export default MoshafScreen;
 
 const styles = StyleSheet.create({
     PageContainer: {
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         allignItems: 'center',
         flex: 1,
-        backgroundColor: '#499170',
+        backgroundColor: 'black',
     },
 
 });

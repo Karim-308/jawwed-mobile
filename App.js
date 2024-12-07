@@ -1,6 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import MoshafScreen from './src/screens/moshaf/MoshafScreen';
+import { SafeAreaView } from 'react-native-web';
+import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
 
 export default function App() {
   return (

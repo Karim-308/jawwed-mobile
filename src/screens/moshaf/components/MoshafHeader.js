@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StatusBar,StyleSheet } from 'react-native';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -27,13 +27,13 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingTop: StatusBar.currentHeight +10 || 24,
     backgroundColor: '#000',
     minWidth: '100%',
-    height: 60,
+    
   },
   titleContainer: {
     marginHorizontal: 10,
