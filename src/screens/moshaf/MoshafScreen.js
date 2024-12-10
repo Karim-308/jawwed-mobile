@@ -1,5 +1,4 @@
 import { SafeAreaView,StyleSheet } from 'react-native';
-import MoshafPage1 from './components/MoshafPage1';
 import MoshafPage2 from './components/MoshafPage2';
 import MoshafPage from './components/MoshafPage';
 import Header from './components/MoshafHeader';

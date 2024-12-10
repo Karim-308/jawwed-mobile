@@ -29,10 +29,9 @@ const QuranPageJsonParser = () => {
 
             let verseIndex = 0;
             const ayahSegments = parts.map((part, index) => {
-                const trimmedPart = part.trim();
-                if (trimmedPart.length === 0) return null;
+                
+                if (part.length === 0) return null;
 
-                const partWithoutNumber = trimmedPart.replace(/\d+/g, '').trim();
                 const verse = line.verses[verseIndex];
                 if (!verse) return null;
 
@@ -45,7 +44,7 @@ const QuranPageJsonParser = () => {
                     verseID: verse.verseID,
                     ayahNumber: verse.verseNumber,
                     verseKey,
-                    text: partWithoutNumber,
+                    text: part,
                     surahNumber: line.surahNumber
                 };
             }).filter(Boolean);
