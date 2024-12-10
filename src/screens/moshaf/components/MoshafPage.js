@@ -136,7 +136,7 @@ const MoshafPage = () => {
             const boundaries = findAyahBoundaries(words);
 
             return (
-                <View key={`line-${lineIndex}`} style={styles.lineWrapper}>
+            <View key={`line-${lineIndex}`} style={[styles.lineWrapper , line.isCentered && { justifyContent: "center" } ]}>
                     {words.map((word, wIndex) => {
                         // Determine if selected:
                         // We need to know which ayah this word belongs to.
@@ -168,7 +168,9 @@ const MoshafPage = () => {
                         return (
                             <TouchableOpacity
                                 key={`word-${wIndex}`}
-                                onLongPress={() => selectAyahFromWord(line, wIndex)}
+                                style={line.isCentered && { marginHorizontal: 2 }}
+                                onLongPress={() => selectAyahFromWord(line, wIndex)
+                                }
                             >
                                 <Text style={[styles.ayahText, isSelected && styles.selectedWord]}>
                                     {word}

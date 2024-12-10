@@ -13,7 +13,7 @@ const MoshafScreen = () => {
         <SafeAreaView style={styles.PageContainer}>
         <Provider store={store}>
             <Header />
-            <MoshafPage2 />
+            <MoshafPage />
             {/*<BlankNavBar />*/}
             <BottomNavigationBar />
         </Provider>
