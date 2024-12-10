@@ -1,5 +1,6 @@
 import { SafeAreaView,StyleSheet } from 'react-native';
 import MoshafPage1 from './components/MoshafPage1';
+import MoshafPage2 from './components/MoshafPage2';
 import MoshafPage from './components/MoshafPage';
 import Header from './components/MoshafHeader';
 import QuranText from './components/QuranText';
@@ -13,7 +14,7 @@ const MoshafScreen = () => {
         <SafeAreaView style={styles.PageContainer}>
         <Provider store={store}>
             <Header />
-            <MoshafPage1 />
+            <MoshafPage2 />
             {/*<BlankNavBar />*/}
             <BottomNavigationBar />
         </Provider>
