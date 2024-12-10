@@ -96,7 +96,6 @@ const MoshafPage = () => {
                         <TouchableOpacity
                             key={`line-${lineIndex}-word-${wIndex}`}
                             onLongPress={() => handleWordLongPress(wObj.verseKey)}
-                            style={[styles.wordWrapper,]}
                         >
                             <Text style={[styles.wordText, isSelected && styles.selectedWord]}>{wObj.word}</Text>
                         </TouchableOpacity>
@@ -131,14 +130,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: width * 0.9,
         marginBottom: 10,
-        // The line should now look consistent, just like a printed mushaf line.
-    },
-    wordWrapper: {
-        // Each word individually selectable
     },
     selectedWord: {
         //borderColor: '#EFB975',
-       // borderWidth: 1,
+        //borderWidth: 1,
         //borderRadius: 3,
         color: '#EFB975',
     },

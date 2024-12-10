@@ -45,6 +45,6 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 1.5,
         borderColor: `${PRIMARY_GOLD}`,
-        borderRadius: '5px',
+        borderRadius: 5,
     }
 });
