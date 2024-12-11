@@ -1,120 +1,36 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 import QuranPageJsonParser from '../../../utils/QuranPageJsonParser';
-import * as Font from 'expo-font';
 
-const { width, height } = Dimensions.get('window');
-
-// Helper function: Identify ayah boundaries in a line based on Arabic digits
-// Returns an array of indices indicating where each ayah ends.
+// Identify ayah boundaries based on Arabic digits.
 const findAyahBoundaries = (words) => {
-    // Arabic digits: ٠١٢٣٤٥٦٧٨٩
-    // We'll look for standalone Arabic digits that mark ayah boundaries
-    // Typically ayah numbers appear as isolated digits. We assume each ayah number is a single or double digit word.
     const boundaries = [];
-    words.forEach((w, i) => {
-        // Check if w is composed solely of Arabic digits (ayah number markers)
+    for (let i = 0; i < words.length; i++) {
+        const w = words[i];
         if (/^[٠١٢٣٤٥٦٧٨٩]+$/.test(w)) {
             boundaries.push(i);
         }
-    });
+    }
     return boundaries;
 };
 
-const MoshafPage = () => {
+const MoshafScreen = React.memo(() => {
     const [lines, setLines] = useState([]);
-    const [fontLoaded, setFontLoaded] = useState(false);
     const [selectedAyahs, setSelectedAyahs] = useState({});
 
+    const { width } = useWindowDimensions();
+    const containerWidth = useMemo(() => width * 0.9, [width]);
+
     useEffect(() => {
-        const loadData = async () => {
-            await loadFonts();
-            fetchLinesContent();
-        };
-        loadData();
-    }, []);
-
-    const loadFonts = async () => {
-        await Font.loadAsync({
-            'UthmanicHafs': require('../../../assets/fonts/Hafs.ttf'),
-        });
-        setFontLoaded(true);
-    };
-
-    const fetchLinesContent = () => {
         const parsedLines = QuranPageJsonParser();
         if (Array.isArray(parsedLines)) {
             setLines(parsedLines);
         } else {
             console.error('QuranPageJsonParser did not return an array:', parsedLines);
         }
-    };
+    }, []);
 
-    const selectAyahFromWord = useCallback((line, wordIndex) => {
-        const { verseKeys, text } = line;
-        const words = text.split(' ');
-
-        if (verseKeys.length === 0) {
-            // No ayah keys found, do nothing
-            return;
-        }
-
-        if (verseKeys.length === 1) {
-            // Entire line is one ayah
-            const verseKey = verseKeys[0];
-            toggleAyahSelection(verseKey);
-            return;
-        }
-
-        // Multiple ayahs in this line.
-        // We find the ayah boundaries by scanning for Arabic digit words.
-        const boundaries = findAyahBoundaries(words);
-
-        // If no boundaries found, treat entire line as one ayah if verseKeys is misaligned.
-        if (boundaries.length === 0) {
-            // fallback
-            toggleAyahSelection(verseKeys[0]);
-            return;
-        }
-
-        // The boundaries array marks the indices of ayah number words. 
-        // For example, if boundaries = [5, 10], it means:
-        // - From start(0) to 5(inclusive) is ayah 1
-        // - From 6 to 10(inclusive) is ayah 2
-        // - From 11 to end is ayah 3 (if verseKeys.length > 2)
-
-        // We must find which range wordIndex falls into.
-        // Let's define start = 0 initially.
-        // For each boundary, that defines the end of an ayah.
-        let ayahIndex = 0;
-        let start = 0;
-        for (let i = 0; i < boundaries.length; i++) {
-            const end = boundaries[i];
-            if (wordIndex <= end) {
-                ayahIndex = i; 
-                break;
-            }
-            start = end + 1;
-            // If we haven't broken out, it means wordIndex is beyond the current boundary.
-            // Move to next ayah range.
-            // If after last boundary, word belongs to last ayah
-            if (i === boundaries.length - 1 && wordIndex > end) {
-                ayahIndex = boundaries.length; 
-            }
-        }
-
-        // ayahIndex corresponds to the ayahNumber in verseKeys (0-based)
-        if (ayahIndex >= verseKeys.length) {
-            // If we somehow got an ayahIndex out of range, fallback to last ayah
-            ayahIndex = verseKeys.length - 1;
-        }
-
-        const verseKey = verseKeys[ayahIndex];
-        toggleAyahSelection(verseKey);
-
-    }, [lines, selectedAyahs]);
-
-    const toggleAyahSelection = (verseKey) => {
+    const toggleAyahSelection = useCallback((verseKey) => {
         setSelectedAyahs((prev) => {
             const updated = { ...prev };
             if (updated[verseKey]) {
@@ -122,30 +38,69 @@ const MoshafPage = () => {
             } else {
                 updated[verseKey] = true;
             }
-
-            // Optional: log info
-            console.log(`Toggled Ayah: ${verseKey}`);
-            console.log('Selected Ayahs:', Object.keys(updated));
             return updated;
         });
-    };
+    }, []);
 
-    const renderAyahLines = () => {
+    const selectAyahFromWord = useCallback((line, wordIndex) => {
+        const { verseKeys, text } = line;
+        const words = text.split(' ');
+
+        if (verseKeys.length === 0) return;
+
+        if (verseKeys.length === 1) {
+            // Entire line = one ayah
+            const verseKey = verseKeys[0];
+            toggleAyahSelection(verseKey);
+            return;
+        }
+
+        const boundaries = findAyahBoundaries(words);
+        if (boundaries.length === 0) {
+            // fallback if no boundaries found
+            toggleAyahSelection(verseKeys[0]);
+            return;
+        }
+
+        let ayahIndex = 0;
+        for (let i = 0; i < boundaries.length; i++) {
+            if (wordIndex <= boundaries[i]) {
+                ayahIndex = i;
+                break;
+            }
+            if (i === boundaries.length - 1 && wordIndex > boundaries[i]) {
+                ayahIndex = boundaries.length;
+            }
+        }
+
+        if (ayahIndex >= verseKeys.length) {
+            ayahIndex = verseKeys.length - 1;
+        }
+
+        toggleAyahSelection(verseKeys[ayahIndex]);
+
+    }, [toggleAyahSelection]);
+
+    const renderAyahLines = useCallback(() => {
         return lines.map((line, lineIndex) => {
             const words = line.text.split(' ');
             const boundaries = findAyahBoundaries(words);
 
             return (
-            <View key={`line-${lineIndex}`} style={[styles.lineWrapper , line.isCentered && { justifyContent: "center" } ]}>
+                <View 
+                    key={`line-${lineIndex}`} 
+                    style={[
+                        styles.lineWrapper, 
+                        { width: containerWidth }, 
+                        line.isCentered && { justifyContent: "center" }
+                    ]}
+                >
                     {words.map((word, wIndex) => {
-                        // Determine if selected:
-                        // We need to know which ayah this word belongs to.
-                        // Let's reuse the logic in a simplified manner:
+                        // Determine verseKeyForWord
                         let verseKeyForWord = null;
                         if (line.verseKeys.length === 1) {
                             verseKeyForWord = line.verseKeys[0];
                         } else if (line.verseKeys.length > 1 && boundaries.length > 0) {
-                            // Similar logic as in selectAyahFromWord but simpler:
                             let ayahIndex = 0;
                             for (let i = 0; i < boundaries.length; i++) {
                                 if (wIndex <= boundaries[i]) {
@@ -159,50 +114,44 @@ const MoshafPage = () => {
                             if (ayahIndex >= line.verseKeys.length) ayahIndex = line.verseKeys.length - 1;
                             verseKeyForWord = line.verseKeys[ayahIndex];
                         } else if (line.verseKeys.length > 0) {
-                            // If no boundaries, assume first verseKey
                             verseKeyForWord = line.verseKeys[0];
                         }
 
                         const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];
 
-                        // Determine spacing logic:
-                        // If the word is digits only, it's an ayah number -> prepend space
-                        // Otherwise, append space after the word
-                        let displayedWord;
-                        if (/^[٠١٢٣٤٥٦٧٨٩]+$/.test(word)) {
-                            // Ayah number: add space before
-                            displayedWord = ' ' + word;
-                        } else {
-                            // Arabic word: add space after
-                            displayedWord = word + ' ';
-                        }
+                        // Determine spacing:
+                        const displayedWord = /^[٠١٢٣٤٥٦٧٨٩]+$/.test(word) ? (' ' + word) : (word + ' ');
 
                         return (
                             <TouchableOpacity
                                 key={`word-${wIndex}`}
-                                style={line.isCentered && { marginHorizontal: 2 }}
-                                onLongPress={() => selectAyahFromWord(line, wIndex)
-                                }
+                                style={line.isCentered && { marginHorizontal: containerWidth * 0.005 }}
+                                onLongPress={() => selectAyahFromWord(line, wIndex)}
+                                activeOpacity={0.7}
                             >
-                                <Text style={[styles.ayahText, isSelected && styles.selectedWord  , {backgroundColor:"black"}]}>
-                                    {displayedWord} 
+                                <Text style={[ 
+                                    styles.ayahText, 
+                                    { fontSize: containerWidth * 0.058 },
+                                    isSelected && styles.selectedWord
+                                ]}>
+                                    {displayedWord}
                                 </Text>
                             </TouchableOpacity>
-                        ); 
+                        );
                     })}
                 </View>
             );
         });
-    };
+    }, [lines, selectedAyahs, containerWidth, selectAyahFromWord]);
 
     return (
         <View style={styles.MushafVeiwContainer}>
-            {fontLoaded && renderAyahLines()}
+            {renderAyahLines()}
         </View>
     );
-};
+});
 
-export default MoshafPage;
+export default MoshafScreen;
 
 const styles = StyleSheet.create({
     MushafVeiwContainer: {
@@ -211,20 +160,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         writingDirection: 'rtl',
         direction: 'rtl',
-        padding: 10,
+        padding: 11,
+        flex: 1,
     },
     lineWrapper: {
         flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: width * 0.9, 
-        marginBottom: 10,
+        marginBottom: 5,
     },
     ayahText: {
         fontFamily: 'UthmanicHafs',
         color: 'white',
-        alignSelf: "stretch",
-        fontSize: 20 ,
         textAlign: "center",
         writingDirection: 'rtl',
     },
