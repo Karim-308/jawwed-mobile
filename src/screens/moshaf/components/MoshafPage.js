@@ -36,7 +36,7 @@ const MoshafPage = () => {
 
     const loadFonts = async () => {
         await Font.loadAsync({
-            'UthmanicHafs': require('../../../assets/fonts/UthmanicHafs1B Ver13.ttf'),
+            'UthmanicHafs': require('../../../assets/fonts/Hafs.ttf'),
         });
         setFontLoaded(true);
     };
@@ -165,6 +165,18 @@ const MoshafPage = () => {
 
                         const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];
 
+                        // Determine spacing logic:
+                        // If the word is digits only, it's an ayah number -> prepend space
+                        // Otherwise, append space after the word
+                        let displayedWord;
+                        if (/^[٠١٢٣٤٥٦٧٨٩]+$/.test(word)) {
+                            // Ayah number: add space before
+                            displayedWord = ' ' + word;
+                        } else {
+                            // Arabic word: add space after
+                            displayedWord = word + ' ';
+                        }
+
                         return (
                             <TouchableOpacity
                                 key={`word-${wIndex}`}
@@ -172,11 +184,11 @@ const MoshafPage = () => {
                                 onLongPress={() => selectAyahFromWord(line, wIndex)
                                 }
                             >
-                                <Text style={[styles.ayahText, isSelected && styles.selectedWord]}>
-                                    {word}
+                                <Text style={[styles.ayahText, isSelected && styles.selectedWord  , {backgroundColor:"black"}]}>
+                                    {displayedWord} 
                                 </Text>
                             </TouchableOpacity>
-                        );
+                        ); 
                     })}
                 </View>
             );
@@ -194,7 +206,7 @@ export default MoshafPage;
 
 const styles = StyleSheet.create({
     MushafVeiwContainer: {
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'black',
         writingDirection: 'rtl',
@@ -205,15 +217,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row-reverse',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: width * 0.9,
+        width: width * 0.9, 
         marginBottom: 10,
     },
     ayahText: {
         fontFamily: 'UthmanicHafs',
         color: 'white',
-        fontSize: 20,
-        fontWeight: '600',
-        textAlign: 'right',
+        alignSelf: "stretch",
+        fontSize: 20 ,
+        textAlign: "center",
         writingDirection: 'rtl',
     },
     selectedWord: {
