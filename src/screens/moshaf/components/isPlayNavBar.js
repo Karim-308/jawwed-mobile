@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { togglePlay, hideNav, showNav } from '../../../redux/reducers';
+import { toggleAudio } from '../Services/AudioService';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 
 /**
@@ -67,7 +68,10 @@ const IsPlay = () => {
 
         {/* Play/Pause Button */}
         <View style={styles.playButton}>
-          <TouchableOpacity onPress={handleTogglePlay}>
+          <TouchableOpacity onPress={() => {
+            toggleAudio(isPlaying);
+            dispatch(togglePlay());
+          }}>
             <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
           </TouchableOpacity>
         </View>
