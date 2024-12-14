@@ -1,0 +1,1632 @@
+[
+  [
+    {
+      "lineID": 2,
+      "lineNumber": 2,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ١",
+      "isCentered": true,
+      "versesKeys": "1:1",
+      "verses": [
+        {
+          "verseID": 1,
+          "verseNumber": 1,
+          "juzNumber": 1,
+          "hizbNumber": 1,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 3,
+      "lineNumber": 3,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ٢",
+      "isCentered": true,
+      "versesKeys": "1:2",
+      "verses": [
+        {
+          "verseID": 2,
+          "verseNumber": 2,
+          "juzNumber": 1,
+          "hizbNumber": 2,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 4,
+      "lineNumber": 4,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ٣ مَـٰلِكِ يَوْمِ ٱلدِّينِ ٤",
+      "isCentered": true,
+      "versesKeys": "1:3,1:4",
+      "verses": [
+        {
+          "verseID": 3,
+          "verseNumber": 3,
+          "juzNumber": 1,
+          "hizbNumber": 3,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ",
+          "chapterID": 1,
+          "chapter": null
+        },
+        {
+          "verseID": 4,
+          "verseNumber": 4,
+          "juzNumber": 1,
+          "hizbNumber": 4,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "مَـٰلِكِ يَوْمِ ٱلدِّينِ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 5,
+      "lineNumber": 5,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ٥ ٱهْدِنَا",
+      "isCentered": true,
+      "versesKeys": "1:5,1:6",
+      "verses": [
+        {
+          "verseID": 5,
+          "verseNumber": 5,
+          "juzNumber": 1,
+          "hizbNumber": 5,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+          "chapterID": 1,
+          "chapter": null
+        },
+        {
+          "verseID": 6,
+          "verseNumber": 6,
+          "juzNumber": 1,
+          "hizbNumber": 6,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 6,
+      "lineNumber": 6,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ٦ صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ",
+      "isCentered": true,
+      "versesKeys": "1:6,1:7",
+      "verses": [
+        {
+          "verseID": 6,
+          "verseNumber": 6,
+          "juzNumber": 1,
+          "hizbNumber": 6,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ",
+          "chapterID": 1,
+          "chapter": null
+        },
+        {
+          "verseID": 7,
+          "verseNumber": 7,
+          "juzNumber": 1,
+          "hizbNumber": 7,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 7,
+      "lineNumber": 7,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ",
+      "isCentered": true,
+      "versesKeys": "1:7",
+      "verses": [
+        {
+          "verseID": 7,
+          "verseNumber": 7,
+          "juzNumber": 1,
+          "hizbNumber": 7,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 8,
+      "lineNumber": 8,
+      "lineType": "ayah",
+      "surahNumber": 1,
+      "pageNumber": 1,
+      "text": "وَلَا ٱلضَّآلِّينَ ٧",
+      "isCentered": true,
+      "versesKeys": "1:7",
+      "verses": [
+        {
+          "verseID": 7,
+          "verseNumber": 7,
+          "juzNumber": 1,
+          "hizbNumber": 7,
+          "page": 1,
+          "sajdah": false,
+          "textUthmani": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ",
+          "chapterID": 1,
+          "chapter": null
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "lineID": 11,
+      "lineNumber": 3,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 2,
+      "text": "الٓمٓ ١ ذَٰلِكَ ٱلْكِتَـٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًۭى",
+      "isCentered": true,
+      "versesKeys": "2:1,2:2",
+      "verses": [
+        {
+          "verseID": 8,
+          "verseNumber": 1,
+          "juzNumber": 1,
+          "hizbNumber": 1,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": " الٓمٓ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 9,
+          "verseNumber": 2,
+          "juzNumber": 1,
+          "hizbNumber": 2,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "ذَٰلِكَ ٱلْكِتَـٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 12,
+      "lineNumber": 4,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 2,
+      "text": "لِّلْمُتَّقِينَ ٢ ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ",
+      "isCentered": true,
+      "versesKeys": "2:2,2:3",
+      "verses": [
+        {
+          "verseID": 9,
+          "verseNumber": 2,
+          "juzNumber": 1,
+          "hizbNumber": 2,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "ذَٰلِكَ ٱلْكِتَـٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 10,
+          "verseNumber": 3,
+          "juzNumber": 1,
+          "hizbNumber": 3,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَـٰهُمْ يُنفِقُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 13,
+      "lineNumber": 5,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 2,
+      "text": "وَمِمَّا رَزَقْنَـٰهُمْ يُنفِقُونَ ٣ وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ",
+      "isCentered": true,
+      "versesKeys": "2:3,2:4",
+      "verses": [
+        {
+          "verseID": 10,
+          "verseNumber": 3,
+          "juzNumber": 1,
+          "hizbNumber": 3,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا رَزَقْنَـٰهُمْ يُنفِقُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 11,
+          "verseNumber": 4,
+          "juzNumber": 1,
+          "hizbNumber": 4,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْـَٔاخِرَةِ هُمْ يُوقِنُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 14,
+      "lineNumber": 6,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 2,
+      "text": "إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْـَٔاخِرَةِ هُمْ يُوقِنُونَ ٤",
+      "isCentered": true,
+      "versesKeys": "2:4",
+      "verses": [
+        {
+          "verseID": 11,
+          "verseNumber": 4,
+          "juzNumber": 1,
+          "hizbNumber": 4,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "وَٱلَّذِينَ يُؤْمِنُونَ بِمَآ أُنزِلَ إِلَيْكَ وَمَآ أُنزِلَ مِن قَبْلِكَ وَبِٱلْـَٔاخِرَةِ هُمْ يُوقِنُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 15,
+      "lineNumber": 7,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 2,
+      "text": "أُو۟لَـٰٓئِكَ عَلَىٰ هُدًۭى مِّن رَّبِّهِمْ ۖ وَأُو۟لَـٰٓئِكَ",
+      "isCentered": true,
+      "versesKeys": "2:5",
+      "verses": [
+        {
+          "verseID": 12,
+          "verseNumber": 5,
+          "juzNumber": 1,
+          "hizbNumber": 5,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "أُو۟لَـٰٓئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُو۟لَـٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 16,
+      "lineNumber": 8,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 2,
+      "text": "هُمُ ٱلْمُفْلِحُونَ ٥",
+      "isCentered": true,
+      "versesKeys": "2:5",
+      "verses": [
+        {
+          "verseID": 12,
+          "verseNumber": 5,
+          "juzNumber": 1,
+          "hizbNumber": 5,
+          "page": 2,
+          "sajdah": false,
+          "textUthmani": "أُو۟لَـٰٓئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُو۟لَـٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "lineID": 17,
+      "lineNumber": 1,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "إِنَّ ٱلَّذِينَ كَفَرُوا۟ سَوَآءٌ عَلَيْهِمْ ءَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ",
+      "isCentered": false,
+      "versesKeys": "2:6",
+      "verses": [
+        {
+          "verseID": 13,
+          "verseNumber": 6,
+          "juzNumber": 1,
+          "hizbNumber": 6,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "إِنَّ ٱلَّذِينَ كَفَرُوا۟ سَوَآءٌ عَلَيْهِمْ ءَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 18,
+      "lineNumber": 2,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "لَا يُؤْمِنُونَ ٦ خَتَمَ ٱللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰٓ",
+      "isCentered": false,
+      "versesKeys": "2:6,2:7",
+      "verses": [
+        {
+          "verseID": 13,
+          "verseNumber": 6,
+          "juzNumber": 1,
+          "hizbNumber": 6,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "إِنَّ ٱلَّذِينَ كَفَرُوا۟ سَوَآءٌ عَلَيْهِمْ ءَأَنذَرْتَهُمْ أَمْ لَمْ تُنذِرْهُمْ لَا يُؤْمِنُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 14,
+          "verseNumber": 7,
+          "juzNumber": 1,
+          "hizbNumber": 7,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "خَتَمَ ٱللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰٓ أَبْصَـٰرِهِمْ غِشَـٰوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 19,
+      "lineNumber": 3,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "أَبْصَـٰرِهِمْ غِشَـٰوَةٌۭ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌۭ ٧ وَمِنَ ٱلنَّاسِ",
+      "isCentered": false,
+      "versesKeys": "2:7,2:8",
+      "verses": [
+        {
+          "verseID": 14,
+          "verseNumber": 7,
+          "juzNumber": 1,
+          "hizbNumber": 7,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "خَتَمَ ٱللَّهُ عَلَىٰ قُلُوبِهِمْ وَعَلَىٰ سَمْعِهِمْ ۖ وَعَلَىٰٓ أَبْصَـٰرِهِمْ غِشَـٰوَةٌ ۖ وَلَهُمْ عَذَابٌ عَظِيمٌ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 15,
+          "verseNumber": 8,
+          "juzNumber": 1,
+          "hizbNumber": 8,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَمِنَ ٱلنَّاسِ مَن يَقُولُ ءَامَنَّا بِٱللَّهِ وَبِٱلْيَوْمِ ٱلْـَٔاخِرِ وَمَا هُم بِمُؤْمِنِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 20,
+      "lineNumber": 4,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "مَن يَقُولُ ءَامَنَّا بِٱللَّهِ وَبِٱلْيَوْمِ ٱلْـَٔاخِرِ وَمَا هُم بِمُؤْمِنِينَ ٨",
+      "isCentered": false,
+      "versesKeys": "2:8",
+      "verses": [
+        {
+          "verseID": 15,
+          "verseNumber": 8,
+          "juzNumber": 1,
+          "hizbNumber": 8,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَمِنَ ٱلنَّاسِ مَن يَقُولُ ءَامَنَّا بِٱللَّهِ وَبِٱلْيَوْمِ ٱلْـَٔاخِرِ وَمَا هُم بِمُؤْمِنِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 21,
+      "lineNumber": 5,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "يُخَـٰدِعُونَ ٱللَّهَ وَٱلَّذِينَ ءَامَنُوا۟ وَمَا يَخْدَعُونَ إِلَّآ أَنفُسَهُمْ",
+      "isCentered": false,
+      "versesKeys": "2:9",
+      "verses": [
+        {
+          "verseID": 16,
+          "verseNumber": 9,
+          "juzNumber": 1,
+          "hizbNumber": 9,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "يُخَـٰدِعُونَ ٱللَّهَ وَٱلَّذِينَ ءَامَنُوا۟ وَمَا يَخْدَعُونَ إِلَّآ أَنفُسَهُمْ وَمَا يَشْعُرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 22,
+      "lineNumber": 6,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "وَمَا يَشْعُرُونَ ٩ فِى قُلُوبِهِم مَّرَضٌۭ فَزَادَهُمُ ٱللَّهُ مَرَضًۭا ۖ",
+      "isCentered": false,
+      "versesKeys": "2:9,2:10",
+      "verses": [
+        {
+          "verseID": 16,
+          "verseNumber": 9,
+          "juzNumber": 1,
+          "hizbNumber": 9,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "يُخَـٰدِعُونَ ٱللَّهَ وَٱلَّذِينَ ءَامَنُوا۟ وَمَا يَخْدَعُونَ إِلَّآ أَنفُسَهُمْ وَمَا يَشْعُرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 17,
+          "verseNumber": 10,
+          "juzNumber": 1,
+          "hizbNumber": 10,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "فِى قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ ٱللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌۢ بِمَا كَانُوا۟ يَكْذِبُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 23,
+      "lineNumber": 7,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "وَلَهُمْ عَذَابٌ أَلِيمٌۢ بِمَا كَانُوا۟ يَكْذِبُونَ ١٠ وَإِذَا قِيلَ لَهُمْ",
+      "isCentered": false,
+      "versesKeys": "2:10,2:11",
+      "verses": [
+        {
+          "verseID": 17,
+          "verseNumber": 10,
+          "juzNumber": 1,
+          "hizbNumber": 10,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "فِى قُلُوبِهِم مَّرَضٌ فَزَادَهُمُ ٱللَّهُ مَرَضًا ۖ وَلَهُمْ عَذَابٌ أَلِيمٌۢ بِمَا كَانُوا۟ يَكْذِبُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 18,
+          "verseNumber": 11,
+          "juzNumber": 1,
+          "hizbNumber": 11,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا۟ فِى ٱلْأَرْضِ قَالُوٓا۟ إِنَّمَا نَحْنُ مُصْلِحُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 24,
+      "lineNumber": 8,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "لَا تُفْسِدُوا۟ فِى ٱلْأَرْضِ قَالُوٓا۟ إِنَّمَا نَحْنُ مُصْلِحُونَ ١١ أَلَآ إِنَّهُمْ",
+      "isCentered": false,
+      "versesKeys": "2:11,2:12",
+      "verses": [
+        {
+          "verseID": 18,
+          "verseNumber": 11,
+          "juzNumber": 1,
+          "hizbNumber": 11,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا قِيلَ لَهُمْ لَا تُفْسِدُوا۟ فِى ٱلْأَرْضِ قَالُوٓا۟ إِنَّمَا نَحْنُ مُصْلِحُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 19,
+          "verseNumber": 12,
+          "juzNumber": 1,
+          "hizbNumber": 12,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "أَلَآ إِنَّهُمْ هُمُ ٱلْمُفْسِدُونَ وَلَـٰكِن لَّا يَشْعُرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 25,
+      "lineNumber": 9,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "هُمُ ٱلْمُفْسِدُونَ وَلَـٰكِن لَّا يَشْعُرُونَ ١٢ وَإِذَا قِيلَ لَهُمْ",
+      "isCentered": false,
+      "versesKeys": "2:12,2:13",
+      "verses": [
+        {
+          "verseID": 19,
+          "verseNumber": 12,
+          "juzNumber": 1,
+          "hizbNumber": 12,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "أَلَآ إِنَّهُمْ هُمُ ٱلْمُفْسِدُونَ وَلَـٰكِن لَّا يَشْعُرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 20,
+          "verseNumber": 13,
+          "juzNumber": 1,
+          "hizbNumber": 13,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا قِيلَ لَهُمْ ءَامِنُوا۟ كَمَآ ءَامَنَ ٱلنَّاسُ قَالُوٓا۟ أَنُؤْمِنُ كَمَآ ءَامَنَ ٱلسُّفَهَآءُ ۗ أَلَآ إِنَّهُمْ هُمُ ٱلسُّفَهَآءُ وَلَـٰكِن لَّا يَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 26,
+      "lineNumber": 10,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "ءَامِنُوا۟ كَمَآ ءَامَنَ ٱلنَّاسُ قَالُوٓا۟ أَنُؤْمِنُ كَمَآ ءَامَنَ ٱلسُّفَهَآءُ ۗ",
+      "isCentered": false,
+      "versesKeys": "2:13",
+      "verses": [
+        {
+          "verseID": 20,
+          "verseNumber": 13,
+          "juzNumber": 1,
+          "hizbNumber": 13,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا قِيلَ لَهُمْ ءَامِنُوا۟ كَمَآ ءَامَنَ ٱلنَّاسُ قَالُوٓا۟ أَنُؤْمِنُ كَمَآ ءَامَنَ ٱلسُّفَهَآءُ ۗ أَلَآ إِنَّهُمْ هُمُ ٱلسُّفَهَآءُ وَلَـٰكِن لَّا يَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 27,
+      "lineNumber": 11,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "أَلَآ إِنَّهُمْ هُمُ ٱلسُّفَهَآءُ وَلَـٰكِن لَّا يَعْلَمُونَ ١٣ وَإِذَا لَقُوا۟",
+      "isCentered": false,
+      "versesKeys": "2:13,2:14",
+      "verses": [
+        {
+          "verseID": 20,
+          "verseNumber": 13,
+          "juzNumber": 1,
+          "hizbNumber": 13,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا قِيلَ لَهُمْ ءَامِنُوا۟ كَمَآ ءَامَنَ ٱلنَّاسُ قَالُوٓا۟ أَنُؤْمِنُ كَمَآ ءَامَنَ ٱلسُّفَهَآءُ ۗ أَلَآ إِنَّهُمْ هُمُ ٱلسُّفَهَآءُ وَلَـٰكِن لَّا يَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 21,
+          "verseNumber": 14,
+          "juzNumber": 1,
+          "hizbNumber": 14,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا لَقُوا۟ ٱلَّذِينَ ءَامَنُوا۟ قَالُوٓا۟ ءَامَنَّا وَإِذَا خَلَوْا۟ إِلَىٰ شَيَـٰطِينِهِمْ قَالُوٓا۟ إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِءُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 28,
+      "lineNumber": 12,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "ٱلَّذِينَ ءَامَنُوا۟ قَالُوٓا۟ ءَامَنَّا وَإِذَا خَلَوْا۟ إِلَىٰ شَيَـٰطِينِهِمْ قَالُوٓا۟ إِنَّا",
+      "isCentered": false,
+      "versesKeys": "2:14",
+      "verses": [
+        {
+          "verseID": 21,
+          "verseNumber": 14,
+          "juzNumber": 1,
+          "hizbNumber": 14,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا لَقُوا۟ ٱلَّذِينَ ءَامَنُوا۟ قَالُوٓا۟ ءَامَنَّا وَإِذَا خَلَوْا۟ إِلَىٰ شَيَـٰطِينِهِمْ قَالُوٓا۟ إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِءُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 29,
+      "lineNumber": 13,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِءُونَ ١٤ ٱللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ",
+      "isCentered": false,
+      "versesKeys": "2:14,2:15",
+      "verses": [
+        {
+          "verseID": 21,
+          "verseNumber": 14,
+          "juzNumber": 1,
+          "hizbNumber": 14,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "وَإِذَا لَقُوا۟ ٱلَّذِينَ ءَامَنُوا۟ قَالُوٓا۟ ءَامَنَّا وَإِذَا خَلَوْا۟ إِلَىٰ شَيَـٰطِينِهِمْ قَالُوٓا۟ إِنَّا مَعَكُمْ إِنَّمَا نَحْنُ مُسْتَهْزِءُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 22,
+          "verseNumber": 15,
+          "juzNumber": 1,
+          "hizbNumber": 15,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "ٱللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِى طُغْيَـٰنِهِمْ يَعْمَهُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 30,
+      "lineNumber": 14,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "فِى طُغْيَـٰنِهِمْ يَعْمَهُونَ ١٥ أُو۟لَـٰٓئِكَ ٱلَّذِينَ ٱشْتَرَوُا۟ ٱلضَّلَـٰلَةَ",
+      "isCentered": false,
+      "versesKeys": "2:15,2:16",
+      "verses": [
+        {
+          "verseID": 22,
+          "verseNumber": 15,
+          "juzNumber": 1,
+          "hizbNumber": 15,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "ٱللَّهُ يَسْتَهْزِئُ بِهِمْ وَيَمُدُّهُمْ فِى طُغْيَـٰنِهِمْ يَعْمَهُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 23,
+          "verseNumber": 16,
+          "juzNumber": 1,
+          "hizbNumber": 16,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "أُو۟لَـٰٓئِكَ ٱلَّذِينَ ٱشْتَرَوُا۟ ٱلضَّلَـٰلَةَ بِٱلْهُدَىٰ فَمَا رَبِحَت تِّجَـٰرَتُهُمْ وَمَا كَانُوا۟ مُهْتَدِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 31,
+      "lineNumber": 15,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 3,
+      "text": "بِٱلْهُدَىٰ فَمَا رَبِحَت تِّجَـٰرَتُهُمْ وَمَا كَانُوا۟ مُهْتَدِينَ ١٦",
+      "isCentered": false,
+      "versesKeys": "2:16",
+      "verses": [
+        {
+          "verseID": 23,
+          "verseNumber": 16,
+          "juzNumber": 1,
+          "hizbNumber": 16,
+          "page": 3,
+          "sajdah": false,
+          "textUthmani": "أُو۟لَـٰٓئِكَ ٱلَّذِينَ ٱشْتَرَوُا۟ ٱلضَّلَـٰلَةَ بِٱلْهُدَىٰ فَمَا رَبِحَت تِّجَـٰرَتُهُمْ وَمَا كَانُوا۟ مُهْتَدِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "lineID": 32,
+      "lineNumber": 1,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "مَثَلُهُمْ كَمَثَلِ ٱلَّذِى ٱسْتَوْقَدَ نَارًۭا فَلَمَّآ أَضَآءَتْ مَا حَوْلَهُۥ",
+      "isCentered": false,
+      "versesKeys": "2:17",
+      "verses": [
+        {
+          "verseID": 24,
+          "verseNumber": 17,
+          "juzNumber": 1,
+          "hizbNumber": 17,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "مَثَلُهُمْ كَمَثَلِ ٱلَّذِى ٱسْتَوْقَدَ نَارًا فَلَمَّآ أَضَآءَتْ مَا حَوْلَهُۥ ذَهَبَ ٱللَّهُ بِنُورِهِمْ وَتَرَكَهُمْ فِى ظُلُمَـٰتٍ لَّا يُبْصِرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 33,
+      "lineNumber": 2,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "ذَهَبَ ٱللَّهُ بِنُورِهِمْ وَتَرَكَهُمْ فِى ظُلُمَـٰتٍۢ لَّا يُبْصِرُونَ ١٧ صُمٌّۢ",
+      "isCentered": false,
+      "versesKeys": "2:17,2:18",
+      "verses": [
+        {
+          "verseID": 24,
+          "verseNumber": 17,
+          "juzNumber": 1,
+          "hizbNumber": 17,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "مَثَلُهُمْ كَمَثَلِ ٱلَّذِى ٱسْتَوْقَدَ نَارًا فَلَمَّآ أَضَآءَتْ مَا حَوْلَهُۥ ذَهَبَ ٱللَّهُ بِنُورِهِمْ وَتَرَكَهُمْ فِى ظُلُمَـٰتٍ لَّا يُبْصِرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 25,
+          "verseNumber": 18,
+          "juzNumber": 1,
+          "hizbNumber": 18,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "صُمٌّۢ بُكْمٌ عُمْىٌ فَهُمْ لَا يَرْجِعُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 34,
+      "lineNumber": 3,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "بُكْمٌ عُمْىٌۭ فَهُمْ لَا يَرْجِعُونَ ١٨ أَوْ كَصَيِّبٍۢ مِّنَ ٱلسَّمَآءِ فِيهِ",
+      "isCentered": false,
+      "versesKeys": "2:18,2:19",
+      "verses": [
+        {
+          "verseID": 25,
+          "verseNumber": 18,
+          "juzNumber": 1,
+          "hizbNumber": 18,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "صُمٌّۢ بُكْمٌ عُمْىٌ فَهُمْ لَا يَرْجِعُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 26,
+          "verseNumber": 19,
+          "juzNumber": 1,
+          "hizbNumber": 19,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "أَوْ كَصَيِّبٍ مِّنَ ٱلسَّمَآءِ فِيهِ ظُلُمَـٰتٌ وَرَعْدٌ وَبَرْقٌ يَجْعَلُونَ أَصَـٰبِعَهُمْ فِىٓ ءَاذَانِهِم مِّنَ ٱلصَّوَٰعِقِ حَذَرَ ٱلْمَوْتِ ۚ وَٱللَّهُ مُحِيطٌۢ بِٱلْكَـٰفِرِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 35,
+      "lineNumber": 4,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "ظُلُمَـٰتٌۭ وَرَعْدٌۭ وَبَرْقٌۭ يَجْعَلُونَ أَصَـٰبِعَهُمْ فِىٓ ءَاذَانِهِم مِّنَ",
+      "isCentered": false,
+      "versesKeys": "2:19",
+      "verses": [
+        {
+          "verseID": 26,
+          "verseNumber": 19,
+          "juzNumber": 1,
+          "hizbNumber": 19,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "أَوْ كَصَيِّبٍ مِّنَ ٱلسَّمَآءِ فِيهِ ظُلُمَـٰتٌ وَرَعْدٌ وَبَرْقٌ يَجْعَلُونَ أَصَـٰبِعَهُمْ فِىٓ ءَاذَانِهِم مِّنَ ٱلصَّوَٰعِقِ حَذَرَ ٱلْمَوْتِ ۚ وَٱللَّهُ مُحِيطٌۢ بِٱلْكَـٰفِرِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 36,
+      "lineNumber": 5,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "ٱلصَّوَٰعِقِ حَذَرَ ٱلْمَوْتِ ۚ وَٱللَّهُ مُحِيطٌۢ بِٱلْكَـٰفِرِينَ ١٩ يَكَادُ ٱلْبَرْقُ",
+      "isCentered": false,
+      "versesKeys": "2:19,2:20",
+      "verses": [
+        {
+          "verseID": 26,
+          "verseNumber": 19,
+          "juzNumber": 1,
+          "hizbNumber": 19,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "أَوْ كَصَيِّبٍ مِّنَ ٱلسَّمَآءِ فِيهِ ظُلُمَـٰتٌ وَرَعْدٌ وَبَرْقٌ يَجْعَلُونَ أَصَـٰبِعَهُمْ فِىٓ ءَاذَانِهِم مِّنَ ٱلصَّوَٰعِقِ حَذَرَ ٱلْمَوْتِ ۚ وَٱللَّهُ مُحِيطٌۢ بِٱلْكَـٰفِرِينَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 27,
+          "verseNumber": 20,
+          "juzNumber": 1,
+          "hizbNumber": 20,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "يَكَادُ ٱلْبَرْقُ يَخْطَفُ أَبْصَـٰرَهُمْ ۖ كُلَّمَآ أَضَآءَ لَهُم مَّشَوْا۟ فِيهِ وَإِذَآ أَظْلَمَ عَلَيْهِمْ قَامُوا۟ ۚ وَلَوْ شَآءَ ٱللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَـٰرِهِمْ ۚ إِنَّ ٱللَّهَ عَلَىٰ كُلِّ شَىْءٍ قَدِيرٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 37,
+      "lineNumber": 6,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "يَخْطَفُ أَبْصَـٰرَهُمْ ۖ كُلَّمَآ أَضَآءَ لَهُم مَّشَوْا۟ فِيهِ وَإِذَآ أَظْلَمَ عَلَيْهِمْ",
+      "isCentered": false,
+      "versesKeys": "2:20",
+      "verses": [
+        {
+          "verseID": 27,
+          "verseNumber": 20,
+          "juzNumber": 1,
+          "hizbNumber": 20,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "يَكَادُ ٱلْبَرْقُ يَخْطَفُ أَبْصَـٰرَهُمْ ۖ كُلَّمَآ أَضَآءَ لَهُم مَّشَوْا۟ فِيهِ وَإِذَآ أَظْلَمَ عَلَيْهِمْ قَامُوا۟ ۚ وَلَوْ شَآءَ ٱللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَـٰرِهِمْ ۚ إِنَّ ٱللَّهَ عَلَىٰ كُلِّ شَىْءٍ قَدِيرٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 38,
+      "lineNumber": 7,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "قَامُوا۟ ۚ وَلَوْ شَآءَ ٱللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَـٰرِهِمْ ۚ إِنَّ ٱللَّهَ عَلَىٰ",
+      "isCentered": false,
+      "versesKeys": "2:20",
+      "verses": [
+        {
+          "verseID": 27,
+          "verseNumber": 20,
+          "juzNumber": 1,
+          "hizbNumber": 20,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "يَكَادُ ٱلْبَرْقُ يَخْطَفُ أَبْصَـٰرَهُمْ ۖ كُلَّمَآ أَضَآءَ لَهُم مَّشَوْا۟ فِيهِ وَإِذَآ أَظْلَمَ عَلَيْهِمْ قَامُوا۟ ۚ وَلَوْ شَآءَ ٱللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَـٰرِهِمْ ۚ إِنَّ ٱللَّهَ عَلَىٰ كُلِّ شَىْءٍ قَدِيرٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 39,
+      "lineNumber": 8,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "كُلِّ شَىْءٍۢ قَدِيرٌۭ ٢٠ يَـٰٓأَيُّهَا ٱلنَّاسُ ٱعْبُدُوا۟ رَبَّكُمُ ٱلَّذِى",
+      "isCentered": false,
+      "versesKeys": "2:20,2:21",
+      "verses": [
+        {
+          "verseID": 27,
+          "verseNumber": 20,
+          "juzNumber": 1,
+          "hizbNumber": 20,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "يَكَادُ ٱلْبَرْقُ يَخْطَفُ أَبْصَـٰرَهُمْ ۖ كُلَّمَآ أَضَآءَ لَهُم مَّشَوْا۟ فِيهِ وَإِذَآ أَظْلَمَ عَلَيْهِمْ قَامُوا۟ ۚ وَلَوْ شَآءَ ٱللَّهُ لَذَهَبَ بِسَمْعِهِمْ وَأَبْصَـٰرِهِمْ ۚ إِنَّ ٱللَّهَ عَلَىٰ كُلِّ شَىْءٍ قَدِيرٌ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 28,
+          "verseNumber": 21,
+          "juzNumber": 1,
+          "hizbNumber": 21,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "يَـٰٓأَيُّهَا ٱلنَّاسُ ٱعْبُدُوا۟ رَبَّكُمُ ٱلَّذِى خَلَقَكُمْ وَٱلَّذِينَ مِن قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 40,
+      "lineNumber": 9,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "خَلَقَكُمْ وَٱلَّذِينَ مِن قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُونَ ٢١ ٱلَّذِى جَعَلَ لَكُمُ",
+      "isCentered": false,
+      "versesKeys": "2:21,2:22",
+      "verses": [
+        {
+          "verseID": 28,
+          "verseNumber": 21,
+          "juzNumber": 1,
+          "hizbNumber": 21,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "يَـٰٓأَيُّهَا ٱلنَّاسُ ٱعْبُدُوا۟ رَبَّكُمُ ٱلَّذِى خَلَقَكُمْ وَٱلَّذِينَ مِن قَبْلِكُمْ لَعَلَّكُمْ تَتَّقُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 29,
+          "verseNumber": 22,
+          "juzNumber": 1,
+          "hizbNumber": 22,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ فِرَٰشًا وَٱلسَّمَآءَ بِنَآءً وَأَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَأَخْرَجَ بِهِۦ مِنَ ٱلثَّمَرَٰتِ رِزْقًا لَّكُمْ ۖ فَلَا تَجْعَلُوا۟ لِلَّهِ أَندَادًا وَأَنتُمْ تَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 41,
+      "lineNumber": 10,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "ٱلْأَرْضَ فِرَٰشًۭا وَٱلسَّمَآءَ بِنَآءًۭ وَأَنزَلَ مِنَ ٱلسَّمَآءِ مَآءًۭ فَأَخْرَجَ",
+      "isCentered": false,
+      "versesKeys": "2:22",
+      "verses": [
+        {
+          "verseID": 29,
+          "verseNumber": 22,
+          "juzNumber": 1,
+          "hizbNumber": 22,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ فِرَٰشًا وَٱلسَّمَآءَ بِنَآءً وَأَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَأَخْرَجَ بِهِۦ مِنَ ٱلثَّمَرَٰتِ رِزْقًا لَّكُمْ ۖ فَلَا تَجْعَلُوا۟ لِلَّهِ أَندَادًا وَأَنتُمْ تَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 42,
+      "lineNumber": 11,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "بِهِۦ مِنَ ٱلثَّمَرَٰتِ رِزْقًۭا لَّكُمْ ۖ فَلَا تَجْعَلُوا۟ لِلَّهِ أَندَادًۭا وَأَنتُمْ",
+      "isCentered": false,
+      "versesKeys": "2:22",
+      "verses": [
+        {
+          "verseID": 29,
+          "verseNumber": 22,
+          "juzNumber": 1,
+          "hizbNumber": 22,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ فِرَٰشًا وَٱلسَّمَآءَ بِنَآءً وَأَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَأَخْرَجَ بِهِۦ مِنَ ٱلثَّمَرَٰتِ رِزْقًا لَّكُمْ ۖ فَلَا تَجْعَلُوا۟ لِلَّهِ أَندَادًا وَأَنتُمْ تَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 43,
+      "lineNumber": 12,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "تَعْلَمُونَ ٢٢ وَإِن كُنتُمْ فِى رَيْبٍۢ مِّمَّا نَزَّلْنَا عَلَىٰ عَبْدِنَا فَأْتُوا۟",
+      "isCentered": false,
+      "versesKeys": "2:22,2:23",
+      "verses": [
+        {
+          "verseID": 29,
+          "verseNumber": 22,
+          "juzNumber": 1,
+          "hizbNumber": 22,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ فِرَٰشًا وَٱلسَّمَآءَ بِنَآءً وَأَنزَلَ مِنَ ٱلسَّمَآءِ مَآءً فَأَخْرَجَ بِهِۦ مِنَ ٱلثَّمَرَٰتِ رِزْقًا لَّكُمْ ۖ فَلَا تَجْعَلُوا۟ لِلَّهِ أَندَادًا وَأَنتُمْ تَعْلَمُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 30,
+          "verseNumber": 23,
+          "juzNumber": 1,
+          "hizbNumber": 23,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "وَإِن كُنتُمْ فِى رَيْبٍ مِّمَّا نَزَّلْنَا عَلَىٰ عَبْدِنَا فَأْتُوا۟ بِسُورَةٍ مِّن مِّثْلِهِۦ وَٱدْعُوا۟ شُهَدَآءَكُم مِّن دُونِ ٱللَّهِ إِن كُنتُمْ صَـٰدِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 44,
+      "lineNumber": 13,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "بِسُورَةٍۢ مِّن مِّثْلِهِۦ وَٱدْعُوا۟ شُهَدَآءَكُم مِّن دُونِ ٱللَّهِ إِن",
+      "isCentered": false,
+      "versesKeys": "2:23",
+      "verses": [
+        {
+          "verseID": 30,
+          "verseNumber": 23,
+          "juzNumber": 1,
+          "hizbNumber": 23,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "وَإِن كُنتُمْ فِى رَيْبٍ مِّمَّا نَزَّلْنَا عَلَىٰ عَبْدِنَا فَأْتُوا۟ بِسُورَةٍ مِّن مِّثْلِهِۦ وَٱدْعُوا۟ شُهَدَآءَكُم مِّن دُونِ ٱللَّهِ إِن كُنتُمْ صَـٰدِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 45,
+      "lineNumber": 14,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "كُنتُمْ صَـٰدِقِينَ ٢٣ فَإِن لَّمْ تَفْعَلُوا۟ وَلَن تَفْعَلُوا۟ فَٱتَّقُوا۟ ٱلنَّارَ",
+      "isCentered": false,
+      "versesKeys": "2:23,2:24",
+      "verses": [
+        {
+          "verseID": 30,
+          "verseNumber": 23,
+          "juzNumber": 1,
+          "hizbNumber": 23,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "وَإِن كُنتُمْ فِى رَيْبٍ مِّمَّا نَزَّلْنَا عَلَىٰ عَبْدِنَا فَأْتُوا۟ بِسُورَةٍ مِّن مِّثْلِهِۦ وَٱدْعُوا۟ شُهَدَآءَكُم مِّن دُونِ ٱللَّهِ إِن كُنتُمْ صَـٰدِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 31,
+          "verseNumber": 24,
+          "juzNumber": 1,
+          "hizbNumber": 24,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "فَإِن لَّمْ تَفْعَلُوا۟ وَلَن تَفْعَلُوا۟ فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَـٰفِرِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 46,
+      "lineNumber": 15,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 4,
+      "text": "ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَـٰفِرِينَ ٢٤",
+      "isCentered": false,
+      "versesKeys": "2:24",
+      "verses": [
+        {
+          "verseID": 31,
+          "verseNumber": 24,
+          "juzNumber": 1,
+          "hizbNumber": 24,
+          "page": 4,
+          "sajdah": false,
+          "textUthmani": "فَإِن لَّمْ تَفْعَلُوا۟ وَلَن تَفْعَلُوا۟ فَٱتَّقُوا۟ ٱلنَّارَ ٱلَّتِى وَقُودُهَا ٱلنَّاسُ وَٱلْحِجَارَةُ ۖ أُعِدَّتْ لِلْكَـٰفِرِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    }
+  ],
+  [
+    {
+      "lineID": 47,
+      "lineNumber": 1,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "وَبَشِّرِ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ جَنَّـٰتٍۢ",
+      "isCentered": false,
+      "versesKeys": "2:25",
+      "verses": [
+        {
+          "verseID": 32,
+          "verseNumber": 25,
+          "juzNumber": 1,
+          "hizbNumber": 25,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "وَبَشِّرِ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ جَنَّـٰتٍ تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَـٰرُ ۖ كُلَّمَا رُزِقُوا۟ مِنْهَا مِن ثَمَرَةٍ رِّزْقًا ۙ قَالُوا۟ هَـٰذَا ٱلَّذِى رُزِقْنَا مِن قَبْلُ ۖ وَأُتُوا۟ بِهِۦ مُتَشَـٰبِهًا ۖ وَلَهُمْ فِيهَآ أَزْوَٰجٌ مُّطَهَّرَةٌ ۖ وَهُمْ فِيهَا خَـٰلِدُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 48,
+      "lineNumber": 2,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَـٰرُ ۖ كُلَّمَا رُزِقُوا۟ مِنْهَا مِن ثَمَرَةٍۢ",
+      "isCentered": false,
+      "versesKeys": "2:25",
+      "verses": [
+        {
+          "verseID": 32,
+          "verseNumber": 25,
+          "juzNumber": 1,
+          "hizbNumber": 25,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "وَبَشِّرِ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ جَنَّـٰتٍ تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَـٰرُ ۖ كُلَّمَا رُزِقُوا۟ مِنْهَا مِن ثَمَرَةٍ رِّزْقًا ۙ قَالُوا۟ هَـٰذَا ٱلَّذِى رُزِقْنَا مِن قَبْلُ ۖ وَأُتُوا۟ بِهِۦ مُتَشَـٰبِهًا ۖ وَلَهُمْ فِيهَآ أَزْوَٰجٌ مُّطَهَّرَةٌ ۖ وَهُمْ فِيهَا خَـٰلِدُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 49,
+      "lineNumber": 3,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "رِّزْقًۭا ۙ قَالُوا۟ هَـٰذَا ٱلَّذِى رُزِقْنَا مِن قَبْلُ ۖ وَأُتُوا۟ بِهِۦ مُتَشَـٰبِهًۭا ۖ",
+      "isCentered": false,
+      "versesKeys": "2:25",
+      "verses": [
+        {
+          "verseID": 32,
+          "verseNumber": 25,
+          "juzNumber": 1,
+          "hizbNumber": 25,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "وَبَشِّرِ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ جَنَّـٰتٍ تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَـٰرُ ۖ كُلَّمَا رُزِقُوا۟ مِنْهَا مِن ثَمَرَةٍ رِّزْقًا ۙ قَالُوا۟ هَـٰذَا ٱلَّذِى رُزِقْنَا مِن قَبْلُ ۖ وَأُتُوا۟ بِهِۦ مُتَشَـٰبِهًا ۖ وَلَهُمْ فِيهَآ أَزْوَٰجٌ مُّطَهَّرَةٌ ۖ وَهُمْ فِيهَا خَـٰلِدُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 50,
+      "lineNumber": 4,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "وَلَهُمْ فِيهَآ أَزْوَٰجٌۭ مُّطَهَّرَةٌۭ ۖ وَهُمْ فِيهَا خَـٰلِدُونَ ٢٥ ۞ إِنَّ",
+      "isCentered": false,
+      "versesKeys": "2:25,2:26",
+      "verses": [
+        {
+          "verseID": 32,
+          "verseNumber": 25,
+          "juzNumber": 1,
+          "hizbNumber": 25,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "وَبَشِّرِ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّـٰلِحَـٰتِ أَنَّ لَهُمْ جَنَّـٰتٍ تَجْرِى مِن تَحْتِهَا ٱلْأَنْهَـٰرُ ۖ كُلَّمَا رُزِقُوا۟ مِنْهَا مِن ثَمَرَةٍ رِّزْقًا ۙ قَالُوا۟ هَـٰذَا ٱلَّذِى رُزِقْنَا مِن قَبْلُ ۖ وَأُتُوا۟ بِهِۦ مُتَشَـٰبِهًا ۖ وَلَهُمْ فِيهَآ أَزْوَٰجٌ مُّطَهَّرَةٌ ۖ وَهُمْ فِيهَا خَـٰلِدُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 33,
+          "verseNumber": 26,
+          "juzNumber": 1,
+          "hizbNumber": 26,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "۞ إِنَّ ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًا ۘ يُضِلُّ بِهِۦ كَثِيرًا وَيَهْدِى بِهِۦ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلْفَـٰسِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 51,
+      "lineNumber": 5,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًۭا مَّا بَعُوضَةًۭ فَمَا فَوْقَهَا ۚ فَأَمَّا",
+      "isCentered": false,
+      "versesKeys": "2:26",
+      "verses": [
+        {
+          "verseID": 33,
+          "verseNumber": 26,
+          "juzNumber": 1,
+          "hizbNumber": 26,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "۞ إِنَّ ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًا ۘ يُضِلُّ بِهِۦ كَثِيرًا وَيَهْدِى بِهِۦ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلْفَـٰسِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 52,
+      "lineNumber": 6,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا",
+      "isCentered": false,
+      "versesKeys": "2:26",
+      "verses": [
+        {
+          "verseID": 33,
+          "verseNumber": 26,
+          "juzNumber": 1,
+          "hizbNumber": 26,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "۞ إِنَّ ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًا ۘ يُضِلُّ بِهِۦ كَثِيرًا وَيَهْدِى بِهِۦ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلْفَـٰسِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 53,
+      "lineNumber": 7,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًۭا ۘ",
+      "isCentered": false,
+      "versesKeys": "2:26",
+      "verses": [
+        {
+          "verseID": 33,
+          "verseNumber": 26,
+          "juzNumber": 1,
+          "hizbNumber": 26,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "۞ إِنَّ ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًا ۘ يُضِلُّ بِهِۦ كَثِيرًا وَيَهْدِى بِهِۦ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلْفَـٰسِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 54,
+      "lineNumber": 8,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "يُضِلُّ بِهِۦ كَثِيرًۭا وَيَهْدِى بِهِۦ كَثِيرًۭا ۚ وَمَا يُضِلُّ بِهِۦٓ",
+      "isCentered": false,
+      "versesKeys": "2:26",
+      "verses": [
+        {
+          "verseID": 33,
+          "verseNumber": 26,
+          "juzNumber": 1,
+          "hizbNumber": 26,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "۞ إِنَّ ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًا ۘ يُضِلُّ بِهِۦ كَثِيرًا وَيَهْدِى بِهِۦ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلْفَـٰسِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 55,
+      "lineNumber": 9,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "إِلَّا ٱلْفَـٰسِقِينَ ٢٦ ٱلَّذِينَ يَنقُضُونَ عَهْدَ ٱللَّهِ مِنۢ بَعْدِ",
+      "isCentered": false,
+      "versesKeys": "2:26,2:27",
+      "verses": [
+        {
+          "verseID": 33,
+          "verseNumber": 26,
+          "juzNumber": 1,
+          "hizbNumber": 26,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "۞ إِنَّ ٱللَّهَ لَا يَسْتَحْىِۦٓ أَن يَضْرِبَ مَثَلًا مَّا بَعُوضَةً فَمَا فَوْقَهَا ۚ فَأَمَّا ٱلَّذِينَ ءَامَنُوا۟ فَيَعْلَمُونَ أَنَّهُ ٱلْحَقُّ مِن رَّبِّهِمْ ۖ وَأَمَّا ٱلَّذِينَ كَفَرُوا۟ فَيَقُولُونَ مَاذَآ أَرَادَ ٱللَّهُ بِهَـٰذَا مَثَلًا ۘ يُضِلُّ بِهِۦ كَثِيرًا وَيَهْدِى بِهِۦ كَثِيرًا ۚ وَمَا يُضِلُّ بِهِۦٓ إِلَّا ٱلْفَـٰسِقِينَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 34,
+          "verseNumber": 27,
+          "juzNumber": 1,
+          "hizbNumber": 27,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِينَ يَنقُضُونَ عَهْدَ ٱللَّهِ مِنۢ بَعْدِ مِيثَـٰقِهِۦ وَيَقْطَعُونَ مَآ أَمَرَ ٱللَّهُ بِهِۦٓ أَن يُوصَلَ وَيُفْسِدُونَ فِى ٱلْأَرْضِ ۚ أُو۟لَـٰٓئِكَ هُمُ ٱلْخَـٰسِرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 56,
+      "lineNumber": 10,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "مِيثَـٰقِهِۦ وَيَقْطَعُونَ مَآ أَمَرَ ٱللَّهُ بِهِۦٓ أَن يُوصَلَ وَيُفْسِدُونَ",
+      "isCentered": false,
+      "versesKeys": "2:27",
+      "verses": [
+        {
+          "verseID": 34,
+          "verseNumber": 27,
+          "juzNumber": 1,
+          "hizbNumber": 27,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِينَ يَنقُضُونَ عَهْدَ ٱللَّهِ مِنۢ بَعْدِ مِيثَـٰقِهِۦ وَيَقْطَعُونَ مَآ أَمَرَ ٱللَّهُ بِهِۦٓ أَن يُوصَلَ وَيُفْسِدُونَ فِى ٱلْأَرْضِ ۚ أُو۟لَـٰٓئِكَ هُمُ ٱلْخَـٰسِرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 57,
+      "lineNumber": 11,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "فِى ٱلْأَرْضِ ۚ أُو۟لَـٰٓئِكَ هُمُ ٱلْخَـٰسِرُونَ ٢٧ كَيْفَ",
+      "isCentered": false,
+      "versesKeys": "2:27,2:28",
+      "verses": [
+        {
+          "verseID": 34,
+          "verseNumber": 27,
+          "juzNumber": 1,
+          "hizbNumber": 27,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "ٱلَّذِينَ يَنقُضُونَ عَهْدَ ٱللَّهِ مِنۢ بَعْدِ مِيثَـٰقِهِۦ وَيَقْطَعُونَ مَآ أَمَرَ ٱللَّهُ بِهِۦٓ أَن يُوصَلَ وَيُفْسِدُونَ فِى ٱلْأَرْضِ ۚ أُو۟لَـٰٓئِكَ هُمُ ٱلْخَـٰسِرُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 35,
+          "verseNumber": 28,
+          "juzNumber": 1,
+          "hizbNumber": 28,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "كَيْفَ تَكْفُرُونَ بِٱللَّهِ وَكُنتُمْ أَمْوَٰتًا فَأَحْيَـٰكُمْ ۖ ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 58,
+      "lineNumber": 12,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "تَكْفُرُونَ بِٱللَّهِ وَكُنتُمْ أَمْوَٰتًۭا فَأَحْيَـٰكُمْ ۖ ثُمَّ يُمِيتُكُمْ",
+      "isCentered": false,
+      "versesKeys": "2:28",
+      "verses": [
+        {
+          "verseID": 35,
+          "verseNumber": 28,
+          "juzNumber": 1,
+          "hizbNumber": 28,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "كَيْفَ تَكْفُرُونَ بِٱللَّهِ وَكُنتُمْ أَمْوَٰتًا فَأَحْيَـٰكُمْ ۖ ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 59,
+      "lineNumber": 13,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ ٢٨ هُوَ ٱلَّذِى خَلَقَ",
+      "isCentered": false,
+      "versesKeys": "2:28,2:29",
+      "verses": [
+        {
+          "verseID": 35,
+          "verseNumber": 28,
+          "juzNumber": 1,
+          "hizbNumber": 28,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "كَيْفَ تَكْفُرُونَ بِٱللَّهِ وَكُنتُمْ أَمْوَٰتًا فَأَحْيَـٰكُمْ ۖ ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ",
+          "chapterID": 2,
+          "chapter": null
+        },
+        {
+          "verseID": 36,
+          "verseNumber": 29,
+          "juzNumber": 1,
+          "hizbNumber": 29,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "هُوَ ٱلَّذِى خَلَقَ لَكُم مَّا فِى ٱلْأَرْضِ جَمِيعًا ثُمَّ ٱسْتَوَىٰٓ إِلَى ٱلسَّمَآءِ فَسَوَّىٰهُنَّ سَبْعَ سَمَـٰوَٰتٍ ۚ وَهُوَ بِكُلِّ شَىْءٍ عَلِيمٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 60,
+      "lineNumber": 14,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "لَكُم مَّا فِى ٱلْأَرْضِ جَمِيعًۭا ثُمَّ ٱسْتَوَىٰٓ إِلَى ٱلسَّمَآءِ",
+      "isCentered": false,
+      "versesKeys": "2:29",
+      "verses": [
+        {
+          "verseID": 36,
+          "verseNumber": 29,
+          "juzNumber": 1,
+          "hizbNumber": 29,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "هُوَ ٱلَّذِى خَلَقَ لَكُم مَّا فِى ٱلْأَرْضِ جَمِيعًا ثُمَّ ٱسْتَوَىٰٓ إِلَى ٱلسَّمَآءِ فَسَوَّىٰهُنَّ سَبْعَ سَمَـٰوَٰتٍ ۚ وَهُوَ بِكُلِّ شَىْءٍ عَلِيمٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    },
+    {
+      "lineID": 61,
+      "lineNumber": 15,
+      "lineType": "ayah",
+      "surahNumber": 2,
+      "pageNumber": 5,
+      "text": "فَسَوَّىٰهُنَّ سَبْعَ سَمَـٰوَٰتٍۢ ۚ وَهُوَ بِكُلِّ شَىْءٍ عَلِيمٌۭ ٢٩",
+      "isCentered": false,
+      "versesKeys": "2:29",
+      "verses": [
+        {
+          "verseID": 36,
+          "verseNumber": 29,
+          "juzNumber": 1,
+          "hizbNumber": 29,
+          "page": 5,
+          "sajdah": false,
+          "textUthmani": "هُوَ ٱلَّذِى خَلَقَ لَكُم مَّا فِى ٱلْأَرْضِ جَمِيعًا ثُمَّ ٱسْتَوَىٰٓ إِلَى ٱلسَّمَآءِ فَسَوَّىٰهُنَّ سَبْعَ سَمَـٰوَٰتٍ ۚ وَهُوَ بِكُلِّ شَىْءٍ عَلِيمٌ",
+          "chapterID": 2,
+          "chapter": null
+        }
+      ]
+    }
+  ]
+]

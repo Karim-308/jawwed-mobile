@@ -2,41 +2,36 @@
 const initialState = {
   isPlaying: false,
   isVisible: true,
-
   audioRepeat: false,
   audioPanelVisibile: false,
-
-
-  mushafIndexType: 'Chapter'
+  mushafIndexType: 'Chapter',
+  pageNumber: 1, // Add pageNumber with an initial value
 };
 
 const actionTypes = {
   TOGGLE_PLAY: 'TOGGLE_PLAY',
   SHOW_NAV: 'SHOW_NAV',
   HIDE_NAV: 'HIDE_NAV',
-
   TOGGLE_AUDIO_REPEAT: 'TOGGLE_AUDIO_REPEAT',
   TOGGLE_AUDIO_PANEL: 'TOGGLE_AUDIO_PANEL',
-
-
   ACTIVATE_JUZ_INDEX_TYPE: 'CHANGE_INDEX_TYPE_TO_JUZ',
-  ACTIVATE_CHAPTER_INDEX_TYPE: 'CHANGE_INDEX_TYPE_TO_CHAPTER'
+  ACTIVATE_CHAPTER_INDEX_TYPE: 'CHANGE_INDEX_TYPE_TO_CHAPTER',
+  SET_PAGE_NUMBER: 'SET_PAGE_NUMBER', // New action type
 };
-
-
 
 export const togglePlay = () => ({ type: actionTypes.TOGGLE_PLAY });
 export const showNav = () => ({ type: actionTypes.SHOW_NAV });
 export const hideNav = () => ({ type: actionTypes.HIDE_NAV });
-
 export const toggleAudioRepeat = () => ({ type: actionTypes.TOGGLE_AUDIO_REPEAT });
 export const toggleAudioPanel = () => ({ type: actionTypes.TOGGLE_AUDIO_PANEL });
-
-
 export const activateJuzIndexType = () => ({ type: actionTypes.ACTIVATE_JUZ_INDEX_TYPE });
 export const activateChapterIndexType = () => ({ type: actionTypes.ACTIVATE_CHAPTER_INDEX_TYPE });
 
-
+// New action creator for setting pageNumber
+export const setPageNumber = (pageNumber) => ({
+  type: actionTypes.SET_PAGE_NUMBER,
+  payload: pageNumber,
+});
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -46,18 +41,16 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, isVisible: true };
     case actionTypes.HIDE_NAV:
       return { ...state, isVisible: false };
-
     case actionTypes.TOGGLE_AUDIO_REPEAT:
       return { ...state, audioRepeat: !state.audioRepeat };
     case actionTypes.TOGGLE_AUDIO_PANEL:
       return { ...state, audioPanelVisibile: !state.audioPanelVisibile };
-
-
     case actionTypes.ACTIVATE_JUZ_INDEX_TYPE:
-      return { ...state, mushafIndexType: 'Juz'};
+      return { ...state, mushafIndexType: 'Juz' };
     case actionTypes.ACTIVATE_CHAPTER_INDEX_TYPE:
-      return { ...state, mushafIndexType: 'Chapter'};
-
+      return { ...state, mushafIndexType: 'Chapter' };
+    case actionTypes.SET_PAGE_NUMBER: // Handle pageNumber updates
+      return { ...state, pageNumber: action.payload };
     default:
       return state;
   }
