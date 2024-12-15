@@ -8,7 +8,7 @@ export default function ReciterName() {
       <TouchableOpacity>
         <View style={styles.container}>
           <AntDesign name='sound' size={20} color={PRIMARY_GOLD} />
-          <Text styel={styles.reciterNameText}>مشاري العفاسي</Text>
+          <Text style={styles.reciterNameText}>مشاري العفاسي</Text>
         </View>
       </TouchableOpacity>
   );
@@ -16,12 +16,12 @@ export default function ReciterName() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.04,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderStyle: 'solid',
-    borderColor: `${PRIMARY_GOLD}`,
+    borderColor: PRIMARY_GOLD,
     borderWidth: 1.5,
     borderRadius: 10,
     paddingHorizontal: 8,
