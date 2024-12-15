@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet , View , Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { PRIMARY_GOLD } from '../../../../constants/colors';
 
@@ -15,6 +15,10 @@ export default function ReciterName() {
 }
 
 const styles = StyleSheet.create({
+  touchable: {
+    // Optional styling to make the touchable area larger
+    padding: 5,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
@@ -25,8 +29,11 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 10,
     paddingHorizontal: 8,
+    paddingVertical: 5, // Add vertical padding for better spacing
   },
   reciterNameText: {
-    color:'#fff',
-  }
+    color: '#fff',
+    fontSize: 16, // Optional: Adjust the font size for better readability
+    marginLeft: 8, // Add spacing between icon and text
+  },
 });
