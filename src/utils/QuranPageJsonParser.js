@@ -1,6 +1,6 @@
-import message from '../api/mushaf/sajda.json';
+import message from '../api/mushaf/database1.json';
 
-const QuranPageJsonParser = () => {
+const QuranPageJsonParser = (pageNumber) => {
     const removeAndReplaceTajweedSymbols = (text) => {
         text = text.replace(/۟/g, 'ْ'); 
         text = text.replace(/ࣰ/g, 'ٗ');
@@ -10,8 +10,10 @@ const QuranPageJsonParser = () => {
         return text;
     };
 
-    const extractLinesTextFromPage = (message) => {
-        return message.map(line => {
+    let pageData = message[pageNumber - 1];
+
+    const extractLinesTextFromPage = (pageData) => {
+        return pageData.map(line => {
             return {
                 lineID: line.lineID,
                 text: removeAndReplaceTajweedSymbols(line.text),
@@ -21,7 +23,7 @@ const QuranPageJsonParser = () => {
         });
     };
 
-    return extractLinesTextFromPage(message);
+    return extractLinesTextFromPage(pageData);
 };
 
 export default QuranPageJsonParser;

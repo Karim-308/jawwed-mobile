@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, SafeAreaView } from 'react-native';
+import GestureRecognizer from 'react-native-swipe-gestures';
 import QuranPageJsonParser from '../../../utils/QuranPageJsonParser';
+import { useSelector, useDispatch } from 'react-redux';
+import { setPageNumber } from '../../../redux/reducers';
 
 // Identify ayah boundaries based on Arabic digits.
 const findAyahBoundaries = (words) => {
     const boundaries = [];
     for (let i = 0; i < words.length; i++) {
         const w = words[i];
+        // Check if word is entirely Arabic digits ٠١٢٣٤٥٦٧٨٩
         if (/^[٠١٢٣٤٥٦٧٨٩]+$/.test(w)) {
             boundaries.push(i);
         }
@@ -17,18 +21,20 @@ const findAyahBoundaries = (words) => {
 const MoshafScreen = React.memo(() => {
     const [lines, setLines] = useState([]);
     const [selectedAyahs, setSelectedAyahs] = useState({});
-
+    const dispatch = useDispatch();
+    const pageNumber = useSelector((state) => state.pageNumber);
     const { width } = useWindowDimensions();
     const containerWidth = useMemo(() => width * 0.9, [width]);
 
     useEffect(() => {
-        const parsedLines = QuranPageJsonParser();
+        // Load lines from parser whenever pageNumber changes
+        const parsedLines = QuranPageJsonParser(pageNumber);
         if (Array.isArray(parsedLines)) {
             setLines(parsedLines);
         } else {
             console.error('QuranPageJsonParser did not return an array:', parsedLines);
         }
-    }, []);
+    }, [pageNumber]);
 
     const toggleAyahSelection = useCallback((verseKey) => {
         setSelectedAyahs((prev) => {
@@ -87,11 +93,11 @@ const MoshafScreen = React.memo(() => {
             const boundaries = findAyahBoundaries(words);
 
             return (
-                <View 
-                    key={`line-${lineIndex}`} 
+                <View
+                    key={`line-${lineIndex}`}
                     style={[
-                        styles.lineWrapper, 
-                        { width: containerWidth }, 
+                        styles.lineWrapper,
+                        { width: containerWidth },
                         line.isCentered && { justifyContent: "center" }
                     ]}
                 >
@@ -120,7 +126,7 @@ const MoshafScreen = React.memo(() => {
                         const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];
 
                         // Determine spacing:
-                        const displayedWord = /^[٠١٢٣٤٥٦٧٨٩]+$/.test(word) ? (' ' + word) : (word + ' ');
+                        const displayedWord = /^[٠١٢٣٤٥٦٧٨٩]+$/.test(word) ? ('' + word) : (word + '');
 
                         return (
                             <TouchableOpacity
@@ -129,8 +135,8 @@ const MoshafScreen = React.memo(() => {
                                 onLongPress={() => selectAyahFromWord(line, wIndex)}
                                 activeOpacity={0.7}
                             >
-                                <Text style={[ 
-                                    styles.ayahText, 
+                                <Text style={[
+                                    styles.ayahText,
                                     { fontSize: containerWidth * 0.058 },
                                     isSelected && styles.selectedWord
                                 ]}>
@@ -144,10 +150,25 @@ const MoshafScreen = React.memo(() => {
         });
     }, [lines, selectedAyahs, containerWidth, selectAyahFromWord]);
 
+    const onSwipe = (direction) => {
+        if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
+            dispatch(setPageNumber(pageNumber - 1));
+        } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) { 
+            // Assuming the Quran has 604 pages (adjust if needed)
+            dispatch(setPageNumber(pageNumber + 1));
+        }
+    };
+
     return (
-        <View style={styles.MushafVeiwContainer}>
-            {renderAyahLines()}
-        </View>
+        <SafeAreaView style={styles.MushafVeiwContainer}>
+            <GestureRecognizer
+                onSwipeLeft={() => onSwipe('SWIPE_LEFT')}
+                onSwipeRight={() => onSwipe('SWIPE_RIGHT')}
+                style={{ flex: 1 }}
+            >
+                {renderAyahLines()}
+            </GestureRecognizer>
+        </SafeAreaView>
     );
 });
 
