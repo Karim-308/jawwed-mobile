@@ -60,7 +60,7 @@ const BottomNavigationBar = () => {
 
             <View style={styles.playButton}>
               <TouchableOpacity onPress={() => {
-                toggleAudio(isPlaying, '2:74', 'Alafasy');
+                toggleAudio(isPlaying, '2:6', 'Alafasy');
                 dispatch(togglePlay());
               }}>
                 <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
