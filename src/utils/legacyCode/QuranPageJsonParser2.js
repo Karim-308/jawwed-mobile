@@ -1,4 +1,4 @@
-import message from '../api/mushaf/sajda.json';
+import message from '../../api/mushaf/response_examples/sajda.json';
 
 const QuranPageJsonParser = () => {
     const removeAndReplaceTajweedSymbols = (text) => {

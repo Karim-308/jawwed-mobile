@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet , SafeAreaView, View , TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { toggleAudioRepeat , toggleAudioPanel } from '../../../../redux/reducers';
+import { toggleAudioRepeat , toggleAudioPanel } from '../../../../redux/reducers/audioReducer';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { PRIMARY_GOLD , DARK_GREY } from '../../../../constants/colors';
 import ReciterName from './ReciterName';

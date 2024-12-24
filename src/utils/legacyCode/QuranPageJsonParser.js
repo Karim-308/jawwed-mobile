@@ -1,6 +1,4 @@
-import message from '../api/mushaf/database1.json';
-
-const QuranPageJsonParser = (pageNumber) => {
+const QuranPageJsonParser = (pageData) => {
     const removeAndReplaceTajweedSymbols = (text) => {
         text = text.replace(/۟/g, 'ْ'); 
         text = text.replace(/ࣰ/g, 'ٗ');
@@ -10,9 +8,8 @@ const QuranPageJsonParser = (pageNumber) => {
         return text;
     };
 
-    let pageData = message[pageNumber - 1];
-
     const extractLinesTextFromPage = (pageData) => {
+        console.log('Page Data:', pageData);
         return pageData.map(line => {
             return {
                 lineID: line.lineID,
