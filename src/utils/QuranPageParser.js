@@ -18,7 +18,11 @@ const QuranPageJsonParser = (pageData) => {
             lineID: line.lineNumber,  // Use lineNumber as unique ID
             text: removeAndReplaceTajweedSymbols(line.text),
             verseKeys: line.versesKeys ? line.versesKeys.map(verse => verse.verseKey) : [], // Map verseKey directly
-            isCentered: line.isCentered
+            isCentered: line.isCentered,
+            surahNumber: line.surahNumber,
+            juzNumber: line.juzNumber,
+            hizbNumber: line.hizbNumber,
+            rubHizbNumber: line.rubHizbNumber,
         }));
     };
 
