@@ -1,7 +1,11 @@
 // redux/store.js
-import { createStore } from 'redux';
-import rootReducer from './reducers'; // Import your root reducer
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from './reducers'; // Ensure the path is correct
 
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: rootReducer,
+  // Middleware is included by default (including thunk)
+  // Redux DevTools are enabled by default in development
+});
 
 export default store;

@@ -2,7 +2,8 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { togglePlay, hideNav, showNav } from '../../../redux/reducers';
+import { togglePlay} from '../../../redux/reducers/audioReducer';
+import { hideNav,showNav } from '../../../redux/reducers/navigationReducer';
 import { toggleAudio } from '../Services/AudioService';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 

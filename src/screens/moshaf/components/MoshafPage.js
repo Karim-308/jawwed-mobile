@@ -1,202 +1,262 @@
+// src/screens/moshaf/MoshafScreen.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ActivityIndicator } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import QuranPageJsonParser from '../../../utils/QuranPageJsonParser';
 import { useSelector, useDispatch } from 'react-redux';
-import { setPageNumber } from '../../../redux/reducers';
+import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
+import QuranPageParser from '../../../utils/QuranPageParser';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-// Identify ayah boundaries based on Arabic digits.
+// Helper function: Identify ayah boundaries based on Arabic digits.
 const findAyahBoundaries = (words) => {
-    const boundaries = [];
-    for (let i = 0; i < words.length; i++) {
-        const w = words[i];
-        // Check if word is entirely Arabic digits ٠١٢٣٤٥٦٧٨٩
-        if (/^[٠١٢٣٤٥٦٧٨٩]+$/.test(w)) {
-            boundaries.push(i);
-        }
+  const boundaries = [];
+  for (let i = 0; i < words.length; i++) {
+    const w = words[i];
+    if (/^[٠١٢٣٤٥٦٧٨٩]+$/.test(w)) {
+      boundaries.push(i);
     }
-    return boundaries;
+  }
+  return boundaries;
 };
 
-const MoshafScreen = React.memo(() => {
-    const [lines, setLines] = useState([]);
-    const [selectedAyahs, setSelectedAyahs] = useState({});
-    const dispatch = useDispatch();
-    const pageNumber = useSelector((state) => state.pageNumber);
-    const { width } = useWindowDimensions();
-    const containerWidth = useMemo(() => width * 0.9, [width]);
+const MoshafPage = React.memo(() => {
+  const dispatch = useDispatch();
+  const { pageNumber, loading, data, error } = useSelector((state) => state.page);
+  const [selectedAyahs, setSelectedAyahs] = useState({});
+  const { width } = useWindowDimensions();
+  const containerWidth = useMemo(() => width * 0.9, [width]);
 
-    useEffect(() => {
-        // Load lines from parser whenever pageNumber changes
-        const parsedLines = QuranPageJsonParser(pageNumber);
-        if (Array.isArray(parsedLines)) {
-            setLines(parsedLines);
-        } else {
-            console.error('QuranPageJsonParser did not return an array:', parsedLines);
-        }
-    }, [pageNumber]);
+  useEffect(() => {
+    dispatch(fetchPageData(pageNumber));
+  }, [dispatch, pageNumber]);
 
-    const toggleAyahSelection = useCallback((verseKey) => {
-        setSelectedAyahs((prev) => {
-            const updated = { ...prev };
-            if (updated[verseKey]) {
-                delete updated[verseKey];
-            } else {
-                updated[verseKey] = true;
+  const toggleAyahSelection = useCallback((verseKey) => {
+    setSelectedAyahs((prev) => {
+      // If the same ayah is selected, deselect it
+      if (prev[verseKey]) {
+        return {};
+      }
+      // Otherwise, select the new ayah and deselect any previous ones
+      return { [verseKey]: true };
+    });
+}, []);
+
+
+
+  const selectAyahFromWord = useCallback((line, wordIndex) => {
+    const { verseKeys, text } = line;
+    const words = text.split(' ');
+
+    if (verseKeys.length === 0) return;
+
+    if (verseKeys.length === 1) {
+      const verseKey = verseKeys[0];
+      toggleAyahSelection(verseKey);
+      return;
+    }
+
+    const boundaries = findAyahBoundaries(words);
+    if (boundaries.length === 0) {
+      toggleAyahSelection(verseKeys[0]);
+      return;
+    }
+
+    let ayahIndex = 0;
+    for (let i = 0; i < boundaries.length; i++) {
+      if (wordIndex <= boundaries[i]) {
+        ayahIndex = i;
+        break;
+      }
+      if (i === boundaries.length - 1 && wordIndex > boundaries[i]) {
+        ayahIndex = boundaries.length;
+      }
+    }
+
+    if (ayahIndex >= verseKeys.length) {
+      ayahIndex = verseKeys.length - 1;
+    }
+
+    const verseKey = verseKeys[ayahIndex];
+    toggleAyahSelection(verseKey);
+  }, [toggleAyahSelection]);
+
+  const onSwipe = useCallback((direction) => {
+    if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
+      dispatch(setPageNumber(pageNumber - 1));
+    } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) {
+      dispatch(setPageNumber(pageNumber + 1));
+    }
+  }, [dispatch, pageNumber]);
+
+  // Render Quranic Lines with Parsed Data
+  const renderAyahLines = useCallback(() => {
+    if (loading) {
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#EFB975" />
+        </View>
+      );
+    }
+  
+    if (error) {
+      return (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>حدث خطأ ما. الرجاء المحاولة مرة أخرى.</Text>
+          <TouchableOpacity onPress={() => dispatch(fetchPageData(pageNumber))} style={styles.retryButton}>
+            <Text style={styles.retryButtonText}>إعادة المحاولة</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  
+    const pageData = data[pageNumber];
+  
+    // **Guard Clause: If no data, show empty state and return early**
+    if (!pageData || pageData.length === 0) {
+      console.warn('No data found for page:', pageNumber);
+      return (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>No data available for this page</Text>
+        </View>
+      );
+    }
+  
+    // **Only parse if data exists**
+    // Parse the page data using the QuranPageParser utility
+    // This will return an object with linesData and uniqueVerses
+    // We are only interested in the linesData for rendering
+    // The uniqueVerses can be used for audio playback
+    // The parser will also remove and replace Tajweed symbols
+    // and extract unique verse keys with audio URLs
+    // This will help in highlighting and playing audio for specific verse
+    // versesAudio is accessible from here !!!!!!!! 
+
+
+    const parsedData = QuranPageParser(pageData);
+    const { linesData  , versesAudio} = parsedData;
+  
+    console.log('Parsed Lines for Page:', linesData);
+  
+    return linesData.map((line, lineIndex) => {
+      const words = line.text.split(' ');
+      const boundaries = findAyahBoundaries(words);
+  
+      return (
+        <View
+          key={`line-${lineIndex}`}
+          style={[
+            styles.lineWrapper,
+            { width: containerWidth },
+            line.isCentered && { justifyContent: 'center' },
+          ]}
+        >
+          {words.map((word, wIndex) => {
+            let verseKeyForWord = null;
+            if (line.verseKeys.length === 1) {
+              verseKeyForWord = line.verseKeys[0];
+            } else if (line.verseKeys.length > 1 && boundaries.length > 0) {
+              let ayahIndex = 0;
+              for (let i = 0; i < boundaries.length; i++) {
+                if (wIndex <= boundaries[i]) {
+                  ayahIndex = i;
+                  break;
+                }
+                if (i === boundaries.length - 1 && wIndex > boundaries[i]) {
+                  ayahIndex = boundaries.length;
+                }
+              }
+              if (ayahIndex >= line.verseKeys.length) ayahIndex = line.verseKeys.length - 1;
+              verseKeyForWord = line.verseKeys[ayahIndex];
             }
-            return updated;
-        });
-    }, []);
-
-    const selectAyahFromWord = useCallback((line, wordIndex) => {
-        const { verseKeys, text } = line;
-        const words = text.split(' ');
-
-        if (verseKeys.length === 0) return;
-
-        if (verseKeys.length === 1) {
-            // Entire line = one ayah
-            const verseKey = verseKeys[0];
-            toggleAyahSelection(verseKey);
-            return;
-        }
-
-        const boundaries = findAyahBoundaries(words);
-        if (boundaries.length === 0) {
-            // fallback if no boundaries found
-            toggleAyahSelection(verseKeys[0]);
-            return;
-        }
-
-        let ayahIndex = 0;
-        for (let i = 0; i < boundaries.length; i++) {
-            if (wordIndex <= boundaries[i]) {
-                ayahIndex = i;
-                break;
-            }
-            if (i === boundaries.length - 1 && wordIndex > boundaries[i]) {
-                ayahIndex = boundaries.length;
-            }
-        }
-
-        if (ayahIndex >= verseKeys.length) {
-            ayahIndex = verseKeys.length - 1;
-        }
-
-        toggleAyahSelection(verseKeys[ayahIndex]);
-
-    }, [toggleAyahSelection]);
-
-    const renderAyahLines = useCallback(() => {
-        return lines.map((line, lineIndex) => {
-            const words = line.text.split(' ');
-            const boundaries = findAyahBoundaries(words);
-
+  
+            const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];
+            const displayedWord = /^[٠١٢٣٤٥٦٧٨٩]+$/.test(word) ? ' ' + word : word + ' ';
+  
             return (
-                <View
-                    key={`line-${lineIndex}`}
-                    style={[
-                        styles.lineWrapper,
-                        { width: containerWidth },
-                        line.isCentered && { justifyContent: "center" }
-                    ]}
+              <TouchableOpacity
+                key={`word-${wIndex}`}
+                style={line.isCentered && { marginHorizontal: containerWidth * 0.005 }}
+                onLongPress={() => selectAyahFromWord(line, wIndex)}
+                activeOpacity={0.7}
+              >
+                <Text
+                  style={[
+                    styles.ayahText,
+                    { fontSize: containerWidth * 0.054 },
+                    isSelected && styles.selectedWord,
+                  ]}
                 >
-                    {words.map((word, wIndex) => {
-                        // Determine verseKeyForWord
-                        let verseKeyForWord = null;
-                        if (line.verseKeys.length === 1) {
-                            verseKeyForWord = line.verseKeys[0];
-                        } else if (line.verseKeys.length > 1 && boundaries.length > 0) {
-                            let ayahIndex = 0;
-                            for (let i = 0; i < boundaries.length; i++) {
-                                if (wIndex <= boundaries[i]) {
-                                    ayahIndex = i;
-                                    break;
-                                }
-                                if (i === boundaries.length - 1 && wIndex > boundaries[i]) {
-                                    ayahIndex = boundaries.length;
-                                }
-                            }
-                            if (ayahIndex >= line.verseKeys.length) ayahIndex = line.verseKeys.length - 1;
-                            verseKeyForWord = line.verseKeys[ayahIndex];
-                        } else if (line.verseKeys.length > 0) {
-                            verseKeyForWord = line.verseKeys[0];
-                        }
-
-                        const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];
-
-                        // Determine spacing:
-                        const displayedWord = /^[٠١٢٣٤٥٦٧٨٩]+$/.test(word) ? ('' + word) : (word + '');
-
-                        return (
-                            <TouchableOpacity
-                                key={`word-${wIndex}`}
-                                style={line.isCentered && { marginHorizontal: containerWidth * 0.005 }}
-                                onLongPress={() => selectAyahFromWord(line, wIndex)}
-                                activeOpacity={0.7}
-                            >
-                                <Text style={[
-                                    styles.ayahText,
-                                    { fontSize: containerWidth * 0.058 },
-                                    isSelected && styles.selectedWord
-                                ]}>
-                                    {displayedWord}
-                                </Text>
-                            </TouchableOpacity>
-                        );
-                    })}
-                </View>
+                  {displayedWord}
+                </Text>
+              </TouchableOpacity>
             );
-        });
-    }, [lines, selectedAyahs, containerWidth, selectAyahFromWord]);
-
-    const onSwipe = (direction) => {
-        if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
-            dispatch(setPageNumber(pageNumber - 1));
-        } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) { 
-            // Assuming the Quran has 604 pages (adjust if needed)
-            dispatch(setPageNumber(pageNumber + 1));
-        }
-    };
-
-    return (
-        <SafeAreaView style={styles.MushafVeiwContainer}>
-            <GestureRecognizer
-                onSwipeLeft={() => onSwipe('SWIPE_LEFT')}
-                onSwipeRight={() => onSwipe('SWIPE_RIGHT')}
-                style={{ flex: 1 }}
-            >
-                {renderAyahLines()}
-            </GestureRecognizer>
-        </SafeAreaView>
-    );
+          })}
+        </View>
+      );
+    });
+  }, [data, loading, error, containerWidth, selectAyahFromWord, selectedAyahs, pageNumber, dispatch]);
+  
+  return (
+    <SafeAreaView style={styles.MushafVeiwContainer}>
+      <GestureRecognizer onSwipeLeft={() => onSwipe('SWIPE_LEFT')} onSwipeRight={() => onSwipe('SWIPE_RIGHT')} style={{ flex: 1 }}>
+        {renderAyahLines()}
+      </GestureRecognizer>
+    </SafeAreaView>
+  );
 });
 
-export default MoshafScreen;
+export default MoshafPage;
+
 
 const styles = StyleSheet.create({
-    MushafVeiwContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black',
-        writingDirection: 'rtl',
-        direction: 'rtl',
-        padding: 11,
-        flex: 1,
-    },
-    lineWrapper: {
-        flexDirection: 'row-reverse',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 5,
-    },
-    ayahText: {
-        fontFamily: 'UthmanicHafs',
-        color: 'white',
-        textAlign: "center",
-        writingDirection: 'rtl',
-    },
-    selectedWord: {
-        color: '#EFB975',
-    },
+  MushafVeiwContainer: {
+    paddingTop: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    writingDirection: 'rtl',
+    direction: 'rtl',
+    padding: 10,
+    flex: 1,
+  },
+  lineWrapper: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  ayahText: {
+    fontFamily: 'UthmanicHafs',
+    color: 'white',
+    textAlign: 'center',
+    writingDirection: 'rtl',
+  },
+  selectedWord: {
+    color: '#EFB975',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: '#FF0000',
+    fontSize: 18,
+    marginBottom: 10,
+  },
+  retryButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#EFB975',
+    borderRadius: 5,
+  },
+  retryButtonText: {
+    color: '#000',
+    fontSize: 16,
+  },
 });

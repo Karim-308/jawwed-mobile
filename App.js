@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ActivityIndicator } from 'react-native';
 import * as Font from 'expo-font';
+import { Provider } from 'react-redux';
 import MoshafScreen from './src/screens/moshaf/MoshafScreen';
+import store from './src/redux/store';
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -31,10 +33,12 @@ export default function App() {
   }
 
   return (
+    <Provider store={store}>
     <View style={styles.container}>
       <StatusBar style="light" />
       <MoshafScreen />
     </View>
+    </Provider>
   );
 }
 
