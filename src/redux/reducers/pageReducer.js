@@ -20,6 +20,9 @@ const pageReducer = (state = initialState, action) => {
   switch (action.type) {
       case FETCH_PAGE_REQUEST:
           console.log('FETCH_PAGE_REQUEST dispatched - Loading started');
+          // Set loading to true and clear any previous errors
+          // This is dispatched when the page data is being fetched
+
           return {
               ...state,
               loading: true,
@@ -32,13 +35,17 @@ const pageReducer = (state = initialState, action) => {
             console.log('Data:', action.payload.data);
           
             if (!action.payload.pageNumber || !action.payload.data) {
+              // If the page number or data is missing, return the current state
+              // This is dispatched when the page data is successfully fetched
               console.error('FETCH_PAGE_SUCCESS received undefined page number or data');
               return state;
             }
 
-            const parsedData = QuranPageParser(action.payload.data);
-            
+            // Parse the page data
+            const parsedData = QuranPageParser(action.payload.data);       
             return {
+              // Update the state with the parsed data
+              // data contains the parsed page lines
               ...state,
               loading: false,
               data: {
