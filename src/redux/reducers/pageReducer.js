@@ -6,10 +6,13 @@ import {
   SET_PAGE_NUMBER,
 } from '../actions/pageActions';
 
+import QuranPageParser from '../../utils/QuranPageParser';
+
 const initialState = {
   pageNumber: 1,
   loading: false,
-  data: {}, // Store pages as key-value pairs for caching
+  data: {},  // Contains parsed page lines
+  versesAudio: {},  // Stores audio for each ayah
   error: null,
 };
 
@@ -22,7 +25,7 @@ const pageReducer = (state = initialState, action) => {
               loading: true,
               error: null,
           };
-      
+
           case FETCH_PAGE_SUCCESS:
             console.log('FETCH_PAGE_SUCCESS received');
             console.log('Page Number:', action.payload.pageNumber);
@@ -32,13 +35,19 @@ const pageReducer = (state = initialState, action) => {
               console.error('FETCH_PAGE_SUCCESS received undefined page number or data');
               return state;
             }
+
+            const parsedData = QuranPageParser(action.payload.data);
             
             return {
               ...state,
               loading: false,
               data: {
                 ...state.data,
-                [action.payload.pageNumber]: action.payload.data,
+                [action.payload.pageNumber]: parsedData.linesData,  // Store parsed lines
+              },
+              versesAudio: {
+                ...state.versesAudio,
+                [action.payload.pageNumber]: parsedData.versesAudio,  // Store audio by page
               },
             };
       

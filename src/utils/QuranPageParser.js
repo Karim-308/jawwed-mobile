@@ -16,6 +16,7 @@ const QuranPageJsonParser = (pageData) => {
         console.log('Page Data:', pageData);
         return pageData.map(line => ({
             lineID: line.lineNumber,  // Use lineNumber as unique ID
+            lineType: line.lineType,
             text: removeAndReplaceTajweedSymbols(line.text),
             verseKeys: line.versesKeys ? line.versesKeys.map(verse => verse.verseKey) : [], // Map verseKey directly
             isCentered: line.isCentered,
