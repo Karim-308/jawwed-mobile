@@ -172,17 +172,6 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
         </View>
       );
     }
-  
-    // **Only parse if data exists**
-    // Parse the page data using the QuranPageParser utility
-    // This will return an object with linesData and uniqueVerses
-    // We are only interested in the linesData for rendering
-    // The uniqueVerses can be used for audio playback
-    // The parser will also remove and replace Tajweed symbols
-    // and extract unique verse keys with audio URLs
-    // This will help in highlighting and playing audio for specific verse
-    // versesAudio is accessible from here !!!!!!!! 
-
 
 
   
