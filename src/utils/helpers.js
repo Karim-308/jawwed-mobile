@@ -16,67 +16,45 @@ export const toArabicNumerals = (number) => {
 
 
   export const collectFullAyahText = (linesData, targetVerseKey) => {
-      let ayahMap = {};  // Map ayahKey -> full ayah text
-      let currentText = '';  // Text being collected for an ayah
-      let previousAyahKey = null;  // Track previous ayah for text assignment
+    const ayahTexts = new Map();
+    let currentText = '';
+    
+    const arabicToEnglishNumbers = {
+      '٠': '0', '١': '1', '٢': '2', '٣': '3', '٤': '4',
+      '٥': '5', '٦': '6', '٧': '7', '٨': '8', '٩': '9'
+    };
   
-      console.log('Target VerseKey:', targetVerseKey);
+    const convertToEnglishNumber = (arabicNum) => {
+      return arabicNum.split('').map(char => arabicToEnglishNumbers[char] || char).join('');
+    };
   
-      // Process line by line
-        for (let line of linesData) {
-        
-        
-            
-        const words = line.text.split(' ');
-        const surahNumber = line.surahNumber;
+    for (const line of linesData) {
+      if (line.lineType !== 'ayah') continue;
   
-        for (let word of words) {
-              const ayahNumberMatch = word.match(/[٠١٢٣٤٥٦٧٨٩]+/g);  // Detect Arabic numerals (ayah numbers)
-  
-              if (ayahNumberMatch) {
-
-                    if (!previousAyahKey) {
-                        previousAyahKey = `${surahNumber}:${linesData[0].verseKeys[0].split(':')[1]}`;
-                     }
-                  // Convert Arabic ayah number to English numerals
-                  for (let numeral of ayahNumberMatch) {
-                      const ayahNumber = toEnglishNumerals(numeral);
-                      const ayahKey = `${surahNumber}:${ayahNumber}`;
-  
-                      // Assign the collected text to the previous ayah
-                      if (previousAyahKey && currentText.trim()) {
-                          if (ayahMap[previousAyahKey]) {
-                              ayahMap[previousAyahKey] += ' ' + currentText.trim();
-                          } else {
-                              ayahMap[previousAyahKey] = currentText.trim();
-                          }
-                      }
-  
-                      // Reset text collection and set new ayah as ongoing
-                      currentText = '';
-                      previousAyahKey = ayahKey;
-                  }
-              } else {
-                  // If no ayah number, keep appending to currentText
-                  currentText += word + ' ';
-              }
+      const words = line.text.split(' ');
+      
+      for (const word of words) {
+        // Check if word is an Arabic numeral
+        if (/^[٠-٩]+$/.test(word)) {
+          if (currentText) {
+            const verseKey = `${line.surahNumber}:${convertToEnglishNumber(word)}`;
+            ayahTexts.set(verseKey, currentText.trim());
+            currentText = ''; // Reset currentText for the next Ayah
           }
+        } else {
+          currentText += ' ' + word; // Append word to currentText
+        }
       }
+    }
   
-      // Final assignment (end of last line)
-      if (previousAyahKey && currentText.trim()) {
-          if (ayahMap[previousAyahKey]) {
-              ayahMap[previousAyahKey] += ' ' + currentText.trim();
-          } else {
-              ayahMap[previousAyahKey] = currentText.trim();
-          }
-      }
+    // Capture the last Ayah if it exists
+    if (currentText) {
+      const lastVerseKey = `${linesData[linesData.length - 1].surahNumber}:${convertToEnglishNumber(words[words.length - 1])}`;
+      ayahTexts.set(lastVerseKey, currentText.trim());
+    }
   
-      console.log('Collected Ayah Map:', ayahMap);
-      console.log('Target Ayah:', ayahMap[targetVerseKey]);
-  
-      // Return text for the target ayah
-      return ayahMap[targetVerseKey] || '';
+    console.log(ayahTexts.get(targetVerseKey));
+    return ayahTexts.get(targetVerseKey) || '';
   };
   
 

@@ -1,5 +1,5 @@
 // src/screens/moshaf/MoshafScreen.js
-import React, { useState, useEffect, useCallback, useMemo , useRef} from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ActivityIndicator } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,7 +27,6 @@ const MoshafPage = React.memo(() => {
   const linesData = useSelector((state) => state.page.data[pageNumber]);
   const versesAudio = useSelector((state) => state.page.versesAudio);
   const [selectedAyahs, setSelectedAyahs] = useState({});
-  const selectedWordsRef = useRef([]);
   const { width } = useWindowDimensions();
   const containerWidth = useMemo(() => width * 0.9, [width]);
   const [tooltipData, setTooltipData] = useState(null);
@@ -43,10 +42,6 @@ const MoshafPage = React.memo(() => {
       // If the same ayah is selected, deselect it
       if (prev[verseKey]) {
         setTooltipData(null); // Hide tooltip when deselected
-        //setSelectedWords((prevWords) => prevWords.filter((item) => item.verseKey !== verseKey));
-        selectedWordsRef.current = selectedWordsRef.current.filter(
-          (item) => item.verseKey !== verseKey
-        );
         return {};
       }
       // Otherwise, select the new ayah and deselect any previous ones
@@ -119,13 +114,8 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     }
   }, [dispatch, pageNumber]);
 
-  {/*const handleWordSelection = (word, verseKey) => {
-    setSelectedWords((prevWords) => [...prevWords, { displayedWord: word, verseKey }]);
-  };*/}
-
-  const handleShare = () => {
-    const sharedText = selectedWordsRef.current.map((item) => item.displayedWord).join(' ');
-    console.log(`Sharing: ${sharedText}`);
+  const handleShare = (text, key) => {
+    console.log(`Sharing: ${text} (${key})`);
   };
   
   const handlePlay = (key) => {
@@ -179,7 +169,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     // This will help in highlighting and playing audio for specific verse
     // versesAudio is accessible from here !!!!!!!! 
 
-    let tempSelectedWords = [];
+
 
   
     console.log('Parsed Lines for Page:', linesData);
@@ -216,15 +206,9 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
               verseKeyForWord = line.verseKeys[ayahIndex];
             }
 
-            const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];            
+            const isSelected = verseKeyForWord && selectedAyahs[verseKeyForWord];
             const displayedWord = /^[٠١٢٣٤٥٦٧٨٩]+$/.test(word) ? '' + word : word + '';
 
-            // Collect selected words temporarily
-            if (isSelected) {
-              tempSelectedWords.push({ displayedWord });
-              console.log('Selected Words:', tempSelectedWords);
-          }
-            
             return (
               <TouchableOpacity
                 key={`word-${wIndex}`}
@@ -252,10 +236,6 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
           })}
         </View>
       );
-      useEffect(() => {
-        selectedWordsRef.current = tempSelectedWords;
-      });
-
     });}, [data, loading, error, containerWidth, selectAyahFromWord, selectedAyahs, pageNumber, dispatch]);
   
   return (
