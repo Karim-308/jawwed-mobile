@@ -4,16 +4,11 @@ export const toArabicNumerals = (number) => {
     return number.toString().replace(/[0-9]/g, (digit) => arabicNumbers[digit]);
   };
   
-
   export const toEnglishNumerals = (number) => {
     const englishNumbers = '0123456789';
     const arabicNumbers = '٠١٢٣٤٥٦٧٨٩';
     return number.replace(/[٠١٢٣٤٥٦٧٨٩]/g, (digit) => englishNumbers[arabicNumbers.indexOf(digit)]);
 };
-  // Example
-  console.log(toArabicNumerals(6));  // Outputs: "٦"
-  
-
 
   export const collectFullAyahText = (linesData, targetVerseKey) => {
     const ayahTexts = new Map();
