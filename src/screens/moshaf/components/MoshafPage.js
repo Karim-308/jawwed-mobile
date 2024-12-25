@@ -1,6 +1,6 @@
 // src/screens/moshaf/MoshafScreen.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ActivityIndicator , Share } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
@@ -114,8 +114,22 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     }
   }, [dispatch, pageNumber]);
 
-  const handleShare = (text, key) => {
-    console.log(`Sharing: ${text} (${key})`);
+  const handleShare = async (ayahText, key) => {
+    console.log(`Sharing: ${ayahText} (${key})`);
+    
+    if (!ayahText) {
+      console.log("No text selected to share.");
+      return;
+    }
+  
+    try {
+      await Share.share({
+        message: `${ayahText} (${key})`,
+        title: 'Sharing Selected Ayah',
+      });
+    } catch (error) {
+      console.error('Error sharing text:', error);
+    }
   };
   
   const handlePlay = (key) => {
@@ -151,7 +165,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
   
     // **Guard Clause: If no data, show empty state and return early**
     if (!data[pageNumber] || data[pageNumber].length === 0) {
-      console.warn('No data found for page:', pageNumber);
+      console.log('No data found for page:', pageNumber);
       return (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>No data available for this page</Text>
@@ -268,7 +282,7 @@ export default MoshafPage;
 
 const styles = StyleSheet.create({
   MushafVeiwContainer: {
-    paddingTop: 70,
+    paddingTop: 60,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
