@@ -35,7 +35,7 @@ const BottomNavigationBar = () => {
     <>
       {isPlaying ? (
         <IsPlay />
-      ) : false ? (
+      ) : true ? ( //TODO: Handle the state of the navigation bar
         <View style={styles.container}>
           {/* Gold Line Block */}
           <View style={styles.goldLineBlock}>
