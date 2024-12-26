@@ -6,9 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 const Header = () => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
-        <Ionicons name="arrow-back-sharp" size={24} color="#EFB975" />
-      </TouchableOpacity>
+
       <View style={styles.titleContainer}>
         <Text style={styles.surahName}>سورة البقرة</Text>
         <Text style={styles.juzInfo}>الجزء1, ثلاثة أرباع الحزب</Text>
@@ -30,7 +28,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    paddingTop: StatusBar.currentHeight +10 || 24,
     backgroundColor: '#000',
     minWidth: '100%',
     

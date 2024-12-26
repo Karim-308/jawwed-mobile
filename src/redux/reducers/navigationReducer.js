@@ -1,6 +1,6 @@
 // redux/reducers/navigationReducer.js
 const initialState = {
-    isVisible: false,
+    isVisible: true,
   };
   
   const actionTypes = {
