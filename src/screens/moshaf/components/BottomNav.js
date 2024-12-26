@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialIcons, Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -17,9 +17,12 @@ import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 
 const BottomNavigationBar = () => {
   const dispatch = useDispatch();
-  const isPlaying = useSelector((state) => state.isPlaying);
-  const isVisible = useSelector((state) => state.isVisible);
+  // Selectors
+  const isPlaying = useSelector((state) => state.audio.isPlaying); // From audio reducer
+  const isVisible = useSelector((state) => state.navigation.isVisible); // From navigation reducer
+  const pageNumber = useSelector((state) => state.page.pageNumber); // From page reducer
 
+  const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
   // Hides the navigation bar
   const handleHide = () => {
     dispatch(hideNav());
@@ -33,69 +36,72 @@ const BottomNavigationBar = () => {
 
   return (
     <>
-      {isPlaying ? (
-        <IsPlay />
-      ) : true ? ( //TODO: Handle the state of the navigation bar
-        <View style={styles.container}>
-          {/* Gold Line Block */}
-          <View style={styles.goldLineBlock}>
-            <View style={styles.goldLine} /></View>
-          <View style={styles.goldLineBackground}></View>
+    {isPlaying ? (
+      <IsPlay />
+    ) : isVisible ? ( // Show navigation bar if visible
+      <View style={styles.container}>
+        {/* Gold Line Block */}
+        <View style={styles.goldLineBlock}>
+          <View style={styles.goldLine} />
+        </View>
+        <View style={styles.goldLineBackground}></View>
 
-          {/* Left Icons */}
-          <View style={[styles.iconGroup, styles.leftGroup]}>
-            <TouchableOpacity style={styles.icon}>
-              <Feather name="share-2" size={24} color={PRIMARY_GOLD} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.icon}>
-              <MaterialIcons name="bookmark-border" size={24} color={PRIMARY_GOLD} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.icon}>
-              <FontAwesome5 name="eye-slash" size={20} color={PRIMARY_GOLD} />
-            </TouchableOpacity>
+        {/* Left Icons */}
+        <View style={[styles.iconGroup, styles.leftGroup]}>
+          <TouchableOpacity style={styles.icon}>
+            <Feather name="share-2" size={24} color={PRIMARY_GOLD} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.icon}>
+            <MaterialIcons name="bookmark-border" size={24} color={PRIMARY_GOLD} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.icon}>
+            <FontAwesome5 name="eye-slash" size={20} color={PRIMARY_GOLD} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.icon}
+            onPress={() => dispatch(togglePlay())}
+          >
+            <MaterialIcons name="equalizer" size={24} color={PRIMARY_GOLD} />
+          </TouchableOpacity>
+
+          <View style={styles.playButton}>
             <TouchableOpacity
-              style={styles.icon}
-              onPress={() => dispatch(togglePlay())} // Navigates to IsPlay by toggling play state
-            >
-              <MaterialIcons name="equalizer" size={24} color={PRIMARY_GOLD} />
-            </TouchableOpacity>
-
-            <View style={styles.playButton}>
-              <TouchableOpacity onPress={() => {
-                toggleAudio(isPlaying, '2:6', 'Alafasy');
+              onPress={() => {
+                toggleAudio(isPlaying);
                 dispatch(togglePlay());
-              }}>
-                <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
-              </TouchableOpacity>
-            </View>
+              }}
+            >
+              <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
+            </TouchableOpacity>
           </View>
-
-          {/* Center Icon */}
-          <View style={styles.centerIcon}>
-            <View style={styles.centerShape}>
-              <Text style={styles.centerText}>٦</Text>
-            </View>
-          </View>
-
-          {/* Right Icon */}
-          <TouchableOpacity style={styles.icon} onPress={handleHide}>  
-            <MaterialIcons name="keyboard-arrow-down" size={24} color={PRIMARY_GOLD} />
-          </TouchableOpacity>
         </View>
-      ) : (
-        // Page number and up arrow when navigation is hidden
-        <View style={styles.hiddenContainer}>
-          <View style={styles.pageNumberContainer}>
-            <View style={styles.centerShape}>
-              <Text style={styles.centerText}>٦</Text>
-            </View>
+
+        {/* Center Icon */}
+        <View style={styles.centerIcon}>
+          <View style={styles.centerShape}>
+            <Text style={styles.centerText}>{arabicPageNumber}</Text>
           </View>
-          <TouchableOpacity onPress={handleShow} style={styles.upArrow}>
-            <MaterialIcons name="keyboard-arrow-up" size={24} color={PRIMARY_GOLD} />
-          </TouchableOpacity>
         </View>
-      )}
-    </>
+
+        {/* Right Icon */}
+        <TouchableOpacity style={styles.icon} onPress={handleHide}>
+          <MaterialIcons name="keyboard-arrow-down" size={24} color={PRIMARY_GOLD} />
+        </TouchableOpacity>
+      </View>
+    ) : (
+      // Hidden state of the navigation bar
+      <View style={styles.hiddenContainer}>
+        <View style={styles.pageNumberContainer}>
+          <View style={styles.centerShape}>
+            <Text style={styles.centerText}>{arabicPageNumber}</Text>
+          </View>
+        </View>
+        <TouchableOpacity onPress={handleShow} style={styles.upArrow}>
+          <MaterialIcons name="keyboard-arrow-up" size={24} color={PRIMARY_GOLD} />
+        </TouchableOpacity>
+      </View>
+    )}
+  </>
   );
 };
 

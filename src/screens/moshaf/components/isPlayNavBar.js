@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,9 +15,12 @@ import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 const IsPlay = () => {
   const dispatch = useDispatch();
 
-  // Select states from Redux
-  const isPlaying = useSelector((state) => state.isPlaying);
-  const isVisible = useSelector((state) => state.isVisible);
+  // Selectors
+  const isPlaying = useSelector((state) => state.audio.isPlaying); // From audio reducer
+  const isVisible = useSelector((state) => state.navigation.isVisible); // From navigation reducer
+  const pageNumber = useSelector((state) => state.page.pageNumber); // From page reducer
+
+    const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
 
   // Toggles play/pause state
   const handleTogglePlay = () => {
@@ -54,7 +57,7 @@ const IsPlay = () => {
       {/* Center Icon: Page Number */}
       <View style={styles.centerIcon}>
         <View style={styles.centerShape}>
-          <Text style={styles.centerText}>٦</Text>
+          <Text style={styles.centerText}>{arabicPageNumber}</Text>
         </View>
       </View>
 
