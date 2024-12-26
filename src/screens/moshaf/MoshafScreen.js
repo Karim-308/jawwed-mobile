@@ -1,33 +1,39 @@
-import { SafeAreaView,StyleSheet } from 'react-native';
-import MoshafPage from './components/MoshafPage';
+import React from 'react';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import Header from './components/MoshafHeader';
-import QuranText from './components/QuranText';
+import MoshafPage from './components/MoshafPage';
 import BottomNavigationBar from './components/BottomNav';
-import BlankNavBar from './components/BlankNavBar';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 
 const MoshafScreen = () => {
-    return (
-        <Provider store={store}>
-            <SafeAreaView style={styles.PageContainer}>
-                <Header />
-                <MoshafPage/>
-                <BottomNavigationBar />
-            </SafeAreaView>
-        </Provider>
-    );
-}
+  return (
+    <Provider store={store}>
+      <SafeAreaView style={styles.container}>
+        {/* Header */}
+        <Header />
+
+        {/* Quran Text */}
+        <View style={styles.content}>
+          <MoshafPage />
+        </View>
+
+        {/* Bottom Navigation */}
+        <BottomNavigationBar />
+      </SafeAreaView>
+    </Provider>
+  );
+};
 
 export default MoshafScreen;
 
-
 const styles = StyleSheet.create({
-    PageContainer: {
-        justifyContent: 'space-between',
-        allignItems: 'center',
-        flex: 1,
-        backgroundColor: 'black',
-    },
-
+  container: {
+    flex: 1,
+    backgroundColor: '#000', // Match the background color with the app
+  },
+  content: {
+    flex: 1,
+    marginTop: 0, // Remove unnecessary gaps
+  },
 });

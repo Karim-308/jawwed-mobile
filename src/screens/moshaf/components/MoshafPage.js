@@ -355,7 +355,7 @@ export default MoshafPage;
 
 const styles = StyleSheet.create({
   MushafVeiwContainer: {
-    paddingTop: 60,
+    paddingTop: -40,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',

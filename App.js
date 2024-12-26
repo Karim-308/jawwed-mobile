@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
 import * as Font from 'expo-font';
 import { Provider } from 'react-redux';
-import MoshafScreen from './src/screens/moshaf/MoshafScreen';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import store from './src/redux/store';
+import HomeScreen from './src/screens/home/HomeScreen';
+import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
+import MoshafScreen from './src/screens/moshaf/MoshafScreen';
+
+// Create a Stack Navigator
+const Stack = createStackNavigator();
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -34,10 +41,35 @@ export default function App() {
 
   return (
     <Provider store={store}>
-    <View style={styles.container}>
-      <StatusBar style="light" />
-      <MoshafScreen />
-    </View>
+      <NavigationContainer>
+        <StatusBar style="light" />
+        <Stack.Navigator
+          initialRouteName="Home"
+          screenOptions={{
+            headerStyle: { backgroundColor: '#000', elevation: 0, shadowOpacity: 0 }, // Remove shadow for Android
+            headerTintColor: '#FFF',
+            headerTitleStyle: { fontWeight: 'bold' },
+            headerBackTitleVisible: false, // Removes back text for iOS
+          }}
+        >
+          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+          <Stack.Screen
+            name="IndexPage"
+            component={MoshafIndexScreen}
+            options={{ title: 'Index Page' }}
+          />
+          <Stack.Screen
+            name="MoshafPage"
+            component={MoshafScreen}
+            options={{
+              title: 'Moshaf Page',
+              headerStyle: {
+                backgroundColor: '#000',
+              },
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 }
@@ -45,9 +77,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000', // Dark background for the mushaf page
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    backgroundColor: '#000', // Dark background for the app
   },
   loadingContainer: {
     flex: 1,
