@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,18 +7,58 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from 'adhan'; // Correct Madhab import
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [currentTime, setCurrentTime] = useState('');
+  const [nextPrayer, setNextPrayer] = useState('');
+  const [timeLeft, setTimeLeft] = useState('');
+
+  useEffect(() => {
+    // Set up location coordinates
+    const coordinates = new Coordinates(30.0444, 31.2357); // Cairo, Egypt
+    const params = CalculationMethod.MuslimWorldLeague();
+    params.madhab = Madhab.Shafi; // Correctly assign Madhab
+
+    const calculatePrayerTimes = () => {
+      const now = new Date();
+      const prayerTimes = new PrayerTimes(coordinates, now, params);
+      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+      const prayerKeys = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+      const nextPrayerKey = prayerKeys.find(
+        (key) => prayerTimes[key] && now < prayerTimes[key]
+      );
+
+      if (nextPrayerKey) {
+        setNextPrayer(nextPrayerKey.charAt(0).toUpperCase() + nextPrayerKey.slice(1)); // Capitalize
+        const timeDifference = prayerTimes[nextPrayerKey] - now;
+        const hours = Math.floor(timeDifference / 1000 / 60 / 60);
+        const minutes = Math.floor((timeDifference / 1000 / 60) % 60);
+        setTimeLeft(`${hours}h ${minutes}m left`);
+      } else {
+        setNextPrayer('None');
+        setTimeLeft('');
+      }
+    };
+
+    calculatePrayerTimes();
+    const interval = setInterval(calculatePrayerTimes, 1000);
+
+    return () => clearInterval(interval); // Clean up interval on unmount
+  }, []);
 
   return (
     <View style={styles.container}>
       {/* Header Section */}
       <View style={styles.header}>
-        <Text style={styles.clock}>04:41</Text>
-        <Text style={styles.prayerTime}>Fajr 3 hour 9 min left</Text>
+        <Text style={styles.clock}>{currentTime}</Text>
+        <Text style={styles.prayerTime}>
+          {nextPrayer ? `${nextPrayer} - ${timeLeft}` : 'No upcoming prayer'}
+        </Text>
         <View style={styles.searchContainer}>
           <MaterialIcons name="search" size={24} color="#EFB975" />
           <TextInput
@@ -58,7 +98,7 @@ const HomeScreen = () => {
             style={styles.featureItem}
             onPress={() => navigation.navigate('BookmarkPage')}
           >
-            <MaterialIcons name="bookmark" size={40} color="#EFB975" />
+            <Ionicons name="bookmarks-outline" size={40} color="#EFB975" />
             <Text style={styles.featureText}>Bookmark Page</Text>
           </TouchableOpacity>
         </ScrollView>
