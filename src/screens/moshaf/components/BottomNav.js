@@ -4,7 +4,6 @@ import { MaterialIcons, Feather, FontAwesome5, Ionicons } from '@expo/vector-ico
 import { useSelector, useDispatch } from 'react-redux';
 import { togglePlay} from '../../../redux/reducers/audioReducer';
 import { hideNav,showNav } from '../../../redux/reducers/navigationReducer';
-import { toggleAudio } from '../Services/AudioService';
 import IsPlay from './isPlayNavBar';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 
@@ -67,7 +66,6 @@ const BottomNavigationBar = () => {
           <View style={styles.playButton}>
             <TouchableOpacity
               onPress={() => {
-                toggleAudio(isPlaying);
                 dispatch(togglePlay());
               }}
             >
