@@ -50,9 +50,9 @@ const QuranPageJsonParser = (pageData) => {
 
     // Parse the lines and unique verse keys with audio
     const linesData = extractLinesTextFromPage(pageData);
-    const uniqueVerses = extractUniqueVerseKeysWithAudio(pageData);
+    const versesAudio = extractUniqueVerseKeysWithAudio(pageData);
 
-    return { linesData, uniqueVerses };
+    return { linesData, versesAudio };
 };
 
 export default QuranPageJsonParser;
