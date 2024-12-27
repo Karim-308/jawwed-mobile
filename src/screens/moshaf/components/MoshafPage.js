@@ -8,6 +8,7 @@ import QuranPageParser from '../../../utils/QuranPageParser';
 import {collectFullAyahText} from '../../../utils/helpers';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import  AyahTooltip  from  './Tooltip/AyahTooltip'
+import  postBookmark  from '../../../api/bookmark/PostBookmark';
 
 // Helper function: Identify ayah boundaries based on Arabic digits.
 const findAyahBoundaries = (words) => {
@@ -193,11 +194,23 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     console.log(`Playing Ayah: ${key}`);
   };
   
-  const handleBookmark = (key) => {
-    //TODO: Implement bookmarking
-    console.log(`Bookmarking Ayah: ${key}`);
-  };
+  const handleBookmark = async (key) => {
+    // Prepare the data for the API request
+    const bookmarkData = {
+      userId: 2, // Replace with the actual userId or fetch it dynamically
+      verseKey: key, // Pass the key as the verseKey
+      verse: tooltipData.ayahText, // Assume tooltipData.ayahText contains the text
+      page: pageNumber.toString(), // Ensure pageNumber is a string
+    };
   
+    try {
+      // Send the data to the API
+      const response = await postBookmark(bookmarkData);
+      console.log('Bookmark successfully posted:', response);
+    } catch (error) {
+      console.error('Error posting bookmark:', error);
+    }
+  };
 
   /** renderAyahLines Function
    *  This function renders the ayah lines for the current page.

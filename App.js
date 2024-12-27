@@ -9,8 +9,8 @@ import store from './src/redux/store';
 import HomeScreen from './src/screens/home/HomeScreen';
 import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
 import MoshafScreen from './src/screens/moshaf/MoshafScreen';
+import BookmarkScreen from './src/screens/bookmark/BookmarkScreen';
 
-// Create a Stack Navigator
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -66,6 +66,13 @@ export default function App() {
               headerStyle: {
                 backgroundColor: '#000',
               },
+            }}
+          />
+          <Stack.Screen
+            name="BookmarkPage"
+            component={BookmarkScreen}
+            options={{
+              headerShown: false, // Ensures the default header is hidden
             }}
           />
         </Stack.Navigator>

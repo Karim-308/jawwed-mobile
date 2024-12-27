@@ -52,6 +52,15 @@ const HomeScreen = () => {
             <MaterialIcons name="import-contacts" size={40} color="#EFB975" />
             <Text style={styles.featureText}>Moshaf Page</Text>
           </TouchableOpacity>
+
+          {/* Feature 3: Bookmark Page */}
+          <TouchableOpacity
+            style={styles.featureItem}
+            onPress={() => navigation.navigate('BookmarkPage')}
+          >
+            <MaterialIcons name="bookmark" size={40} color="#EFB975" />
+            <Text style={styles.featureText}>Bookmark Page</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </View>
