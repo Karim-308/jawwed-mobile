@@ -88,6 +88,7 @@ const BottomNavigationBar = () => {
       </View>
     ) : (
       // Hidden state of the navigation bar
+
       <View style={styles.hiddenContainer}>
         <View style={styles.pageNumberContainer}>
           <View style={styles.centerShape}>

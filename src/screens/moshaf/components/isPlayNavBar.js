@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { togglePlay} from '../../../redux/reducers/audioReducer';
 import { hideNav,showNav } from '../../../redux/reducers/navigationReducer';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
+import { pauseAudio,stopAudio } from '../../../api/services/audio/AudioService';
 
 /**
  * Secondary navigation bar component that displays playback controls 
@@ -72,7 +73,7 @@ const IsPlay = () => {
         {/* Play/Pause Button */}
         <View style={styles.playButton}>
           <TouchableOpacity onPress={() => {
-            dispatch(togglePlay());
+            pauseAudio();
           }}>
             <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
           </TouchableOpacity>

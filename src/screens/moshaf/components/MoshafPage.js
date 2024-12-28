@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
 import QuranPageParser from '../../../utils/QuranPageParser';
 import {collectFullAyahText} from '../../../utils/helpers';
+import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import  AyahTooltip  from  './Tooltip/AyahTooltip'
 import  postBookmark  from '../../../api/bookmark/PostBookmark';
@@ -187,11 +188,13 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     } catch (error) {
       console.error('Error sharing text:', error);
     }
+    setTooltipData(null);
   };
   
   const handlePlay = (key) => {
-    // TODO: Implement audio playback
+    playAudioForOneVerse("Alafasy",pageNumber,key);
     console.log(`Playing Ayah: ${key}`);
+    setTooltipData(null);
   };
   
   const handleBookmark = async (key) => {
@@ -266,6 +269,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
 
    // **Main Rendering Logic: Parse and Render Ayah Lines**
     console.log('Parsed Lines for Page:', linesData);
+    console.log("Audio Data " , versesAudio);
   
     return linesData.map((line, lineIndex) => {
       // Split the ayah text into words and identify ayah boundaries
@@ -368,7 +372,7 @@ export default MoshafPage;
 
 const styles = StyleSheet.create({
   MushafVeiwContainer: {
-    paddingTop: -40,
+    paddingTop: -10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',

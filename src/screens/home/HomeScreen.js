@@ -74,14 +74,14 @@ const HomeScreen = () => {
       {/* Features Section */}
       <View style={styles.features}>
         <Text style={styles.sectionTitle}>Features</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View flexDirection="row" style={{width:"100%",justifyContent:'center'}}>
           {/* Feature 1: Index Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate('IndexPage')}
           >
-            <MaterialIcons name="menu-book" size={40} color="#EFB975" />
-            <Text style={styles.featureText}>Index Page</Text>
+            <MaterialIcons name="menu-book" size={60} color="#EFB975" />
+            <Text style={styles.featureText}>Index </Text>
           </TouchableOpacity>
 
           {/* Feature 2: Moshaf Page */}
@@ -89,8 +89,8 @@ const HomeScreen = () => {
             style={styles.featureItem}
             onPress={() => navigation.navigate('MoshafPage')}
           >
-            <MaterialIcons name="import-contacts" size={40} color="#EFB975" />
-            <Text style={styles.featureText}>Moshaf Page</Text>
+            <MaterialIcons name="import-contacts" size={60} color="#EFB975" />
+            <Text style={styles.featureText}>Moshaf</Text>
           </TouchableOpacity>
 
           {/* Feature 3: Bookmark Page */}
@@ -98,10 +98,10 @@ const HomeScreen = () => {
             style={styles.featureItem}
             onPress={() => navigation.navigate('BookmarkPage')}
           >
-            <Ionicons name="bookmarks-outline" size={40} color="#EFB975" />
-            <Text style={styles.featureText}>Bookmark Page</Text>
+            <Ionicons name="bookmarks-outline" size={60} color="#EFB975" />
+            <Text style={styles.featureText}>Bookmarks </Text>
           </TouchableOpacity>
-        </ScrollView>
+        </View>
       </View>
     </View>
   );
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#FFF',
     marginTop: 5,
+    textAlign: 'center',
   },
   searchContainer: {
     flexDirection: 'row',
