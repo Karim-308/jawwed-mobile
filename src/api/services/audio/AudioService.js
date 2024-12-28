@@ -33,7 +33,7 @@ const changePageNumber = (pageNumber) => {
 // the verse audio that you can play, stop, pause or resume
 let verseAudio;
 // the postition at which you paused at or resumed from
-let position;
+let position = null;
 
 
 // true if we are playing to the end of the mushaf
@@ -159,6 +159,11 @@ export const stopAudio = async() => {
 // reset and clear the unused resources
 const resetResources = () => {
   verseAudio.unloadAsync();
+  position = null;
+  endVerseKey = null;
+  nextVerseKey = null;
+  currentPageNumber=null;
+  reachedEndOfPage = false;
   isPlayingAllVerses = false;
   isPlayingSomeVerses = false;
 }
