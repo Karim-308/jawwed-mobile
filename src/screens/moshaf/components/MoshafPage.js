@@ -192,6 +192,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
   };
   
   const handlePlay = (key) => {
+    stopAudio();
     playAudioForOneVerse("Alafasy",pageNumber,key);
     console.log(`Playing Ayah: ${key}`);
     setTooltipData(null);

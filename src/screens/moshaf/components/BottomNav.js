@@ -6,6 +6,8 @@ import { togglePlay} from '../../../redux/reducers/audioReducer';
 import { hideNav,showNav } from '../../../redux/reducers/navigationReducer';
 import IsPlay from './isPlayNavBar';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
+import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
+
 
 
 /**
@@ -18,6 +20,7 @@ const BottomNavigationBar = () => {
   const dispatch = useDispatch();
   // Selectors
   const isPlaying = useSelector((state) => state.audio.isPlaying); // From audio reducer
+  const isPaused = useSelector((state) => state.audio.isPaused); // From audio reducer
   const isVisible = useSelector((state) => state.navigation.isVisible); // From navigation reducer
   const pageNumber = useSelector((state) => state.page.pageNumber); // From page reducer
 
@@ -35,7 +38,7 @@ const BottomNavigationBar = () => {
 
   return (
     <>
-    {isPlaying ? (
+    {isPlaying || isPaused ? (
       <IsPlay />
     ) : isVisible ? ( // Show navigation bar if visible
       <View style={styles.container}>
@@ -66,7 +69,7 @@ const BottomNavigationBar = () => {
           <View style={styles.playButton}>
             <TouchableOpacity
               onPress={() => {
-                dispatch(togglePlay());
+                playAudioForMultipleVerses('Alafasy', pageNumber);
               }}
             >
               <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />

@@ -1,52 +1,48 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { togglePlay} from '../../../redux/reducers/audioReducer';
-import { hideNav,showNav } from '../../../redux/reducers/navigationReducer';
+import { hideNav, showNav } from '../../../redux/reducers/navigationReducer';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
-import { pauseAudio,stopAudio } from '../../../api/services/audio/AudioService';
+import { pauseAudio, playAudioForMultipleVerses, stopAudio, resumeAudio } from '../../../api/services/audio/AudioService';
 
-/**
- * Secondary navigation bar component that displays playback controls 
- * and information when media is playing. Allows users to toggle play/pause, 
- * repeat, and hide/show the bottom navigation.
- */
 const IsPlay = () => {
   const dispatch = useDispatch();
 
-  // Selectors
   const isPlaying = useSelector((state) => state.audio.isPlaying); // From audio reducer
-  const isVisible = useSelector((state) => state.navigation.isVisible); // From navigation reducer
+  const isPaused = useSelector((state) => state.audio.isPaused); // From audio reducer
   const pageNumber = useSelector((state) => state.page.pageNumber); // From page reducer
 
-    const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
+  const lastPlayedPage = useRef(pageNumber); // Keep track of the last played page
 
-  // Toggles play/pause state
-  const handleTogglePlay = () => {
-    dispatch(togglePlay());
-  };
+  const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
 
-  // Hides the navigation bar
-  const handleHide = () => {
-    dispatch(hideNav());
-  };
+  const handlePlayPause = () => {
+    // Check if the page number has changed
+    if (pageNumber !== lastPlayedPage.current) {
+      stopAudio(); // Stop the current audio
+      playAudioForMultipleVerses('Alafasy', pageNumber); // Restart audio for the new page
+      lastPlayedPage.current = pageNumber; // Update the last played page
+      return;
+    }
 
-  // Shows the navigation bar
-  const handleShow = () => {
-    dispatch(showNav());
+    // Handle play/pause logic
+    if (isPlaying && !isPaused) {
+      pauseAudio(); // Pause the audio
+    } else if ((!isPlaying && isPaused) || (isPlaying && isPaused)) {
+      resumeAudio(); // Resume the audio
+    } else {
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/* Gold Line Block */}
       <View style={styles.goldLineBlock}>
         <View style={styles.goldLine} />
       </View>
 
       <View style={styles.goldLineBackground}></View>
 
-      {/* Left Icon: Speaker Icon */}
       <View style={styles.leftGroup}>
         <TouchableOpacity style={styles.speakerButton}>
           <MaterialIcons name="volume-up" size={18} color={PRIMARY_GOLD} />
@@ -54,34 +50,38 @@ const IsPlay = () => {
         </TouchableOpacity>
       </View>
 
-      {/* Center Icon: Page Number */}
       <View style={styles.centerIcon}>
         <View style={styles.centerShape}>
           <Text style={styles.centerText}>{arabicPageNumber}</Text>
         </View>
       </View>
 
-      {/* Right Icons */}
       <View style={styles.rightGroup}>
-        <TouchableOpacity style={styles.icon}>
+        <TouchableOpacity
+          style={styles.icon}
+          onPress={() => {
+            stopAudio();
+            playAudioForMultipleVerses('Alafasy', pageNumber);
+          }}
+        >
           <Ionicons name="repeat-outline" size={24} color={PRIMARY_GOLD} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.icon} onPress={handleHide}>
-          <MaterialIcons name="close" size={24} color={PRIMARY_GOLD} />
+        <TouchableOpacity style={styles.icon} onPress={() => dispatch(hideNav())}>
+          <MaterialIcons name="close" size={24} color={PRIMARY_GOLD} onPress={stopAudio}/>
         </TouchableOpacity>
 
-        {/* Play/Pause Button */}
         <View style={styles.playButton}>
-          <TouchableOpacity onPress={() => {
-            pauseAudio();
-          }}>
-            <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
+          <TouchableOpacity onPress={handlePlayPause}>
+            {isPlaying && !isPaused ? (
+              <Ionicons name="pause-outline" size={40} color={PRIMARY_GOLD} />
+            ) : (
+              <Ionicons name="play-outline" size={40} color={PRIMARY_GOLD} />
+            )}
           </TouchableOpacity>
         </View>
       </View>
 
-      {/* Up Arrow for showing navigation */}
-      <TouchableOpacity style={[styles.icon, styles.upArrow]} onPress={handleShow}>
+      <TouchableOpacity style={[styles.icon, styles.upArrow]} onPress={() => dispatch(showNav())}>
         <MaterialIcons name="keyboard-arrow-up" size={24} color={PRIMARY_GOLD} />
       </TouchableOpacity>
     </View>
