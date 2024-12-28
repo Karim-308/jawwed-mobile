@@ -5,11 +5,11 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
   const renderBookmark = ({ item }) => (
     <View style={styles.bookmarkCard}>
       <Text style={[styles.basmala, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>
-        بِسْمِ اللّهِ الرَّحْمَنِ الرَّحِيمِ
+      بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
       </Text>
       <Text style={[styles.verse, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>{item.verse}</Text>
       <View style={styles.footer}>
-        <Text style={styles.pageNumber}>Page: {item.page}</Text>
+        <Text style={styles.pageNumber}>Page: {item.page} </Text>
         <TouchableOpacity
           onPress={() => handleDelete(2, item.verseKey)} // Assuming userId = 2
           style={styles.deleteButton}
@@ -24,7 +24,7 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#f0ad4e" />
-        <Text style={styles.loadingText}>Loading bookmarks...</Text>
+        <Text style={styles.loadingText}>Loading bookmarks... </Text>
       </View>
     );
   }
@@ -32,7 +32,7 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.errorText}>{error} </Text>
       </View>
     );
   }

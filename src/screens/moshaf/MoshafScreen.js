@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000', // Match the background color with the app
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   content: {
     flex: 1,

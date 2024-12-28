@@ -162,6 +162,7 @@ const getVerseAudioURL = async(reciterName, verseKey) => {
     const versesAudioUrls = store.getState().page.versesAudio;
     const versesAudioUrlsPerPage = versesAudioUrls[`${currentPageNumber}`];
 
+    console.log("Verses audios received from the moshaf page",versesAudioUrlsPerPage);
     // get the audio for the specific verse you want in the page
     for (let i=0; i<versesAudioUrlsPerPage.length; i++){
       if(versesAudioUrlsPerPage[i]['verseKey'] === verseKey){
