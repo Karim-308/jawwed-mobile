@@ -1,13 +1,27 @@
 import React from 'react';
 import { View, FlatList, Text, StyleSheet, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { setPageNumber } from '../../../redux/actions/pageActions';
+import { useNavigation } from '@react-navigation/native';
 
 const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
+
+  // Navigate to a the page with the bookmarked verse
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const goToVerse = (pageNumber) => {
+    dispatch(setPageNumber(pageNumber));
+    navigation.navigate('MoshafPage')
+  }
+  
   const renderBookmark = ({ item }) => (
     <View style={styles.bookmarkCard}>
-      <Text style={[styles.basmala, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>
-      بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
-      </Text>
-      <Text style={[styles.verse, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>{item.verse}</Text>
+      <TouchableOpacity onPress={() => goToVerse(item.page)}>
+        <Text style={[styles.basmala, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>
+        بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
+        </Text>
+        <Text style={[styles.verse, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>{item.verse}</Text>
+      </TouchableOpacity>
       <View style={styles.footer}>
         <Text style={styles.pageNumber}>Page: {item.page} </Text>
         <TouchableOpacity
