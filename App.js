@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
 import * as Font from 'expo-font';
+import { PRIMARY_GOLD } from './src/constants/colors';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,6 +11,7 @@ import HomeScreen from './src/screens/home/HomeScreen';
 import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
 import MoshafScreen from './src/screens/moshaf/MoshafScreen';
 import BookmarkScreen from './src/screens/bookmark/BookmarkScreen';
+import MoshafHeader from './src/screens/moshaf/components/MoshafHeader'
 
 const Stack = createStackNavigator();
 
@@ -52,17 +54,39 @@ export default function App() {
             headerBackTitleVisible: false, // Removes back text for iOS
           }}
         >
-          <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+          <Stack.Screen name="Home" component={HomeScreen} 
+            options={{ 
+              title: 'الصفحة الرئيسية',
+              headerTitleStyle: {
+                fontFamily: 'UthmanicHafs',
+                fontSize: 30
+              },
+              headerTitleAlign: 'center' 
+            }}
+          />
           <Stack.Screen
             name="IndexPage"
             component={MoshafIndexScreen}
-            options={{ title: 'Index Page' }}
+            options={{ 
+              title: 'الفهرس',
+              headerTitleStyle: {
+                fontFamily: 'UthmanicHafs',
+                fontSize: 30
+              },
+              headerTitleAlign: 'center'
+             }}
           />
           <Stack.Screen
             name="MoshafPage"
             component={MoshafScreen}
             options={{
-              title: 'Moshaf Page',
+              title: <MoshafHeader />,
+              headerTintColor: `${PRIMARY_GOLD}`,
+              headerTitleStyle: {
+                fontFamily: 'UthmanicHafs',
+                fontSize: 30
+              },
+              headerTitleAlign: 'center',
               headerStyle: {
                 backgroundColor: '#000',
               },
@@ -72,7 +96,12 @@ export default function App() {
             name="BookmarkPage"
             component={BookmarkScreen}
             options={{
-              headerShown: false, // Ensures the default header is hidden
+              title: 'الإشارات المرجعية',
+              headerTitleStyle: {
+                fontFamily: 'UthmanicHafs',
+                fontSize: 30
+              },
+              headerTitleAlign: 'center',
             }}
           />
         </Stack.Navigator>
