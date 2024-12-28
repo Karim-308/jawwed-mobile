@@ -2,13 +2,13 @@
 ---
 ---
 
-When you call any of these functions, they automatically handle the change of the `isPlaying` state, so no need to worry about it.
+When you call any of these functions, they automatically handle the change of the `isPlaying` and `isPaused` states, so don't change them, but you can read their values when needed.
 
 ## 1- Play Audio
 
 You can play the verse audio in the following ways.
 
-### 1.1- Play Audio for a Single Verse
+### 1.1- Play The Audio for a Single Verse
 
 ```js
 playAudioForOneVerse(reciterName, pageNumber, verseKey)
@@ -17,7 +17,16 @@ playAudioForOneVerse(reciterName, pageNumber, verseKey)
 playAudioForOneVerse('Alafasy', 1, '1:5')
 ```
 
-### 1.2- Play Audio from a Starting Verse to the end of The Mushaf
+### 1.2- Play The Audio from the start of a page to the end of The Mushaf
+
+```js
+playAudioForMultipleVerses = (reciterName, pageNumber)
+
+// for example
+playAudioForOneVerse('Alafasy', 1)
+```
+
+### 1.3- Play The Audio from a Starting Verse to the end of The Mushaf
 
 ```js
 playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey)
@@ -26,7 +35,7 @@ playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey)
 playAudioForOneVerse('Alafasy', 2, '2:4')
 ```
 
-### 1.3- Play Audio for a range of Verses
+### 1.4- Play The Audio for a range of Verses (from one verse to another one)
 
 ```js
 playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey, toVerseKey)
