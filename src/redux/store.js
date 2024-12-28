@@ -7,6 +7,7 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         immutableCheck: false, // Disable the immutable state invariant middleware
+        serializableCheck: false, // Disable the serializable state invariant middleware
       }),
   // Middleware is included by default (including thunk)
   // Redux DevTools are enabled by default in development
