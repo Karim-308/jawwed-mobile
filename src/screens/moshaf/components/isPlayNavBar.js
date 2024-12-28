@@ -226,23 +226,28 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     borderRadius: 10,
     padding: 20,
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: PRIMARY_GOLD,
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
+    color: PRIMARY_GOLD,
   },
   modalItem: {
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
+    color: PRIMARY_GOLD,
   },
   modalItemText: {
     fontSize: 16,
+    color: PRIMARY_GOLD,
   },
 });
 
