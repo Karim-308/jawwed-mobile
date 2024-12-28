@@ -377,7 +377,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'black',
     writingDirection: 'rtl',
-    direction: 'rtl',
     padding: 10,
     flex: 1,
   },
