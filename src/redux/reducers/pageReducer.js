@@ -53,6 +53,7 @@ const pageReducer = (state = initialState, action) => {
                 [action.payload.pageNumber]: parsedData.linesData,  // Store parsed lines
               },
               versesAudio: {
+                ...state.versesAudio,
                 [action.payload.pageNumber]: parsedData.versesAudio,  // Store audio by page
               },
             };
