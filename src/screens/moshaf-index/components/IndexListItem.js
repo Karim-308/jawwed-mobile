@@ -2,12 +2,23 @@ import React from 'react';
 import { StyleSheet , View , Text, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { PRIMARY_GOLD } from '../../../constants/colors';
+import { useDispatch } from 'react-redux';
+import { setPageNumber } from '../../../redux/actions/pageActions';
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function IndexListItem({item}) {
 
     // To Do later
     const goTo = () => {
+    }
+
+    // Navigate to a specific mushaf page
+    const dispatch = useDispatch();
+    const navigation = useNavigation();
+    const goToMushafPage = (pageNumber) => {
+      dispatch(setPageNumber(pageNumber));
+      navigation.navigate('MoshafPage')
     }
 
     return (
@@ -20,7 +31,7 @@ export default function IndexListItem({item}) {
                 <Ionicons name='play-outline' size={24} color={PRIMARY_GOLD} />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.indexListItemTitle} onPress={() => goTo}>
+          <TouchableOpacity style={styles.indexListItemTitle} onPress={() => goToMushafPage(item.pageNumber)}>
                 <Text style={styles.indexListItemName}>{item.name}</Text>
                 <Text style={styles.indexListItemNumber}>{item.number}</Text>
           </TouchableOpacity>

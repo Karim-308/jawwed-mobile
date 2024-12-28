@@ -3,23 +3,21 @@ import { StyleSheet , View , TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import SeacrhBar from './SearchBar';
 import { PRIMARY_GOLD } from '../../../constants/colors';
+import { useNavigation } from '@react-navigation/native';
 
 export default function IndexNavBar() {
   
-    // To Do later
-    const goBack = () => {
-    }
-    const openSettings = () => {
+    // go to bookmark page
+    const navigation = useNavigation();
+    const goToBookmarkPage = () => {
+      navigation.navigate('BookmarkPage')
     }
 
     return (
         <View style={styles.indexNavBar}>
-            <TouchableOpacity onPress={goBack}>
-                <Ionicons name='arrow-back-outline' size={24} color={PRIMARY_GOLD} />
-            </TouchableOpacity>
             <SeacrhBar />
-            <TouchableOpacity onPress={openSettings}>
-                <Ionicons name='settings-outline' size={24} color={PRIMARY_GOLD} />
+            <TouchableOpacity onPress={() => goToBookmarkPage()}>
+                <Ionicons name='bookmark' size={24} color={PRIMARY_GOLD} />
             </TouchableOpacity>
         </View>
     );

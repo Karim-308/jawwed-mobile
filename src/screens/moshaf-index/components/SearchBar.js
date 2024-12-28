@@ -5,28 +5,34 @@ import { PRIMARY_GOLD } from '../../../constants/colors';
 
 export default function SeacrhBar() {
 
-    // To Do later
     const [searchInput, setSearchInput] = useState('');
-    const searchHandler = () => {
-    }
     const clearSearchInput = () => {
+        setSearchInput('');
+    }
+
+    // to do later
+    const searchHandler = (newSearchInput) => {
     }
 
     return (
         <View style={styles.searchBar}>
-            <TouchableOpacity onPress={clearSearchInput}>
-              <Ionicons name='close-outline' size={18} color='#fff' />
-            </TouchableOpacity>
+            {(searchInput)? (
+                <TouchableOpacity onPress={() => clearSearchInput()}>
+                    <Ionicons name='close-outline' size={18} color='#fff' />
+                </TouchableOpacity>
+            ): <View></View>
+            }
             <TextInput
                 color='#fff'
-                placeholder='ابحث هنـــا'
+                placeholder='انقر هنـــا للبحث'
                 placeholderTextColor='#fff'
                 width='80%'
                 writingDirection='rtl'
                 textAlign='center'
+                value={searchInput}
                 onChangeText={(newSearchInput) => setSearchInput(newSearchInput)}
             />
-            <TouchableOpacity onPress={searchHandler}>
+            <TouchableOpacity onPress={() => searchHandler(searchInput)}>
                 <Ionicons name='search-outline' size={18} color='#fff' />
             </TouchableOpacity>
         </View>
@@ -45,6 +51,6 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 1.5,
         borderColor: `${PRIMARY_GOLD}`,
-        borderRadius: 5,
+        borderRadius: 10,
     }
 });
