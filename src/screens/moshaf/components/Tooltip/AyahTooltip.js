@@ -1,8 +1,28 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import getBookmarks from '../../../../api/bookmark/GetBookmark';
+import deleteBookmark from '../../../../api/bookmark/DeleteBookmark';
+import { useState, useEffect } from 'react';
 
 const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) => {
+  const [bookmarks, setBookmarks] = useState([]);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      try {
+        const fetchedBookmarks = await getBookmarks();
+        setBookmarks(fetchedBookmarks);
+        setIsBookmarked(fetchedBookmarks.some(bookmark => bookmark.verseKey === ayahKey));
+      } catch (error) {
+        console.error('Error fetching bookmarks:', error);
+      }
+    };
+
+    fetchBookmarks();
+  }, [ayahKey]);
+
   return (
     console.log("AyahTooltip"),
     <View style={[styles.tooltipContainer, style]}>
@@ -19,8 +39,15 @@ const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) 
         </TouchableOpacity>
 
         {/* Bookmark Button */}
-        <TouchableOpacity onPress={() => onBookmark(ayahKey)} style={styles.icon}>
-          <Ionicons name="bookmark-outline" size={22} color="#EFB975" />
+        <TouchableOpacity onPress={() => {
+          if (isBookmarked) {
+            deleteBookmark(2, ayahKey);
+          } else {
+            onBookmark(ayahKey);
+          }
+          setIsBookmarked(!isBookmarked);
+        }} style={styles.icon}>
+          <Ionicons name={isBookmarked ? "bookmark" : "bookmark-outline"} size={22} color="#EFB975" />
         </TouchableOpacity>
       </View>
     </View>
@@ -29,6 +56,7 @@ const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) 
 
 const styles = StyleSheet.create({
   tooltipContainer: {
+    zIndex: 100,
     position: 'absolute',
     // Position above the Ayah
     width: "40%",

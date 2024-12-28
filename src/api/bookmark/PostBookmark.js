@@ -18,9 +18,9 @@ const postBookmark = async (bookmarkData) => {
     console.log('Bookmark successfully posted:', response.data);
     // Display success message
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Bookmark saved', ToastAndroid.SHORT);
+      ToastAndroid.show('Bookmark Saved', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Success', 'Bookmark saved');
+      Alert.alert('Success', 'Bookmark Saved');
     }
 
     return response.data;
