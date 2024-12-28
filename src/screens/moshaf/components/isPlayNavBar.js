@@ -101,7 +101,7 @@ const IsPlay = () => {
         <TouchableOpacity style={styles.icon} onPress={handleRestartAudio}>
           <Ionicons name="repeat-outline" size={24} color={PRIMARY_GOLD} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.icon} onPress={() => dispatch(hideNav())}>
+        <TouchableOpacity style={styles.icon} onPress={() => stopAudio()}>
           <MaterialIcons name="close" size={24} color={PRIMARY_GOLD} />
         </TouchableOpacity>
 

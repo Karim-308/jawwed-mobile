@@ -61,9 +61,9 @@ const BottomNavigationBar = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.icon}
-            onPress={() => dispatch(togglePlay())}
+            onPress={() => {dispatch(togglePlay()); pauseAudio();}}
           >
-            <MaterialIcons name="equalizer" size={24} color={PRIMARY_GOLD} />
+            <MaterialIcons name="multitrack-audio" size={24} color={PRIMARY_GOLD} />
           </TouchableOpacity>
 
           <View style={styles.playButton}>
