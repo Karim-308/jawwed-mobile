@@ -20,28 +20,28 @@ playAudioForOneVerse('Alafasy', 1, '1:5')
 ### 1.2- Play The Audio from the start of a page to the end of The Mushaf
 
 ```js
-playAudioForMultipleVerses = (reciterName, pageNumber)
+playAudioForMultipleVerses(reciterName, pageNumber)
 
 // for example
-playAudioForOneVerse('Alafasy', 1)
+playAudioForMultipleVerses('Alafasy', 1)
 ```
 
 ### 1.3- Play The Audio from a Starting Verse to the end of The Mushaf
 
 ```js
-playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey)
+playAudioForMultipleVerses(reciterName, pageNumber, startVerseKey)
 
 // for example
-playAudioForOneVerse('Alafasy', 2, '2:4')
+playAudioForMultipleVerses('Alafasy', 2, '2:4')
 ```
 
 ### 1.4- Play The Audio for a range of Verses (from one verse to another one)
 
 ```js
-playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey, toVerseKey)
+playAudioForMultipleVerses(reciterName, pageNumber, startVerseKey, toVerseKey)
 
 // for example
-playAudioForOneVerse('Alafasy', 2, '2:4', '2:50')
+playAudioForMultipleVerses('Alafasy', 2, '2:4', '2:50')
 ```
 
 **Note**: the `pageNumber` is the page of the `startVerseKey`.
