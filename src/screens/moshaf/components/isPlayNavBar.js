@@ -60,7 +60,7 @@ const IsPlay = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Select a Reciter</Text>
+            <Text style={styles.modalTitle}>اختر القارئ</Text>
             <FlatList
               data={reciters}
               keyExtractor={(item) => item}
