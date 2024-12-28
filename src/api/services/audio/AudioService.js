@@ -52,7 +52,7 @@ let reachedEndOfPage = false;
 
 
 // playing audio for multiple verses (two or more)
-export const playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey, toVerseKey=null) => {
+export const playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey=null, toVerseKey=null) => {
 
   // playing a range of verses
   if(toVerseKey !== null){
@@ -169,8 +169,8 @@ const resetResources = () => {
 const getVerseAudioURL = async(reciterName, verseKey) => {
 
   // if we reached the end of the page you need to go to next page and load the new audio urls
-  if(reachedEndOfPage === true){
-    const verseAudioUrl = await getFirstVerseAudioURLInNextPage(reciterName, currentPageNumber);
+  if(reachedEndOfPage === true || verseKey === null){
+    const verseAudioUrl = await getFirstVerseAudioURLInPage(reciterName, currentPageNumber);
     return verseAudioUrl;
   }
   else {
@@ -203,38 +203,40 @@ const getVerseAudioURL = async(reciterName, verseKey) => {
 }
 
 // go to the next page when needed
-const getFirstVerseAudioURLInNextPage = (reciterName) => {
-  // the last page we can go to is 604
-  if(currentPageNumber < 604){
+const getFirstVerseAudioURLInPage = (reciterName) => {
+
+  // go to the next page
+  if(reachedEndOfPage === true){
     // go to the next page
     currentPageNumber++;
     changePageNumber(currentPageNumber);
     reachedEndOfPage = false;
-    
-    return new Promise((resolve) => {
-      // wait until the new audio urls have loaded from the API
-      const intervalId = setInterval(()=> {
-        // when the loading is done
-        if(IsLoading() === false) {
-          clearInterval(intervalId);
-          // get the all the audio urls for the current page
-          const versesAudioUrls = store.getState().page.versesAudio;
-          const versesAudioUrlsPerPage = versesAudioUrls[`${currentPageNumber}`];
+  }
 
-          // prepare the next verse key in the next play audio iteration (if needed)
-          nextVerseKey = versesAudioUrlsPerPage[1]['verseKey'];
+  // get the audio url for the first verse in the current page
+  return new Promise((resolve) => {
+    // wait until the new audio urls have loaded from the API
+    const intervalId = setInterval(()=> {
+      // when the loading is done
+      if(IsLoading() === false) {
+        clearInterval(intervalId);
+        // get the all the audio urls for the current page
+        const versesAudioUrls = store.getState().page.versesAudio;
+        const versesAudioUrlsPerPage = versesAudioUrls[`${currentPageNumber}`];
 
-          // get the audio for the specific reciter that was chosen
-          const versesAudioUrlsPerVerse = versesAudioUrlsPerPage[0]['audio'];
-          for(let j=0; j<versesAudioUrlsPerVerse.length; j++){
-            if(versesAudioUrlsPerVerse[j].match(`${reciterName}`)){
-              resolve(versesAudioUrlsPerVerse[j]);
-            }
+        // prepare the next verse key in the next play audio iteration (if needed)
+        nextVerseKey = versesAudioUrlsPerPage[1]['verseKey'];
+
+        // get the audio for the specific reciter that was chosen
+        const versesAudioUrlsPerVerse = versesAudioUrlsPerPage[0]['audio'];
+        for(let j=0; j<versesAudioUrlsPerVerse.length; j++){
+          if(versesAudioUrlsPerVerse[j].match(`${reciterName}`)){
+            resolve(versesAudioUrlsPerVerse[j]);
           }
         }
-      }, 200);
-    });
-  }
+      }
+    }, 200);
+  });
 }
 
 // Loading the verse audio from the remote API
