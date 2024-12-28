@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { ToastAndroid, Alert, Platform } from 'react-native';
 const postBookmark = async (bookmarkData) => {
   const url = 'http://jawwed-api.runasp.net/api/Bookmark';
 
@@ -16,6 +16,13 @@ const postBookmark = async (bookmarkData) => {
 
     // Handle success
     console.log('Bookmark successfully posted:', response.data);
+    // Display success message
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Bookmark saved successfully', ToastAndroid.SHORT);
+    } else {
+      Alert.alert('Success', 'Bookmark saved successfully');
+    }
+
     return response.data;
   } catch (error) {
     // Handle errors
@@ -29,6 +36,15 @@ const postBookmark = async (bookmarkData) => {
       // Something else happened while setting up the request
       console.error('Error message:', error.message);
     }
+
+     // Show error feedback to the user
+     // I did "Bookmark already saved" but it can be anything this is just for demo
+     if (Platform.OS === 'android') {
+      ToastAndroid.show('Bookmark already saved', ToastAndroid.SHORT);
+    } else {
+      Alert.alert('Error', 'Bookmark already saved');
+    }
+
     throw error; // Re-throw the error for further handling
   }
 };
