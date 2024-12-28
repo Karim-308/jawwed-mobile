@@ -11,7 +11,7 @@ const IsPlay = () => {
   const [modalVisible, setModalVisible] = useState(false); // Modal visibility state
   const [selectedReciter, setSelectedReciter] = useState('Alafasy'); // Selected reciter
 
-  const reciters = ['Sudais', 'Shatri', 'Rifai', 'Minshawi', 'Alafasy', 'AbdulBaset'];
+  const reciters = ['Sudais', 'Shatri', 'Rifai', 'Minshawi', 'Alafasy', 'AbdulBaset', 'Shuraym'];
 
   const isPlaying = useSelector((state) => state.audio.isPlaying);
   const isPaused = useSelector((state) => state.audio.isPaused);
