@@ -40,9 +40,9 @@ const postBookmark = async (bookmarkData) => {
      // Show error feedback to the user
      // I did "Bookmark already saved" but it can be anything this is just for demo
      if (Platform.OS === 'android') {
-      ToastAndroid.show('Bookmark is already saved', ToastAndroid.SHORT);
+      ToastAndroid.show('Failed to save bookmark', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Error', 'Bookmark is already saved');
+      Alert.alert('Error', 'Failed to save bookmark');
     }
 
     throw error; // Re-throw the error for further handling
