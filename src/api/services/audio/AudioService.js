@@ -1,16 +1,24 @@
 import { Audio } from 'expo-av';
 import store from '../../../redux/store';
-import { togglePlay } from '../../../redux/reducers/audioReducer';
+import { togglePlay, togglePause } from '../../../redux/reducers/audioReducer';
 import { setPageNumber } from '../../../redux/actions/pageActions';
 
 
 
-const IsPlaying = () => {
+const getIsPlaying = () => {
   return store.getState().audio.isPlaying;
 }
 
 const toggleIsPlaying = () => {
   store.dispatch(togglePlay());
+}
+
+const getIsPaused = () => {
+  return store.getState().audio.isPaused;
+}
+
+const toggleIsPaused = () => {
+  store.dispatch(togglePause());
 }
 
 const IsLoading = () => {
@@ -68,7 +76,7 @@ export const playAudioForOneVerse = async(reciterName, pageNumber, verseKey) => 
   if(currentPageNumber === null)
     currentPageNumber = pageNumber;
 
-  const isPlaying = IsPlaying();
+  const isPlaying = getIsPlaying();
 
   if (isPlaying === false){
 
@@ -87,6 +95,9 @@ export const playAudioForOneVerse = async(reciterName, pageNumber, verseKey) => 
       if(status.didJustFinish) {
 
         toggleIsPlaying(); // isPlaying = false
+        const isPaused = getIsPaused();
+        if (isPaused === true)
+          toggleIsPaused();
 
         // continue to play the rest of the verses until the end of the mushaf
         if(isPlayingAllVerses){
@@ -113,9 +124,10 @@ export const playAudioForOneVerse = async(reciterName, pageNumber, verseKey) => 
 
 // Pause the verse audio at a certain position
 export const pauseAudio = async() => {
-  const isPlaying = IsPlaying();
-  if (isPlaying === true) {
-    toggleIsPlaying();
+  const isPlaying = getIsPlaying();
+  const isPaused = getIsPaused();
+  if (isPlaying === true && isPaused === false) {
+    toggleIsPaused();
     position = verseAudio.getStatusAsync().positionMillis;
     verseAudio.pauseAsync();
   }
@@ -123,18 +135,22 @@ export const pauseAudio = async() => {
 
 // Resume the verse audio from the paused at position
 export const resumeAudio = async() => {
-  const isPlaying = IsPlaying();
-  if (isPlaying === false) {
-    toggleIsPlaying();
+  const isPlaying = getIsPlaying();
+  const isPaused = getIsPaused();
+  if (isPlaying === true && isPaused === true) {
+    toggleIsPaused();
     verseAudio.playFromPositionAsync(position);
   }
 }
 
 // Stop the verse audio
 export const stopAudio = async() => {
-  const isPlaying = IsPlaying();
+  const isPlaying = getIsPlaying();
+  const isPasued = getIsPaused();
   if (isPlaying === true) {
     toggleIsPlaying();
+    if (isPasued === true)
+      toggleIsPaused();
     verseAudio.stopAsync();
     resetResources();
   }
@@ -162,7 +178,6 @@ const getVerseAudioURL = async(reciterName, verseKey) => {
     const versesAudioUrls = store.getState().page.versesAudio;
     const versesAudioUrlsPerPage = versesAudioUrls[`${currentPageNumber}`];
 
-    console.log("Verses audios received from the moshaf page",versesAudioUrlsPerPage);
     // get the audio for the specific verse you want in the page
     for (let i=0; i<versesAudioUrlsPerPage.length; i++){
       if(versesAudioUrlsPerPage[i]['verseKey'] === verseKey){
