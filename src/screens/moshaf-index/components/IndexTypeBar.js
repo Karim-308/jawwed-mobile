@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet , Text , View , TouchableOpacity , Animated } from 'react-native';
 import { useSelector , useDispatch } from 'react-redux';
-import { activateChapterIndexType , activateJuzIndexType } from '../../../redux/reducers';
+import { activateChapterIndexType , activateJuzIndexType } from '../../../redux/reducers/indexTypeReducer';
 import { PRIMARY_GOLD , DARK_GREY} from '../../../constants/colors';
 
 export default function IndexTypeBar() {
 
-    const indexType = useSelector((state) => state.mushafIndexType);
+    const indexType = useSelector((state) => state.indexType.mushafIndexType);
     const dispatch = useDispatch();
     const activateChapterIndex = () => {
       dispatch(activateChapterIndexType());

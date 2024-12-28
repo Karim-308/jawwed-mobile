@@ -2,22 +2,11 @@ import React from 'react';
 import { StyleSheet , View , FlatList } from 'react-native';
 import IndexListItem from './IndexListItem';
 import { useSelector } from 'react-redux';
-
-// Just a sample for preview
-const indexTypesItems = {
-  Chapter: [
-    {number: '١', name: 'سُــــوْرَۃُ الفَاتِحَة'},
-    {number: '٢', name: 'سُــــوْرَۃُ البـقرة'}
-  ],
-  Juz: [
-    {number: '١', name: 'الجزء الأول'},
-    {number: '٢', name: 'الجزء الثاني'}
-  ]
-};
+import { indexTypesItems } from './IndexData'
 
 export default function IndexList() {
 
-    const indexType = useSelector((state) => state.mushafIndexType);
+    const indexType = useSelector((state) => state.indexType.mushafIndexType);
   
     return (
         <View style={styles.indexList}>
