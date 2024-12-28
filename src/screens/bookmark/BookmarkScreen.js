@@ -45,7 +45,7 @@ const BookmarkScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header />
+      {/*<Header />*/}
       <Body
         bookmarks={bookmarks}
         loading={loading}

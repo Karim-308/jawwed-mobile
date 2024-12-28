@@ -11,7 +11,7 @@ const MoshafScreen = () => {
     <Provider store={store}>
       <SafeAreaView style={styles.container}>
         {/* Header */}
-        <Header />
+        {/*<Header />*/}
 
         {/* Quran Text */}
         <View style={styles.content}>
