@@ -60,14 +60,15 @@ const HomeScreen = () => {
           {nextPrayer ? `${nextPrayer} - ${timeLeft}` : 'No upcoming prayer'}
         </Text>
         <View style={styles.searchContainer}>
-          <MaterialIcons name="search" size={24} color="#EFB975" />
+          <MaterialIcons name="language" size={24} color="#EFB975" />
+          <MaterialIcons name="notifications" size={24} color="#EFB975" />
           <TextInput
-            placeholder="Search here..."
+            placeholder='انقر هنـــا للبحث'
+            writingDirection='rtl'
             placeholderTextColor="#666"
             style={styles.searchInput}
           />
-          <MaterialIcons name="language" size={24} color="#EFB975" />
-          <MaterialIcons name="notifications" size={24} color="#EFB975" />
+          <MaterialIcons name="search" size={24} color="#EFB975" />
         </View>
       </View>
 
@@ -81,7 +82,7 @@ const HomeScreen = () => {
             onPress={() => navigation.navigate('IndexPage')}
           >
             <MaterialIcons name="menu-book" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>Index </Text>
+            <Text style={styles.featureText}>الفهرس</Text>
           </TouchableOpacity>
 
           {/* Feature 2: Moshaf Page */}
@@ -90,7 +91,7 @@ const HomeScreen = () => {
             onPress={() => navigation.navigate('MoshafPage')}
           >
             <MaterialIcons name="import-contacts" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>Moshaf</Text>
+            <Text style={styles.featureText}>المصحف</Text>
           </TouchableOpacity>
 
           {/* Feature 3: Bookmark Page */}
@@ -99,7 +100,7 @@ const HomeScreen = () => {
             onPress={() => navigation.navigate('BookmarkPage')}
           >
             <Ionicons name="bookmarks-outline" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>Bookmarks </Text>
+            <Text style={styles.featureText}>الإشارات المرجعية</Text>
           </TouchableOpacity>
         </View>
       </View>
