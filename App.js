@@ -11,7 +11,7 @@ import HomeScreen from './src/screens/home/HomeScreen';
 import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
 import MoshafScreen from './src/screens/moshaf/MoshafScreen';
 import BookmarkScreen from './src/screens/bookmark/BookmarkScreen';
-import MoshafHeader from './src/screens/moshaf/components/MoshafHeader'
+import Header from './src/screens/moshaf/components/MoshafHeader'
 
 const Stack = createStackNavigator();
 
@@ -76,23 +76,7 @@ export default function App() {
               headerTitleAlign: 'center'
              }}
           />
-          <Stack.Screen
-            name="MoshafPage"
-            component={MoshafScreen}
-            options={{
-              title: <MoshafHeader />,
-              headerTintColor: `${PRIMARY_GOLD}`,
-              headerTitleStyle: {
-                fontFamily: 'UthmanicHafs',
-                fontSize: 30
-              },
-              headerTitleAlign: 'center',
-              headerStyle: {
-                backgroundColor: '#000',
-              },
-            }}
-          />
-          <Stack.Screen
+                    <Stack.Screen
             name="BookmarkPage"
             component={BookmarkScreen}
             options={{
@@ -102,6 +86,23 @@ export default function App() {
                 fontSize: 30
               },
               headerTitleAlign: 'center',
+            }}
+          />
+
+          <Stack.Screen
+            name="MoshafPage"
+            component={MoshafScreen}
+            options={{
+              headerTitle: () => <Header />,
+              headerTintColor: `${PRIMARY_GOLD}`,
+              headerTitleStyle: {
+                fontFamily: 'UthmanicHafs',
+                fontSize: 30
+              },
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#000',
+              },
             }}
           />
         </Stack.Navigator>
