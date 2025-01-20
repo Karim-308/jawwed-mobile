@@ -98,8 +98,8 @@ const BottomNavigationBar = () => {
         </TouchableOpacity>
       </View>
     ) : (
-      // Hidden state of the navigation bar
 
+      // Hidden state of the navigation bar
       <View style={styles.hiddenContainer}>
         <View style={styles.pageNumberContainer}>
           <View style={styles.centerShape}>
@@ -128,13 +128,13 @@ const styles = StyleSheet.create({
   hiddenContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
     height: 60,
-    backgroundColor: '#000',
+    backgroundColor: 'black',
     paddingHorizontal: 20,
+    width: '100%',
   },
   pageNumberContainer: {
-    marginLeft: 175,
+    marginLeft: "47%",
   },
   goldLineBlock: {
     position: 'absolute',
@@ -203,6 +203,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 1,
     textAlign: 'center',
+  },
+  upArrow: {
+    padding: 5,
   },
   
 });

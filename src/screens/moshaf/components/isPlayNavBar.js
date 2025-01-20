@@ -52,34 +52,45 @@ const IsPlay = () => {
 
   return (
     <View style={styles.container}>
-      <Modal
-        visible={modalVisible}
-        transparent
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+<Modal
+  visible={modalVisible}
+  transparent
+  animationType="slide"
+  onRequestClose={() => setModalVisible(false)}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.modalContainer}>
+      {/* Close Button */}
+      <TouchableOpacity 
+        style={styles.closeButton} 
+        onPress={() => setModalVisible(false)}
       >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>اختر القارئ</Text>
-            <FlatList
-              data={reciters}
-              keyExtractor={(item) => item}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.modalItem}
-                  onPress={() => handleReciterSelect(item)}
-                >
-                  <Text style={styles.modalItemText}>{item}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-        </View>
-      </Modal>
+        <Ionicons name="close-circle-outline" size={30} color={PRIMARY_GOLD} />
+      </TouchableOpacity>
 
-      <View style={styles.goldLineBlock}>
-        <View style={styles.goldLine} />
-      </View>
+      <Text style={styles.modalTitle}>اختر القارئ</Text>
+
+      <FlatList
+        data={reciters}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.modalItem}
+            onPress={() => handleReciterSelect(item)}
+          >
+            <Text style={styles.modalItemText}>{item}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  </View>
+</Modal>
+
+        {/* Gold Line Block */}
+        <View style={styles.goldLineBlock}>
+          <View style={styles.goldLine} />
+        </View>
+        <View style={styles.goldLineBackground}></View>
 
       <View style={styles.leftGroup}>
         <TouchableOpacity
@@ -132,6 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GREY,
     paddingLeft: 10,
     paddingVertical: 5,
+    minWidth: '100%',
   },
   goldLineBlock: {
     position: 'absolute',
@@ -249,6 +261,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: PRIMARY_GOLD,
   },
+  closeButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  
 });
 
 export default IsPlay;
