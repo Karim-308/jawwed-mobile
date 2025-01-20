@@ -19,7 +19,7 @@ export const fetchPageRequest = () => ({
 // This action creator is used to dispatch the page data when fetching page data is successful
 export const fetchPageSuccess = (pageNumber, data) => {
   console.log('FETCH_PAGE_SUCCESS triggered for page:', pageNumber);
-  console.log('Data:', data);  // Log the raw data (array of lines)
+  //console.log('Data:', data);  // Log the raw data (array of lines)
   
   return {
     type: 'FETCH_PAGE_SUCCESS',
@@ -51,7 +51,7 @@ export const fetchPageData = (pageNumber) => async (dispatch) => {
   dispatch(fetchPageRequest());
   try {
     const data = await fetchPage(pageNumber);
-    console.log('Page Data for Page:', pageNumber);
+    //console.log('Page Data for Page:', pageNumber);
     dispatch(fetchPageSuccess(pageNumber, data));
   } catch (error) {
     dispatch(fetchPageFailure(error.message || 'Something went wrong.'));
