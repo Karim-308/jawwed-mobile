@@ -24,6 +24,8 @@ const BottomNavigationBar = () => {
   const isPaused = useSelector((state) => state.audio.isPaused); // From audio reducer
   const isVisible = useSelector((state) => state.navigation.isVisible); // From navigation reducer
   const pageNumber = useSelector((state) => state.page.pageNumber); // From page reducer
+  const selectedReciter = useSelector((state) => state.audio.reciter);  // Get reciter from Redux
+  
   const navigation = useNavigation();
 
 
@@ -77,7 +79,7 @@ const BottomNavigationBar = () => {
           <View style={styles.playButton}>
             <TouchableOpacity
               onPress={() => {
-                playAudioForMultipleVerses('Alafasy', pageNumber);
+                playAudioForMultipleVerses(selectedReciter, pageNumber);
               }}
             >
               <Ionicons name={isPlaying ? "pause-outline" : "play-outline"} size={40} color={PRIMARY_GOLD} />
