@@ -6,6 +6,7 @@ import { togglePlay} from '../../../redux/reducers/audioReducer';
 import { hideNav,showNav } from '../../../redux/reducers/navigationReducer';
 import IsPlay from './isPlayNavBar';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
+import { useNavigation } from '@react-navigation/native';
 import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
 
 
@@ -23,6 +24,8 @@ const BottomNavigationBar = () => {
   const isPaused = useSelector((state) => state.audio.isPaused); // From audio reducer
   const isVisible = useSelector((state) => state.navigation.isVisible); // From navigation reducer
   const pageNumber = useSelector((state) => state.page.pageNumber); // From page reducer
+  const navigation = useNavigation();
+
 
   const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
   // Hides the navigation bar
@@ -35,6 +38,11 @@ const BottomNavigationBar = () => {
     dispatch(showNav());
     console.log(isVisible);
   };
+
+  const goToBookmark = () => {
+    navigation.navigate('BookmarkPage');
+  }
+    
 
   return (
     <>
@@ -53,7 +61,7 @@ const BottomNavigationBar = () => {
           <TouchableOpacity style={styles.icon}>
             <Feather name="share-2" size={24} color={PRIMARY_GOLD} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icon}>
+          <TouchableOpacity style={styles.icon} onPress={goToBookmark}>
             <MaterialIcons name="bookmark-border" size={24} color={PRIMARY_GOLD} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>
