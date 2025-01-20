@@ -1,27 +1,48 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StatusBar,StyleSheet } from 'react-native';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useSelector } from 'react-redux';
+import { indexTypesItems } from "../../moshaf-index/components/IndexData";
 
 const Header = () => {
+  const pageNumber = useSelector((state) => state.page.pageNumber); // Get pageNumber from Redux
+  const [chapter, setChapter] = useState('');
+  const [juz, setJuz] = useState('');
+
+  useEffect(() => {
+    // Find the corresponding Surah based on the pageNumber
+    const foundChapter = indexTypesItems.Chapter.find(
+      (item, index, arr) => pageNumber >= item.pageNumber && (index === arr.length - 1 || pageNumber < arr[index + 1].pageNumber)
+    );
+
+    // Find the corresponding Juz based on the pageNumber
+    const foundJuz = indexTypesItems.Juz.find(
+      (item, index, arr) => pageNumber >= item.pageNumber && (index === arr.length - 1 || pageNumber < arr[index + 1].pageNumber)
+    );
+
+    setChapter(foundChapter ? foundChapter.name : 'Unknown Chapter');
+    setJuz(foundJuz ? foundJuz.number : 'Unknown Juz');
+  }, [pageNumber]);
+
   return (
     <View style={styles.container}>
-
       <View style={styles.titleContainer}>
-        <Text style={styles.surahName}>سورة البقرة</Text>
-        <Text style={styles.juzInfo}>الجزء1, ثلاثة أرباع الحزب</Text>
+        <Text style={styles.surahName}>{chapter}</Text>
+        <Text style={styles.juzInfo}>الجزء {juz}</Text>
       </View>
       <View style={styles.iconContainer}>
         <TouchableOpacity>
-            <Ionicons name="search-outline" size={24} color="#EFB975" />
+          <Ionicons name="search-outline" size={24} color="#EFB975" />
         </TouchableOpacity>
         <TouchableOpacity>
-            <Ionicons name="settings-outline" size={24} color="#EFB975" />
+          <Ionicons name="settings-outline" size={24} color="#EFB975" />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
+
+export default Header;
 
 const styles = StyleSheet.create({
   container: {
@@ -30,13 +51,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: '#000',
     minWidth: '100%',
-    
   },
   titleContainer: {
-    marginHorizontal: 10,
-    width: '70%',
+    marginLeft: 40,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#EFB975',
@@ -44,12 +63,15 @@ const styles = StyleSheet.create({
   },
   surahName: {
     color: '#EFB975',
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: 'bold',
+    marginRight: 20,
   },
   juzInfo: {
     color: '#EFB975',
-    fontSize: 12,
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginRight: 5,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -57,5 +79,3 @@ const styles = StyleSheet.create({
     width: 70,
   },
 });
-
-export default Header;

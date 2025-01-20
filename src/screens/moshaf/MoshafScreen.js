@@ -3,25 +3,16 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import Header from './components/MoshafHeader';
 import MoshafPage from './components/MoshafPage';
 import BottomNavigationBar from './components/BottomNav';
-import { Provider } from 'react-redux';
-import store from '../../redux/store';
+
 
 const MoshafScreen = () => {
   return (
-    <Provider store={store}>
       <SafeAreaView style={styles.container}>
-        {/* Header */}
-        {/*<Header />*/}
-
-        {/* Quran Text */}
         <View style={styles.content}>
           <MoshafPage />
         </View>
-
-        {/* Bottom Navigation */}
         <BottomNavigationBar />
       </SafeAreaView>
-    </Provider>
   );
 };
 

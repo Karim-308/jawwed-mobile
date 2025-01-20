@@ -10,6 +10,9 @@ import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,p
 import { SafeAreaView } from 'react-native-safe-area-context';
 import  AyahTooltip  from  './Tooltip/AyahTooltip'
 import  postBookmark  from '../../../api/bookmark/PostBookmark';
+import { useNavigation } from '@react-navigation/native';
+import throttle from 'lodash/throttle';
+
 
 // Helper function: Identify ayah boundaries based on Arabic digits.
 const findAyahBoundaries = (words) => {
@@ -23,8 +26,10 @@ const findAyahBoundaries = (words) => {
   return boundaries;
 };
 
-const MoshafPage = React.memo(() => {
+const MoshafPage = React.memo((route) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const { pageNumber: routePageNumber } = route.params || {};
   // pageNumber, loading, data, and error are extracted from the page state slice
   const { pageNumber, loading, data, error } = useSelector((state) => state.page);
   // linesData contains the parsed lines for the current page
@@ -38,17 +43,25 @@ const MoshafPage = React.memo(() => {
   const containerWidth = useMemo(() => width * 0.9, [width]);
   const [tooltipData, setTooltipData] = useState(null);
 
-
-  // Fetch page data when the component mounts or the page number changes
   useEffect(() => {
-    // Fetch page data from the API when the component mounts or the page number changes 
-    // The pageNumber is passed as a dependency to the useEffect hook
-    // This ensures that the effect runs whenever the pageNumber changes
-    // The data is parsed using the QuranPageParser utility function
-    // The parsed data is stored in the page state slice
-    dispatch(fetchPageData(pageNumber)); // Fetch page data from the API
-    console.log('Fetching data for page:', pageNumber);
-  }, [dispatch, pageNumber]);
+    if (routePageNumber) {
+      dispatch(setPageNumber(routePageNumber));
+    }
+    dispatch(fetchPageData(routePageNumber || pageNumber));
+  }, [dispatch, pageNumber, routePageNumber]);
+
+  const onSwipe = useCallback(
+    throttle((direction) => {
+      if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
+        setTooltipData(null);
+        dispatch(setPageNumber(pageNumber - 1));
+      } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) {
+        setTooltipData(null);
+        dispatch(setPageNumber(pageNumber + 1));
+      }
+    }, 500),
+    [dispatch, pageNumber]
+  );
 
   /** toggleAyahSelection Function
    * 
@@ -143,24 +156,6 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
 }, [toggleAyahSelection, linesData]);
 
 
-/** onSwipe Function
- * This function handles the swipe gestures to navigate between pages.
- * It updates the page number based on the swipe direction.
- * The function is called when a swipe gesture is detected on the screen.
- * The pageNumber state is updated to navigate to the previous or next page.
- * The setTooltipData function is called to hide the tooltip when swiping.
- * @param direction represents the swipe direction (left or right)
-*/
-  const onSwipe = useCallback((direction) => {
-    if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
-      setTooltipData(null); // Hide tooltip when swiping
-      dispatch(setPageNumber(pageNumber - 1));
-    } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) {
-      setTooltipData(null); // Hide tooltip when swiping
-      dispatch(setPageNumber(pageNumber + 1));
-    }
-  }, [dispatch, pageNumber]);
-
   /** handleShare Function
    * This function handles sharing the selected ayah text.
    * It uses the Share API to share the selected ayah text with other apps.
@@ -173,7 +168,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
    * @returns 
    */
   const handleShare = async (ayahText, key) => {
-    console.log(`Sharing: ${ayahText} (${key})`);
+    //console.log(`Sharing: ${ayahText} (${key})`);
     
     if (!ayahText) {
       console.log("No text selected to share.");
@@ -194,7 +189,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
   const handlePlay = (key) => {
     stopAudio();
     playAudioForOneVerse("Alafasy",pageNumber,key);
-    console.log(`Playing Ayah: ${key}`);
+    //console.log(`Playing Ayah: ${key}`);
     setTooltipData(null);
   };
   
@@ -210,7 +205,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     try {
       // Send the data to the API
       const response = await postBookmark(bookmarkData);
-      console.log('Bookmark successfully posted:', response);
+      //console.log('Bookmark successfully posted:', response);
     } catch (error) {
       console.error('Error posting bookmark:', error);
     }
@@ -269,8 +264,8 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
 
 
    // **Main Rendering Logic: Parse and Render Ayah Lines**
-    console.log('Parsed Lines for Page:', linesData);
-    console.log("Audio Data " , versesAudio);
+    //console.log('Parsed Lines for Page:', linesData);
+    //console.log("Audio Data " , versesAudio);
   
     return linesData.map((line, lineIndex) => {
       // Split the ayah text into words and identify ayah boundaries
