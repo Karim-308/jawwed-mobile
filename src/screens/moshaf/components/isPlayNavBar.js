@@ -5,17 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideNav, showNav } from '../../../redux/reducers/navigationReducer';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 import { pauseAudio, playAudioForMultipleVerses, stopAudio, resumeAudio } from '../../../api/services/audio/AudioService';
+import { setReciter } from '../../../redux/reducers/audioReducer';
+
+
 
 const IsPlay = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false); // Modal visibility state
-  const [selectedReciter, setSelectedReciter] = useState('Alafasy'); // Selected reciter
 
   const reciters = ['Sudais', 'Shatri', 'Rifai', 'Minshawi', 'Alafasy', 'AbdulBaset', 'Shuraym'];
 
   const isPlaying = useSelector((state) => state.audio.isPlaying);
   const isPaused = useSelector((state) => state.audio.isPaused);
   const pageNumber = useSelector((state) => state.page.pageNumber);
+  const selectedReciter = useSelector((state) => state.audio.reciter);  // Get reciter from Redux
 
   const lastPlayedPage = useRef(pageNumber);
 
@@ -37,7 +40,7 @@ const IsPlay = () => {
   };
 
   const handleReciterSelect = (reciter) => {
-    setSelectedReciter(reciter);
+    dispatch(setReciter(reciter)); // Dispatch action to update reciter in Redux
     stopAudio();
     playAudioForMultipleVerses(reciter, pageNumber);
     lastPlayedPage.current = pageNumber;
@@ -52,40 +55,40 @@ const IsPlay = () => {
 
   return (
     <View style={styles.container}>
-<Modal
-  visible={modalVisible}
-  transparent
-  animationType="slide"
-  onRequestClose={() => setModalVisible(false)}
->
-  <View style={styles.modalOverlay}>
-    <View style={styles.modalContainer}>
-      {/* Close Button */}
-      <TouchableOpacity 
-        style={styles.closeButton} 
-        onPress={() => setModalVisible(false)}
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
       >
-        <Ionicons name="close-circle-outline" size={30} color={PRIMARY_GOLD} />
-      </TouchableOpacity>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <TouchableOpacity 
+              style={styles.closeButton} 
+              onPress={() => setModalVisible(false)}
+            >
+              <Ionicons name="close-circle-outline" size={30} color={PRIMARY_GOLD} />
+            </TouchableOpacity>
 
-      <Text style={styles.modalTitle}>اختر القارئ</Text>
+            <Text style={styles.modalTitle}>اختر القارئ</Text>
 
-      <FlatList
-        data={reciters}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.modalItem}
-            onPress={() => handleReciterSelect(item)}
-          >
-            <Text style={styles.modalItemText}>{item}</Text>
-          </TouchableOpacity>
-        )}
-      />
-    </View>
-  </View>
-</Modal>
+            <FlatList
+              data={reciters}
+              keyExtractor={(item) => item}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.modalItem}
+                  onPress={() => handleReciterSelect(item)}
+                >
+                  <Text style={styles.modalItemText}>{item}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+        </View>
+      </Modal>
 
+      
         {/* Gold Line Block */}
         <View style={styles.goldLineBlock}>
           <View style={styles.goldLine} />
