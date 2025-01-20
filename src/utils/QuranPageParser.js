@@ -13,7 +13,7 @@ const QuranPageJsonParser = (pageData) => {
 
     // Extract Lines and Clean Text
     const extractLinesTextFromPage = (pageData) => {
-        console.log('Page Data:', pageData);
+        //console.log('Page Data:', pageData);
         return pageData.map(line => ({
             lineID: line.lineNumber,  // Use lineNumber as unique ID
             lineType: line.lineType,

@@ -11,7 +11,7 @@ const api = axios.create({
 export const fetchPage = async (pageNumber) => {
   try {
     const response = await api.get(`/${pageNumber}`);
-    console.log("API GOT DATA");
+    //console.log("API GOT DATA");
     return response.data;
   } catch (error) {
     throw error;

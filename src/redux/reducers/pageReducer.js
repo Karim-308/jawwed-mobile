@@ -31,8 +31,8 @@ const pageReducer = (state = initialState, action) => {
 
           case FETCH_PAGE_SUCCESS:
             console.log('FETCH_PAGE_SUCCESS received');
-            console.log('Page Number:', action.payload.pageNumber);
-            console.log('Data:', action.payload.data);
+            //console.log('Page Number:', action.payload.pageNumber);
+            //console.log('Data:', action.payload.data);
           
             if (!action.payload.pageNumber || !action.payload.data) {
               // If the page number or data is missing, return the current state
