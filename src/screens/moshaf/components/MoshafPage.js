@@ -293,7 +293,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
                   styles.surahNameText,
                   { fontSize: containerWidth * 0.054  , textAlign: 'center' },
                 ]}>
-                  { "سورة " +line.text}
+                  {"سُورَةُ " +line.text}
                 </Text>
               </View>
             </View>
