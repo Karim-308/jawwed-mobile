@@ -14,6 +14,15 @@ const IsPlay = () => {
   const [modalVisible, setModalVisible] = useState(false); // Modal visibility state
 
   const reciters = ['Sudais', 'Shatri', 'Rifai', 'Minshawi', 'Alafasy', 'AbdulBaset', 'Shuraym'];
+  const recitersArabicNames = {
+    'Sudais': 'السديس',
+    'Shatri': 'الشاطري',
+    'Rifai': 'الرفاعي',
+    'Minshawi': 'المنشاوي',
+    'Alafasy': 'العفاسي',
+    'AbdulBaset': 'عبدالباسط',
+    'Shuraym': 'الشريم'
+  }
 
   const isPlaying = useSelector((state) => state.audio.isPlaying);
   const isPaused = useSelector((state) => state.audio.isPaused);
@@ -80,7 +89,7 @@ const IsPlay = () => {
                   style={styles.modalItem}
                   onPress={() => handleReciterSelect(item)}
                 >
-                  <Text style={styles.modalItemText}>{item}</Text>
+                  <Text style={styles.modalItemText}>الشيخ/ {recitersArabicNames[item]}</Text>
                 </TouchableOpacity>
               )}
             />
@@ -101,7 +110,7 @@ const IsPlay = () => {
           onPress={() => setModalVisible(true)}
         >
           <MaterialIcons name="volume-up" size={18} color={PRIMARY_GOLD} />
-          <Text style={styles.speakerText}>{selectedReciter}</Text>
+          <Text style={styles.speakerText}>{recitersArabicNames[selectedReciter]}</Text>
         </TouchableOpacity>
       </View>
 

@@ -41,7 +41,18 @@ const BottomNavigationBar = () => {
     console.log(isVisible);
   };
 
-  const goToBookmark = () => {
+  const goToBookmarksScreen = () => {
+    const currentState = navigation.getState();
+    const screenIndex = currentState.routes.findIndex(route => route.name ==='BookmarkPage');
+    if(screenIndex !== -1) {
+      const {routes} = navigation.getState();
+      for (let i=0; i<routes.length-screenIndex; i++) {
+        navigation.pop();
+      }
+      for (let i=0; i<routes.length-screenIndex-1; i++) {
+        navigation.push(routes[screenIndex+i].name);
+      }
+    }
     navigation.navigate('BookmarkPage');
   }
     
@@ -63,7 +74,7 @@ const BottomNavigationBar = () => {
           <TouchableOpacity style={styles.icon}>
             <Feather name="share-2" size={24} color={PRIMARY_GOLD} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.icon} onPress={goToBookmark}>
+          <TouchableOpacity style={styles.icon} onPress={goToBookmarksScreen}>
             <MaterialIcons name="bookmark-border" size={24} color={PRIMARY_GOLD} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>

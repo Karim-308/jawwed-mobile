@@ -2,12 +2,29 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import { indexTypesItems } from "../../moshaf-index/components/IndexData";
 
 const Header = () => {
   const pageNumber = useSelector((state) => state.page.pageNumber); // Get pageNumber from Redux
   const [chapter, setChapter] = useState('');
   const [juz, setJuz] = useState('');
+
+  const navigation = useNavigation();
+  const goToIndexScreen = () => {
+    const currentState = navigation.getState();
+    const screenIndex = currentState.routes.findIndex(route => route.name ==='IndexPage');
+    if(screenIndex !== -1) {
+        const {routes} = navigation.getState();
+        for (let i=0; i<routes.length-screenIndex; i++) {
+          navigation.pop();
+        }
+        for (let i=0; i<routes.length-screenIndex-1; i++) {
+          navigation.push(routes[screenIndex+i].name);
+        }
+    }
+    navigation.navigate('IndexPage');
+  }
 
   useEffect(() => {
     // Find the corresponding Surah based on the pageNumber
@@ -26,10 +43,10 @@ const Header = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.titleContainer}>
+      <TouchableOpacity style={styles.titleContainer} onPress={() => goToIndexScreen()}>
         <Text style={styles.surahName}>{chapter}</Text>
         <Text style={styles.juzInfo}>الجزء {juz}</Text>
-      </View>
+      </TouchableOpacity>
       <View style={styles.iconContainer}>
         <TouchableOpacity>
           <Ionicons name="search-outline" size={24} color="#EFB975" />
