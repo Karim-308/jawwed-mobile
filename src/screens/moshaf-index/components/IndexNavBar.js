@@ -16,7 +16,7 @@ export default function IndexNavBar() {
     return (
         <View style={styles.indexNavBar}>
             <SeacrhBar />
-            <TouchableOpacity onPress={() => goToBookmarkPage()}>
+            <TouchableOpacity style={styles.bookmarksButton} onPress={() => goToBookmarkPage()}>
                 <Ionicons name='bookmark' size={24} color={PRIMARY_GOLD} />
             </TouchableOpacity>
         </View>
@@ -30,5 +30,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: -75
+    },
+    bookmarksButton: {
+        marginRight: 10
     }
 });
