@@ -30,12 +30,7 @@ const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) 
       <View style={styles.iconContainer}>
         {/* Share Button */}
         <TouchableOpacity onPress={() => onShare(ayahText, ayahKey)} style={styles.icon}>
-          <Feather name="share-2" size={22} color="#EFB975" />
-        </TouchableOpacity>
-
-        {/* Play Button */}
-        <TouchableOpacity onPress={() => onPlay(ayahKey)} style={styles.icon}>
-          <Ionicons name="play" size={22} color="#EFB975" />
+          <Feather name="share-2" size={24} color="#EFB975" />
         </TouchableOpacity>
 
         {/* Bookmark Button */}
@@ -47,7 +42,12 @@ const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) 
           }
           setIsBookmarked(!isBookmarked);
         }} style={styles.icon}>
-          <Ionicons name={isBookmarked ? "bookmark" : "bookmark-outline"} size={22} color="#EFB975" />
+          <Ionicons name={isBookmarked ? "bookmark" : "bookmark-outline"} size={24} color="#EFB975" />
+        </TouchableOpacity>
+
+        {/* Play Button */}
+        <TouchableOpacity onPress={() => onPlay(ayahKey)} style={styles.icon}>
+          <Ionicons name="play" size={24} color="#EFB975" />
         </TouchableOpacity>
       </View>
     </View>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: 'absolute',
     // Position above the Ayah
-    width: "40%",
+    width: "50%",
     backgroundColor: '#272727',
     borderRadius: 8,
     borderWidth: 2,
@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   iconContainer: {
-    padding: 5,
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
