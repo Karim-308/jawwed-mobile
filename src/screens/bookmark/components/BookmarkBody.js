@@ -17,19 +17,25 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
   
   const renderBookmark = ({ item }) => (
     <View style={styles.bookmarkCard}>
-      <TouchableOpacity onPress={() => goToVerse(item.page)}>
+      <View>
         <Text style={[styles.basmala, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>
         بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
         </Text>
         <Text style={[styles.verse, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>{item.verse}</Text>
-      </TouchableOpacity>
+      </View>
       <View style={styles.footer}>
-        <Text style={styles.pageNumber}>Page: {item.page} </Text>
+        <Text style={styles.pageNumber}>صــفحة: {item.page}</Text>
         <TouchableOpacity
           onPress={() => handleDelete(2, item.verseKey)} // Assuming userId = 2
           style={styles.deleteButton}
         >
-          <Text style={styles.deleteButtonText}>Delete</Text>
+          <Text style={styles.ButtonText}>إلغاء الحفظ</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => goToVerse(item.page)}
+          style={styles.goToButton}
+        >
+          <Text style={styles.ButtonText}>اذهب إلى</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -65,6 +71,8 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
 const styles = StyleSheet.create({
   bookmarkCard: {
     backgroundColor: '#1c1c1e',
+    borderColor: '#EFB975',
+    borderWidth: 1,
     minWidth: '90%',
     borderRadius: 8,
     padding: 16,
@@ -92,19 +100,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 12,
+    marginTop: 30,
   },
   pageNumber: {
     color: '#f0ad4e',
     fontSize: 14,
+    width: 80,
+    marginTop: 15
   },
   deleteButton: {
     backgroundColor: '#ff4d4d',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 4,
+    marginLeft: 20
   },
-  deleteButtonText: {
+  goToButton: {
+    backgroundColor: `#DE9953`,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 4,
+  },
+  ButtonText: {
     color: '#fff',
     fontSize: 14,
     fontWeight: 'bold',

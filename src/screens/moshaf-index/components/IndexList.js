@@ -12,6 +12,7 @@ export default function IndexList() {
         <View style={styles.indexList}>
             <FlatList 
                 data={indexTypesItems[indexType]}
+                keyExtractor={(item) => item.number}
                 renderItem={({item}) => <IndexListItem item={item} />}
             />
         </View>
