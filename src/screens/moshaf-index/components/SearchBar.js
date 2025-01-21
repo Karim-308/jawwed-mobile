@@ -18,22 +18,22 @@ export default function SeacrhBar() {
         <View style={styles.searchBar}>
             {(searchInput)? (
                 <TouchableOpacity onPress={() => clearSearchInput()}>
-                    <Ionicons name='close-outline' size={18} color='#fff' />
+                    <Ionicons name='close-outline' size={18} color={PRIMARY_GOLD} />
                 </TouchableOpacity>
             ): <View></View>
             }
             <TextInput
                 color='#fff'
                 placeholder='انقر هنـــا للبحث'
-                placeholderTextColor='#fff'
+                placeholderTextColor='#888'
                 width='80%'
                 writingDirection='rtl'
-                textAlign='center'
+                textAlign='right'
                 value={searchInput}
                 onChangeText={(newSearchInput) => setSearchInput(newSearchInput)}
             />
             <TouchableOpacity onPress={() => searchHandler(searchInput)}>
-                <Ionicons name='search-outline' size={18} color='#fff' />
+                <Ionicons name='search-outline' size={18} color={PRIMARY_GOLD} />
             </TouchableOpacity>
         </View>
     );
@@ -45,9 +45,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: '15%',
+        height: '18%',
         marginHorizontal: 10,
         paddingHorizontal: 10,
+        backgroundColor: '#222',
         borderStyle: 'solid',
         borderWidth: 1.5,
         borderColor: `${PRIMARY_GOLD}`,

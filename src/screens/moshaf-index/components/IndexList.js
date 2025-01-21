@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet , View , FlatList } from 'react-native';
+import { StyleSheet , View , FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import IndexListItem from './IndexListItem';
 import { useSelector } from 'react-redux';
 import { indexTypesItems } from './IndexData'
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginTop: 50
+        alignItems: 'center',
+        marginTop: 20
     }
 });
