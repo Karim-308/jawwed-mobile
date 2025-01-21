@@ -1,6 +1,6 @@
 // src/screens/moshaf/MoshafScreen.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions, ActivityIndicator , Share } from 'react-native';
+import { View, Text, StyleSheet, Image,TouchableOpacity, useWindowDimensions, ActivityIndicator , Share } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
@@ -106,6 +106,8 @@ const MoshafPage = React.memo((route) => {
 const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     const { verseKeys, text } = line;
     const words = text.split(' ');
+    console.log("Possition of tooltip",position);
+    if (position.y< 185) { position.y += 150} // to avoid the tooltip to be hidden by the bottom tab bar
 
     if (verseKeys.length === 0) return;  // Guard clause if no ayahs in the line
 
@@ -282,7 +284,43 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
             line.isCentered && { justifyContent: 'center' },
           ]}
         >
-          {words.map((word, wIndex) => {
+           {line.lineType === 'surah_name' ? 
+      (
+            <View style={styles.surahHeaderContainer}>
+              <View style={styles.surahHeaderInner}>
+                <Text style={[
+                  styles.ayahText,
+                  styles.surahNameText,
+                  { fontSize: containerWidth * 0.054  , textAlign: 'center' },
+                ]}>
+                  { "سورة " +line.text}
+                </Text>
+              </View>
+            </View>
+      ) : line.lineType === 'basmallah' ? (
+        <View style={[
+          styles.basmallahContainer,
+          { height: containerWidth * 0.1,
+            zIndex: -1, // Add this
+            elevation: -1, // Add this
+          } // Adjust height proportional to container width
+        ]}>
+          <Image 
+            source={require('../../../assets/images/Basmalah.png')}
+            style={[
+              styles.basmallahImage,
+              { 
+                width: containerWidth * 0.8, // 80% of the container width
+                height: containerWidth * 0.6,  // Maintain proportion with container
+                elevation: -1, // For Android
+                zIndex: -1, // For iOS
+              }
+            ]}
+            resizeMode="contain"
+          />
+        </View>
+      ) :  (
+        words.map((word, wIndex) => {
             let verseKeyForWord = null;
             if (line.verseKeys.length === 1) {
               verseKeyForWord = line.verseKeys[0];
@@ -338,7 +376,8 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
                 </Text>
               </TouchableOpacity>
             );
-          })}
+          })
+      )}
         </View>
       );
     });}, [data, loading, error, containerWidth, selectAyahFromWord, selectedAyahs, pageNumber, dispatch,currentPlayingVerse]);
@@ -347,7 +386,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     <SafeAreaView style={styles.MushafVeiwContainer}>
     
     
-      <GestureRecognizer onSwipeLeft={() => onSwipe('SWIPE_LEFT')} onSwipeRight={() => onSwipe('SWIPE_RIGHT')} style={{ flex: 1 }}>
+      <GestureRecognizer onSwipeLeft={() => onSwipe('SWIPE_LEFT')} onSwipeRight={() => onSwipe('SWIPE_RIGHT')} style={{ flex: 1, position: 'relative'  }}>
         {renderAyahLines()}
         {/* Render the tooltip component when a word is long-pressed*/}
         {tooltipData && (
@@ -359,8 +398,10 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
             onBookmark={handleBookmark}
             style={{
               position: 'absolute',
-              top:  tooltipData.position.y - 220,
+              top:   tooltipData.position.y - 200 ,
               left: "30%",
+              elevation: 5, // For Android
+              zIndex: 1000, // For iOS
             }}
           />
         )}
@@ -380,6 +421,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     writingDirection: 'rtl',
     padding: 10,
+    paddingTop: -20,
     flex: 1,
   },
   lineWrapper: {
@@ -393,6 +435,8 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     writingDirection: 'rtl',
+    elevation: 5, // For Android
+    zIndex: 5, // For iOS
   },
   selectedWord: {
     color: '#EFB975',
@@ -425,4 +469,37 @@ const styles = StyleSheet.create({
   playingVerse: {
     backgroundColor: 'rgba(239, 185, 117, 0.16)', // Light blue transparent background
   },
+  surahHeaderContainer: {
+    flex: 1,
+    width: "100%", // Keep this
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  
+  surahHeaderInner: {
+    width: '100%', // Change this from minWidth: '60%' to width: '100%'
+    backgroundColor: 'rgba(239, 185, 117, 0.1)',
+    borderRadius: 15,
+    paddingVertical: 4,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(239, 185, 117, 0.3)',
+  },
+  
+  surahNameText: {
+    color: '#EFB975',
+    textAlign: 'center',
+    width: '100%', // Add this to ensure text takes full width
+  },
+  basmallahContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  
+  basmallahImage: {
+    // Base styles - dimensions will be overridden by inline styles
+    alignSelf: 'center',
+  },
+
 });

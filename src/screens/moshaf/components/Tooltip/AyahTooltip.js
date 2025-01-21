@@ -56,7 +56,7 @@ const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) 
 
 const styles = StyleSheet.create({
   tooltipContainer: {
-    zIndex: 100,
+    zIndex: 1,
     position: 'absolute',
     // Position above the Ayah
     width: "40%",
@@ -71,6 +71,8 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     flexDirection: 'column',
     alignItems: 'center',
+    elevation: 5, // For Android
+    zIndex: 1000, // For iOS
   },
   ayahText: {
     color: 'red',
