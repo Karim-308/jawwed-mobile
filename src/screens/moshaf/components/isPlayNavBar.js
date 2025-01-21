@@ -6,6 +6,7 @@ import { hideNav, showNav } from '../../../redux/reducers/navigationReducer';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
 import { pauseAudio, playAudioForMultipleVerses, stopAudio, resumeAudio } from '../../../api/services/audio/AudioService';
 import { setReciter } from '../../../redux/reducers/audioReducer';
+import ReciterName from './ReciterName';
 
 
 
@@ -79,7 +80,7 @@ const IsPlay = () => {
               <Ionicons name="close-circle-outline" size={30} color={PRIMARY_GOLD} />
             </TouchableOpacity>
 
-            <Text style={styles.modalTitle}>اختر القارئ</Text>
+            <Text style={styles.modalTitle}>اختــــر القـــــارئ</Text>
 
             <FlatList
               data={reciters}
@@ -89,7 +90,7 @@ const IsPlay = () => {
                   style={styles.modalItem}
                   onPress={() => handleReciterSelect(item)}
                 >
-                  <Text style={styles.modalItemText}>الشيخ/ {recitersArabicNames[item]}</Text>
+                  <Text style={styles.modalItemText}><ReciterName name={recitersArabicNames[item]} /></Text>
                 </TouchableOpacity>
               )}
             />
@@ -261,7 +262,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
     color: PRIMARY_GOLD,
   },
   modalItem: {
