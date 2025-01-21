@@ -39,6 +39,7 @@ const MoshafPage = React.memo((route) => {
   const linesData = useSelector((state) => state.page.data[pageNumber]);
   const versesAudio = useSelector((state) => state.page.versesAudio);
   const [selectedAyahs, setSelectedAyahs] = useState({});
+  const currentPlayingVerse = useSelector((state) => state.audio.currentPlayingVerse);
   const { width } = useWindowDimensions();
   const containerWidth = useMemo(() => width * 0.9, [width]);
   const [tooltipData, setTooltipData] = useState(null);
@@ -310,7 +311,12 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
             return (
               <TouchableOpacity
                 key={`word-${wIndex}`}
-                style={line.isCentered && { marginHorizontal: containerWidth * 0.005 }}
+                style={[
+                  line.isCentered && { marginHorizontal: containerWidth * 0.005 },
+                  // Only apply highlighting if it's not a special line and the verse is currently playing
+                  (!line.lineType || (line.lineType !== 'basmallah' && line.lineType !== 'surah_name')) &&
+                  verseKeyForWord === currentPlayingVerse && styles.playingVerse
+                ]}
                 onLongPress={(e) => {
                   // Select the ayah based on the word index and position
                   selectAyahFromWord(line, wIndex, {
@@ -335,7 +341,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
           })}
         </View>
       );
-    });}, [data, loading, error, containerWidth, selectAyahFromWord, selectedAyahs, pageNumber, dispatch]);
+    });}, [data, loading, error, containerWidth, selectAyahFromWord, selectedAyahs, pageNumber, dispatch,currentPlayingVerse]);
   
   return (
     <SafeAreaView style={styles.MushafVeiwContainer}>
@@ -415,5 +421,8 @@ const styles = StyleSheet.create({
   retryButtonText: {
     color: '#000',
     fontSize: 16,
+  },
+  playingVerse: {
+    backgroundColor: 'rgba(239, 185, 117, 0.16)', // Light blue transparent background
   },
 });

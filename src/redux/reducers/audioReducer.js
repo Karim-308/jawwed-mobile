@@ -5,6 +5,7 @@ const initialState = {
     audioRepeat: false,
     audioPanelVisible: false,
     reciter: 'Alafasy', // Default reciter
+    currentPlayingVerse: null 
   };
   
   const actionTypes = {
@@ -13,6 +14,7 @@ const initialState = {
     TOGGLE_AUDIO_REPEAT: 'TOGGLE_AUDIO_REPEAT',
     TOGGLE_AUDIO_PANEL: 'TOGGLE_AUDIO_PANEL',
     SET_RECITER: 'SET_RECITER',
+    SET_CURRENT_PLAYING_VERSE: 'SET_CURRENT_PLAYING_VERSE'
   };
   
   // Action Creators
@@ -21,7 +23,7 @@ const initialState = {
   export const toggleAudioRepeat = () => ({ type: actionTypes.TOGGLE_AUDIO_REPEAT });
   export const toggleAudioPanel = () => ({ type: actionTypes.TOGGLE_AUDIO_PANEL });
   export const setReciter = (reciter) => ({ type: actionTypes.SET_RECITER, payload: reciter });
-  
+  export const setCurrentPlayingVerse = (verseKey) => ({ type: actionTypes.SET_CURRENT_PLAYING_VERSE, payload: verseKey });
   
   const audioReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -35,6 +37,8 @@ const initialState = {
         return { ...state, audioPanelVisible: !state.audioPanelVisible };
       case actionTypes.SET_RECITER:
         return { ...state, reciter: action.payload };
+      case actionTypes.SET_CURRENT_PLAYING_VERSE:
+        return { ...state, currentPlayingVerse: action.payload };  
       default:
         return state;
     }
