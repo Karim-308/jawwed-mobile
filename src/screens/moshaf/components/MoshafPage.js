@@ -8,8 +8,8 @@ import QuranPageParser from '../../../utils/QuranPageParser';
 import {collectFullAyahText} from '../../../utils/helpers';
 import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import  AyahTooltip  from  './Tooltip/AyahTooltip'
-import  postBookmark  from '../../../api/bookmark/PostBookmark';
+import AyahTooltip from './Tooltip/AyahTooltip';
+import postBookmark from '../../../api/bookmark/PostBookmark';
 import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
 
@@ -398,7 +398,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
             onBookmark={handleBookmark}
             style={{
               position: 'absolute',
-              top:   tooltipData.position.y - 200 ,
+              top: tooltipData.position.y - 200,
               left: "30%",
               elevation: 5, // For Android
               zIndex: 1000, // For iOS

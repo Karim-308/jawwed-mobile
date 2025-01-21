@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   goldLine: {
-    height: 2,
+    height: 1,
     backgroundColor: PRIMARY_GOLD,
   },
   goldLineBackground: {
@@ -202,21 +202,22 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    transform: [{rotate: '45deg'}],
     backgroundColor: DARK_GREY,
   },
   centerText: {
     color: PRIMARY_GOLD,
     fontSize: 15,
     fontWeight: 'bold',
+    transform: [{rotate: '-45deg'}],
   },
   rightGroup: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
   },
   icon: {
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   playButton: {
     top: -30,
@@ -228,7 +229,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: DARK_GREY,
     borderColor: PRIMARY_GOLD,
-    borderRadius: 20,
+    borderRadius: 15,
   },
   upArrow: {
     padding: 5,
