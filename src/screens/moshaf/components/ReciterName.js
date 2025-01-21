@@ -6,7 +6,7 @@ import { PRIMARY_GOLD } from '../../../constants/colors';
 export default function ReciterName({name}) {
   return (
     <View style={styles.container}>
-      <Text style={styles.reciterNameText}>الشيخ/ {name}</Text>
+      <Text style={styles.reciterNameText}>{name}</Text>
       <MaterialIcons name="volume-up" style={styles.icon} />
     </View>
   );
@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
     height: 45
   },
   reciterNameText: {
-    width: 120,
+    width: 180,
     textAlign: 'right',
     color: '#fff',
     fontSize: 16,
-    marginRight: 15
+    marginRight: 10
   },
   icon: {
     fontSize: 24,
