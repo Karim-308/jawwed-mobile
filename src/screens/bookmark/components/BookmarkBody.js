@@ -14,7 +14,6 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
     navigation.navigate('MoshafPage', { pageNumber }); // Pass pageNumber as navigation parameter
   }
   
-  
   const renderBookmark = ({ item }) => (
     <View style={styles.bookmarkCard}>
       <View>
@@ -24,7 +23,7 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
         <Text style={[styles.verse, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>{item.verse}</Text>
       </View>
       <View style={styles.footer}>
-        <Text style={styles.pageNumber}>صــفحة: {item.page}</Text>
+        <Text style={styles.pageNumber}>صــفحة: {Intl.NumberFormat('ar-EG').format(item.page)}</Text>
         <TouchableOpacity
           onPress={() => handleDelete(2, item.verseKey)} // Assuming userId = 2
           style={styles.deleteButton}

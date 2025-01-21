@@ -74,7 +74,7 @@ const HomeScreen = () => {
 
       {/* Features Section */}
       <View style={styles.features}>
-        <Text style={styles.sectionTitle}>Features</Text>
+        <Text style={styles.sectionTitle}>القــائــــــمة</Text>
         <View flexDirection="row" style={{width:"100%",justifyContent:'center'}}>
           {/* Feature 1: Index Page */}
           <TouchableOpacity
@@ -149,10 +149,11 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#FFF',
-    marginBottom: 10,
+    marginBottom: 20,
+    textAlign:'right'
   },
   featureItem: {
     alignItems: 'center',
