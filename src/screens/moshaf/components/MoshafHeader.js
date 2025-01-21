@@ -53,13 +53,15 @@ const styles = StyleSheet.create({
     minWidth: '100%',
   },
   titleContainer: {
-    marginLeft: 40,
+    marginLeft: 10,
+    width: 200,
     flexDirection: 'row',
     justifyContent: 'center',
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#EFB975',
     padding: 5,
+    marginRight: 10
   },
   surahName: {
     color: '#EFB975',
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 70,
+    justifyContent: 'space-around',
+    width: 80,
+    marginTop: 5,
   },
 });
