@@ -14,15 +14,15 @@ const IsPlay = () => {
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false); // Modal visibility state
 
-  const reciters = ['Sudais', 'Shatri', 'Rifai', 'Minshawi', 'Alafasy', 'AbdulBaset', 'Shuraym'];
+  const reciters = ['Alafasy', 'AbdulBaset', 'Minshawi', 'Shatri', 'Sudais', 'Shuraym', 'Rifai'];
   const recitersArabicNames = {
-    'Sudais': 'السديس',
-    'Shatri': 'الشاطري',
+    'Sudais': 'عبدالرحمن السديس',
+    'Shatri': 'أبوبكر الشاطري',
     'Rifai': 'الرفاعي',
-    'Minshawi': 'المنشاوي',
-    'Alafasy': 'العفاسي',
-    'AbdulBaset': 'عبدالباسط',
-    'Shuraym': 'الشريم'
+    'Minshawi': 'محمد صديق المنشاوي',
+    'Alafasy': 'مشاري العفاسي',
+    'AbdulBaset': 'عبدالباسط عبدالصمد',
+    'Shuraym': 'سعود الشريم'
   }
 
   const isPlaying = useSelector((state) => state.audio.isPlaying);
