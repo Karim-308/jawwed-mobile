@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  ImageBackground,
+  SafeAreaView,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -52,7 +54,14 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+
+        {/* Header with Background Image */}
+        <ImageBackground
+        source={require('../../assets/images/home_background.png')}
+        style={styles.headerBackground}
+        resizeMode="cover"
+      >
       {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.clock}>{currentTime}</Text>
@@ -71,6 +80,7 @@ const HomeScreen = () => {
           <MaterialIcons name="search" size={24} color="#EFB975" />
         </View>
       </View>
+      </ImageBackground>
 
       {/* Features Section */}
       <View style={styles.features}>
@@ -104,7 +114,7 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -114,11 +124,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
+    paddingTop: 40,  // Offset to avoid overlap with status bar
+  },
+  headerBackground: {
+    width: '100%',
+    height: 200, // Adjust height to fit your image size
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     alignItems: 'center',
-    marginVertical: 20,
+    marginTop: 170,
   },
   clock: {
     fontSize: 36,
@@ -147,6 +164,7 @@ const styles = StyleSheet.create({
   },
   features: {
     marginVertical: 20,
+    marginTop: 75,
   },
   sectionTitle: {
     fontSize: 20,

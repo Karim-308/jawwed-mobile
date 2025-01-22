@@ -50,7 +50,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <StatusBar style="light" />
+        <StatusBar style="light"  />
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
@@ -61,14 +61,8 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Home" component={HomeScreen} 
-            options={{ 
-              title: 'الصفحة الرئيسية',
-              headerTitleStyle: {
-                fontFamily: 'UthmanicHafs',
-                fontSize: 30
-              },
-              headerTitleAlign: 'center' 
-            }}
+          options={{ headerShown: false }}
+
           />
           <Stack.Screen
             name="IndexPage"
