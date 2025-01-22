@@ -11,12 +11,14 @@ import HomeScreen from './src/screens/home/HomeScreen';
 import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
 import MoshafScreen from './src/screens/moshaf/MoshafScreen';
 import BookmarkScreen from './src/screens/bookmark/BookmarkScreen';
-import Header from './src/screens/moshaf/components/MoshafHeader'
+import Header from './src/screens/moshaf/components/MoshafHeader';
+import IntroScreen from './src/screens/Intro/IntroScreen';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     const loadAppResources = async () => {
@@ -33,6 +35,10 @@ export default function App() {
     loadAppResources();
   }, []);
 
+  if (showIntro) {
+    return <IntroScreen onFinish={() => setShowIntro(false)} />;
+  }
+
   if (!fontLoaded) {
     return (
       <View style={styles.loadingContainer}>
@@ -48,10 +54,10 @@ export default function App() {
         <Stack.Navigator
           initialRouteName="Home"
           screenOptions={{
-            headerStyle: { backgroundColor: '#000', elevation: 0, shadowOpacity: 0 }, // Remove shadow for Android
+            headerStyle: { backgroundColor: '#000', elevation: 0, shadowOpacity: 0 }, 
             headerTintColor: '#FFF',
             headerTitleStyle: { fontWeight: 'bold' },
-            headerBackTitleVisible: false, // Removes back text for iOS
+            headerBackTitleVisible: false, 
           }}
         >
           <Stack.Screen name="Home" component={HomeScreen} 
@@ -76,7 +82,7 @@ export default function App() {
               headerTitleAlign: 'center'
              }}
           />
-                    <Stack.Screen
+          <Stack.Screen
             name="BookmarkPage"
             component={BookmarkScreen}
             options={{
@@ -88,7 +94,6 @@ export default function App() {
               headerTitleAlign: 'center',
             }}
           />
-
           <Stack.Screen
             name="MoshafPage"
             component={MoshafScreen}
@@ -110,7 +115,6 @@ export default function App() {
     </Provider>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
