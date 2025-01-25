@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, ActivityIndicator, Platform } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import * as Font from 'expo-font';
-import { PRIMARY_GOLD } from './src/constants/colors';
 import { Provider } from 'react-redux';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import store from './src/redux/store';
-import HomeScreen from './src/screens/home/HomeScreen';
-import MoshafIndexScreen from './src/screens/moshaf-index/MoshafIndexScreen';
-import MoshafScreen from './src/screens/moshaf/MoshafScreen';
-import BookmarkScreen from './src/screens/bookmark/BookmarkScreen';
-import Header from './src/screens/moshaf/components/MoshafHeader';
 import IntroScreen from './src/screens/Intro/IntroScreen';
-
-const Stack = createStackNavigator();
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -49,72 +39,12 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar style="light"  />
-        <Stack.Navigator
-          initialRouteName="Home"
-          screenOptions={{
-            headerStyle: { backgroundColor: '#000', elevation: 0, shadowOpacity: 0 }, 
-            headerTintColor: '#FFF',
-            headerTitleStyle: { fontWeight: 'bold' },
-            headerBackTitleVisible: false, 
-          }}
-        >
-          <Stack.Screen name="Home" component={HomeScreen} 
-          options={{ headerShown: false }}
-
-          />
-          <Stack.Screen
-            name="IndexPage"
-            component={MoshafIndexScreen}
-            options={{ 
-              title: 'الفهرس',
-              headerTitleStyle: {
-                fontFamily: 'UthmanicHafs',
-                fontSize: 30
-              },
-              headerTitleAlign: 'center'
-             }}
-          />
-          <Stack.Screen
-            name="BookmarkPage"
-            component={BookmarkScreen}
-            options={{
-              title: 'الإشارات المرجعية',
-              headerTitleStyle: {
-                fontFamily: 'UthmanicHafs',
-                fontSize: 30
-              },
-              headerTitleAlign: 'center',
-            }}
-          />
-          <Stack.Screen
-            name="MoshafPage"
-            component={MoshafScreen}
-            options={{
-              headerTitle: () => <Header />,
-              headerTintColor: `${PRIMARY_GOLD}`,
-              headerTitleStyle: {
-                fontFamily: 'UthmanicHafs',
-                fontSize: 30
-              },
-              headerTitleAlign: 'center',
-              headerStyle: {
-                backgroundColor: '#000',
-              },
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AppNavigator />
     </Provider>
   );
 }
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: '#000', // Dark background for the app
-  },
   loadingContainer: {
     flex: 1,
     backgroundColor: '#000',
