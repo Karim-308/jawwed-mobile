@@ -1,23 +1,23 @@
 {
   "expo": {
-    "name": "jawwed-mobile",
-    "slug": "jawwed-mobile",
+    "name": "Jawwed",
+    "slug": "jawwed",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/assets/images/Jawwed-Icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/images/splash.png",
+      "image": "./src/assets/images/for-splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./src/assets/images/for-splash.png",
+        "backgroundColor": "#000000"
       }
     },
     "web": {
