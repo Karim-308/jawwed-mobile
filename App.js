@@ -1,3 +1,15 @@
+import { LogBox } from 'react-native';
+// Ignore all log notifications
+LogBox.ignoreAllLogs(true);
+
+// Override console methods
+if (__DEV__) {
+  console.log = () => {};
+  console.warn = () => {};
+  console.error = () => {};
+}
+
+
 import React, { useState, useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
 import * as Font from 'expo-font';

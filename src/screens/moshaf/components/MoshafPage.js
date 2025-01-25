@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     writingDirection: 'rtl',
     padding: 10,
-    paddingTop: -20,
+    paddingTop: -10,
     flex: 1,
   },
   lineWrapper: {
