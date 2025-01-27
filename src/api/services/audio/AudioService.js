@@ -1,6 +1,6 @@
 import { Audio } from 'expo-av';
 import store from '../../../redux/store';
-import { togglePlay, togglePause, setCurrentPlayingVerse  } from '../../../redux/reducers/audioReducer';
+import { togglePlay, togglePause, setCurrentPlayingVerse, setCurrentPlayingType } from '../../../redux/reducers/audioReducer';
 import { setPageNumber } from '../../../redux/actions/pageActions';
 
 
@@ -15,6 +15,10 @@ const toggleIsPlaying = () => {
 
 const getIsPaused = () => {
   return store.getState().audio.isPaused;
+}
+
+const getCurrentPlayingType = () => {
+  return store.getState().audio.currentPlayingType;
 }
 
 const toggleIsPaused = () => {
@@ -35,16 +39,9 @@ let verseAudio;
 // the postition at which you paused at or resumed from
 let position = null;
 
-
-// true if we are playing to the end of the mushaf
-let isPlayingAllVerses = false;
-
-// true if we are playing a range of verses (from/to)
-let isPlayingSomeVerses = false;
-let endVerseKey = null;
-
 let nextVerseKey = null;
 let currentPageNumber=null;
+let endVerseKey = null;
 
 // when true we go to the next page
 let reachedEndOfPage = false;
@@ -54,89 +51,86 @@ let reachedEndOfPage = false;
 // playing audio for multiple verses (two or more)
 export const playAudioForMultipleVerses = (reciterName, pageNumber, startVerseKey=null, toVerseKey=null) => {
 
+  if (!getIsPlaying() === false)
+    toggleIsPlaying(); // isPlaying = ture
+
   // playing a range of verses
   if(toVerseKey !== null){
-    isPlayingSomeVerses = true;
+    store.dispatch(setCurrentPlayingType('Range'));
     endVerseKey = toVerseKey;
   }
   // playing all the verses
   else {
-    isPlayingAllVerses = true;
+    store.dispatch(setCurrentPlayingType('All'));
   }
 
-    currentPageNumber = pageNumber;
+  currentPageNumber = pageNumber;
 
-    // playing one verse at a time squentially until we finish the verses
-    playAudioForOneVerse(reciterName, currentPageNumber, startVerseKey);
+  // playing one verse at a time squentially until we finish the verses
+  playAudioForOneVerse(reciterName, currentPageNumber, startVerseKey);
 }
 
 // playing audio for one verse
 export const playAudioForOneVerse = async(reciterName, pageNumber, verseKey) => {
 
+  if(getCurrentPlayingType() === 'None')
+    store.dispatch(setCurrentPlayingType('Verse'));
+
   if(currentPageNumber === null)
     currentPageNumber = pageNumber;
 
-  const isPlaying = getIsPlaying();
-
-  if (isPlaying === false){
-    
-     // Set current playing verse before starting playback
-     if (verseKey !== null) {
-      store.dispatch(setCurrentPlayingVerse(verseKey));
-    } // This sets the playing verse in the redux store to highlight it in the UI
-    
+  if (getIsPlaying() === false)
     toggleIsPlaying(); // isPlaying = ture
+    
+  // Set current playing verse before starting playback
+  // This sets the playing verse in the redux store to highlight it in the UI
+  if (verseKey !== null)
+    store.dispatch(setCurrentPlayingVerse(verseKey));
+  
+  // get the URL then load the verse audio from the API
+  const verseAudioUrl = await getVerseAudioURL(reciterName, verseKey);
+  verseAudio = await loadVerseAudio(verseAudioUrl);
 
-    // get the URL then load the verse audio from the API
-    const verseAudioUrl = await getVerseAudioURL(reciterName, verseKey);
-    verseAudio = await loadVerseAudio(verseAudioUrl);
-
-    // play the audio
+  // play the audio
+  if(getIsPlaying() === true && getIsPaused() === false)
     await verseAudio.playAsync();
 
-    verseAudio.setOnPlaybackStatusUpdate((status) => {
+  verseAudio.setOnPlaybackStatusUpdate((status) => {
 
-      // when the audio is done
-      if(status.didJustFinish) {
+    // when the audio is done
+    if(status.didJustFinish) {
 
-        toggleIsPlaying(); // isPlaying = false
-        const isPaused = getIsPaused();
-        if (isPaused === true)
-          toggleIsPaused();
+      toggleIsPlaying(); // isPlaying = false
+      if (getIsPaused() === true)
+        toggleIsPaused();
 
-        // continue to play the rest of the verses until the end of the mushaf
-        if(isPlayingAllVerses){
-          if(nextVerseKey === '114:6'){
-            isPlayingAllVerses = false;
-            store.dispatch(setCurrentPlayingVerse(null));
-          }
-          return playAudioForOneVerse(reciterName, currentPageNumber, nextVerseKey);
+      // continue to play the rest of the verses until the end of the mushaf
+      if(getCurrentPlayingType() === 'All'){
+        if(nextVerseKey === '114:6'){
+          store.dispatch(setCurrentPlayingType('None'));
         }
-
-        // continue to play the rest of the verses if we didn't reach the end verse
-        else if (isPlayingSomeVerses){
-          if(nextVerseKey === endVerseKey){
-            isPlayingSomeVerses = false;
-            store.dispatch(setCurrentPlayingVerse(null));
-          }
-          return playAudioForOneVerse(reciterName, currentPageNumber, nextVerseKey);
-        }
-
-        // if it was just one verse audio or all the verses ended
-        else {
-          store.dispatch(setCurrentPlayingVerse(null)); // Clear when finished
-          resetResources();
-        }
+        return playAudioForOneVerse(reciterName, currentPageNumber, nextVerseKey);
       }
-    });
-  }
+
+      // continue to play the rest of the verses if we didn't reach the end verse
+      else if (getCurrentPlayingType() === 'Range'){
+        if(nextVerseKey === endVerseKey){
+          store.dispatch(setCurrentPlayingType('None'));
+        }
+        return playAudioForOneVerse(reciterName, currentPageNumber, nextVerseKey);
+      }
+
+      // if it was just one verse audio or all the verses ended
+      else {
+        resetResources();
+      }
+    }
+  });
 }
 
 // Pause the verse audio at a certain position
 export const pauseAudio = async() => {
-  const isPlaying = getIsPlaying();
-  const isPaused = getIsPaused();
-  if (isPlaying === true && isPaused === false) {
+  if (getIsPlaying() === true && getIsPaused() === false) {
     toggleIsPaused();
     position = verseAudio.getStatusAsync().positionMillis;
     verseAudio.pauseAsync();
@@ -145,9 +139,7 @@ export const pauseAudio = async() => {
 
 // Resume the verse audio from the paused at position
 export const resumeAudio = async() => {
-  const isPlaying = getIsPlaying();
-  const isPaused = getIsPaused();
-  if (isPlaying === true && isPaused === true) {
+  if (getIsPlaying() === true && getIsPaused() === true) {
     toggleIsPaused();
     verseAudio.playFromPositionAsync(position);
   }
@@ -155,13 +147,10 @@ export const resumeAudio = async() => {
 
 // Stop the verse audio
 export const stopAudio = async() => {
-  const isPlaying = getIsPlaying();
-  const isPasued = getIsPaused();
-  if (isPlaying === true) {
+  if (getIsPlaying() === true) {
     toggleIsPlaying();
-    if (isPasued === true)
+    if (getIsPaused() === true)
       toggleIsPaused();
-    store.dispatch(setCurrentPlayingVerse(null));
     verseAudio.stopAsync();
     resetResources();
   }
@@ -170,14 +159,13 @@ export const stopAudio = async() => {
 // reset and clear the unused resources
 const resetResources = () => {
   verseAudio.unloadAsync();
+  store.dispatch(setCurrentPlayingType('None'));
   store.dispatch(setCurrentPlayingVerse(null));
   position = null;
   endVerseKey = null;
   nextVerseKey = null;
   currentPageNumber=null;
   reachedEndOfPage = false;
-  isPlayingAllVerses = false;
-  isPlayingSomeVerses = false;
 }
 
 

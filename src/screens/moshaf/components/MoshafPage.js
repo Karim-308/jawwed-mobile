@@ -39,7 +39,10 @@ const MoshafPage = React.memo((route) => {
   const linesData = useSelector((state) => state.page.data[pageNumber]);
   const versesAudio = useSelector((state) => state.page.versesAudio);
   const [selectedAyahs, setSelectedAyahs] = useState({});
+  const isPlaying = useSelector((state) => state.audio.isPlaying);
+  const currentPlayingType = useSelector((state) => state.audio.currentPlayingType);
   const currentPlayingVerse = useSelector((state) => state.audio.currentPlayingVerse);
+  const selectedReciter = useSelector((state) => state.audio.reciter);
   const { width } = useWindowDimensions();
   const containerWidth = useMemo(() => width * 0.9, [width]);
   const [tooltipData, setTooltipData] = useState(null);
@@ -54,9 +57,11 @@ const MoshafPage = React.memo((route) => {
   const onSwipe = useCallback(
     throttle((direction) => {
       if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
+        toggleAyahSelection();
         setTooltipData(null);
         dispatch(setPageNumber(pageNumber - 1));
       } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) {
+        toggleAyahSelection();
         setTooltipData(null);
         dispatch(setPageNumber(pageNumber + 1));
       }
@@ -186,13 +191,17 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     } catch (error) {
       console.error('Error sharing text:', error);
     }
+    toggleAyahSelection(key, ayahText);
     setTooltipData(null);
   };
   
   const handlePlay = (key) => {
-    stopAudio();
-    playAudioForOneVerse("Alafasy",pageNumber,key);
+    if(isPlaying) {
+      stopAudio();
+    }
+    playAudioForOneVerse(selectedReciter, pageNumber, key);
     //console.log(`Playing Ayah: ${key}`);
+    toggleAyahSelection(key);
     setTooltipData(null);
   };
   
@@ -421,7 +430,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     writingDirection: 'rtl',
     padding: 10,
-    paddingTop: -10,
+    paddingTop: -20,
     flex: 1,
   },
   lineWrapper: {

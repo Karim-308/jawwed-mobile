@@ -4,7 +4,7 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideNav, showNav } from '../../../redux/reducers/navigationReducer';
 import { PRIMARY_GOLD, DARK_GREY } from '../../../constants/colors';
-import { pauseAudio, playAudioForMultipleVerses, stopAudio, resumeAudio } from '../../../api/services/audio/AudioService';
+import { pauseAudio, playAudioForMultipleVerses, stopAudio, resumeAudio, playAudioForOneVerse } from '../../../api/services/audio/AudioService';
 import { setReciter } from '../../../redux/reducers/audioReducer';
 import ReciterName from './ReciterName';
 
@@ -27,20 +27,24 @@ const IsPlay = () => {
 
   const isPlaying = useSelector((state) => state.audio.isPlaying);
   const isPaused = useSelector((state) => state.audio.isPaused);
+  const currentPlayingType = useSelector((state) => state.audio.currentPlayingType);
+  const currentPlayingVerse = useSelector((state) => state.audio.currentPlayingVerse);
   const pageNumber = useSelector((state) => state.page.pageNumber);
   const selectedReciter = useSelector((state) => state.audio.reciter);  // Get reciter from Redux
 
-  const lastPlayedPage = useRef(pageNumber);
+  //const lastPlayedPage = useRef(pageNumber);
 
   const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
 
   const handlePlayPause = () => {
+    /*
     if (pageNumber !== lastPlayedPage.current) {
       stopAudio();
       playAudioForMultipleVerses(selectedReciter, pageNumber);
       lastPlayedPage.current = pageNumber;
       return;
     }
+    */
 
     if (isPlaying && !isPaused) {
       pauseAudio();
@@ -51,16 +55,33 @@ const IsPlay = () => {
 
   const handleReciterSelect = (reciter) => {
     dispatch(setReciter(reciter)); // Dispatch action to update reciter in Redux
-    stopAudio();
-    playAudioForMultipleVerses(reciter, pageNumber);
-    lastPlayedPage.current = pageNumber;
+    if(isPlaying) {
+      const currentVerse = currentPlayingVerse;
+      stopAudio();
+      if(currentPlayingType === 'All'){
+        playAudioForMultipleVerses(reciter, pageNumber);
+      }
+      else if(currentPlayingType === 'Verse') {
+        playAudioForOneVerse(reciter, pageNumber, currentVerse);
+      }
+    }
+
+    //lastPlayedPage.current = pageNumber;
     setModalVisible(false);
   };
 
   const handleRestartAudio = () => {
-    stopAudio();
-    playAudioForMultipleVerses(selectedReciter, pageNumber);
-    lastPlayedPage.current = pageNumber;
+    if(isPlaying) {
+      const currentVerse = currentPlayingVerse;
+      stopAudio();
+      if(currentPlayingType === 'All') {
+        playAudioForMultipleVerses(selectedReciter, pageNumber);
+      }
+      else if(currentPlayingType === 'Verse') {
+        playAudioForOneVerse(selectedReciter, pageNumber, currentVerse);
+      }
+    }
+    //lastPlayedPage.current = pageNumber;
   };
 
   return (
@@ -126,7 +147,7 @@ const IsPlay = () => {
           <Ionicons name="repeat-outline" size={24} color={PRIMARY_GOLD} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.icon} onPress={() => stopAudio()}>
-          <MaterialIcons name="close" size={24} color={PRIMARY_GOLD} />
+          <MaterialIcons name="stop" size={24} color={PRIMARY_GOLD} />
         </TouchableOpacity>
 
         <View style={styles.playButton}>
