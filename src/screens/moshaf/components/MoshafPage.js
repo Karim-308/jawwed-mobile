@@ -80,6 +80,13 @@ const MoshafPage = React.memo((route) => {
    *  The tooltipData state is updated to show or hide the tooltip based on the selection.
    */ 
   const toggleAyahSelection = useCallback((verseKey, ayahText, position) => {
+    // If no verseKey is provided, just clear any selection & hide tooltip
+    // When Swipping the page --> the verseKey is not provided
+    if (!verseKey) {
+      setTooltipData(null);
+      setSelectedAyahs({});
+      return;
+      }
     setSelectedAyahs((prev) => {
       // If the same ayah is selected, deselect it
       if (prev[verseKey]) {
@@ -112,7 +119,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     const { verseKeys, text } = line;
     const words = text.split(' ');
     console.log("Possition of tooltip",position);
-    if (position.y< 185) { position.y += 150} // to avoid the tooltip to be hidden by the bottom tab bar
+    if (position && position.y< 185) { position.y += 150} // to avoid the tooltip to be hidden by the bottom tab bar
 
     if (verseKeys.length === 0) return;  // Guard clause if no ayahs in the line
 
@@ -430,7 +437,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     writingDirection: 'rtl',
     padding: 10,
-    paddingTop: -20,
+    paddingTop: -10,
     flex: 1,
   },
   lineWrapper: {
