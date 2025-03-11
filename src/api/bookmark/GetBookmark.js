@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const getBookmarks = async () => {
-  const url = 'http://jawwed-api.runasp.net/api/Bookmark';
+  const url = 'https://jawwed-api.runasp.net/api/Bookmark';
   const defaultUserId = 2;
 
   try {

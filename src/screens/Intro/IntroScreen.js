@@ -5,7 +5,7 @@ const IntroScreen = ({ onFinish }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onFinish();  
-    }, 4000); // Display for 4 seconds
+    }, 1000); // Display for 4 seconds
 
     return () => clearTimeout(timer);
   }, []);

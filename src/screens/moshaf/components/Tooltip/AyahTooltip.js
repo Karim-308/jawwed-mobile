@@ -5,7 +5,7 @@ import getBookmarks from '../../../../api/bookmark/GetBookmark';
 import deleteBookmark from '../../../../api/bookmark/DeleteBookmark';
 import { useState, useEffect } from 'react';
 
-const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) => {
+const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark, onTafsir, style}) => {
   const [bookmarks, setBookmarks] = useState([]);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -48,6 +48,11 @@ const AyahTooltip = ({ ayahText, ayahKey, onShare, onPlay, onBookmark , style}) 
         {/* Play Button */}
         <TouchableOpacity onPress={() => onPlay(ayahKey)} style={styles.icon}>
           <Ionicons name="play" size={24} color="#EFB975" />
+        </TouchableOpacity>
+
+        {/* Tafsir Button */}
+        <TouchableOpacity onPress={() => onTafsir(ayahKey,ayahText)} style={styles.icon}>
+        <Ionicons name="search-outline" size={24} color="#EFB975" />
         </TouchableOpacity>
       </View>
     </View>

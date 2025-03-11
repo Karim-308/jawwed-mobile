@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://jawwed-api.runasp.net/api/mushaf/pages';
+const API_BASE_URL = 'https://jawwed-api.runasp.net/api/mushaf/pages';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
