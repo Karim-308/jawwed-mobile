@@ -4,12 +4,12 @@ import { View, Text, StyleSheet, Image,TouchableOpacity, useWindowDimensions, Ac
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
-import QuranPageParser from '../../../utils/QuranPageParser';
 import {collectFullAyahText} from '../../../utils/helpers';
 import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AyahTooltip from './Tooltip/AyahTooltip';
 import postBookmark from '../../../api/bookmark/PostBookmark';
+import TafsirModal from '../components/Modals/TafsirModal';
 import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
 
@@ -46,6 +46,8 @@ const MoshafPage = React.memo((route) => {
   const { width } = useWindowDimensions();
   const containerWidth = useMemo(() => width * 0.9, [width]);
   const [tooltipData, setTooltipData] = useState(null);
+  const [tafsirVisible, setTafsirVisible] = useState(false);
+  const [selectedTafsirSource, setSelectedTafsirSource] = useState('1');
 
   useEffect(() => {
     if (routePageNumber) {
@@ -59,10 +61,12 @@ const MoshafPage = React.memo((route) => {
       if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
         toggleAyahSelection();
         setTooltipData(null);
+        setTafsirVisible(false);
         dispatch(setPageNumber(pageNumber - 1));
       } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) {
         toggleAyahSelection();
         setTooltipData(null);
+        setTafsirVisible(false);
         dispatch(setPageNumber(pageNumber + 1));
       }
     }, 500),
@@ -229,6 +233,13 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
       console.error('Error posting bookmark:', error);
     }
   };
+
+  const handleTafsir = useCallback((Key, ayahText) => {
+    if (!Key || !ayahText) return;
+    console.log(`Fetching Tafsir for: ${Key}`);
+    setTafsirVisible(true);
+  }, []);
+
 
   /** renderAyahLines Function
    *  This function renders the ayah lines for the current page.
@@ -412,6 +423,7 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
             onShare={handleShare}
             onPlay={handlePlay}
             onBookmark={handleBookmark}
+            onTafsir={handleTafsir}
             style={{
               position: 'absolute',
               top: tooltipData.position.y - 200,
@@ -421,7 +433,15 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
             }}
           />
         )}
-      </GestureRecognizer>
+        </GestureRecognizer>
+        {tafsirVisible && (<TafsirModal
+          isVisible={tafsirVisible}
+          onClose={() => setTafsirVisible(false)}
+          ayahKey={tooltipData?.verseKey}
+          ayahText={tooltipData.ayahText || ''}  // Pass the Ayah text
+          selectedSource={selectedTafsirSource} // ✅ Pass selected source
+          onSourceChange={setSelectedTafsirSource} // ✅ Allow updates
+        />)}
     </SafeAreaView>
   );
 });

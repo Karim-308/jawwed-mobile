@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ToastAndroid, Alert, Platform } from 'react-native';
 const deleteBookmark = async (userId, verseKey) => {
-  const url = 'http://jawwed-api.runasp.net/api/Bookmark';
+  const url = 'https://jawwed-api.runasp.net/api/Bookmark';
 
   try {
     const response = await axios.delete(url, {
