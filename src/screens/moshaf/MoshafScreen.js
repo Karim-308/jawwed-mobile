@@ -4,7 +4,6 @@ import Header from './components/MoshafHeader';
 import MoshafPage from './components/MoshafPage';
 import BottomNavigationBar from './components/BottomNav';
 
-
 const MoshafScreen = () => {
   return (
       <SafeAreaView style={styles.container}>

@@ -10,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AyahTooltip from './Tooltip/AyahTooltip';
 import postBookmark from '../../../api/bookmark/PostBookmark';
 import TafsirModal from '../components/Modals/TafsirModal';
+import TafsirBottomSheet from '../components/Modals/TafsirModal1';
 import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
 

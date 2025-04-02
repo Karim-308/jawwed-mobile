@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   errorText: {
-    color: '#ff5c5c',
+    color: 'white',
     textAlign: 'center',
     fontSize: 16,
   },
