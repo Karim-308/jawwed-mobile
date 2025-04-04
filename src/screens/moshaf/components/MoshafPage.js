@@ -9,8 +9,7 @@ import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,p
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AyahTooltip from './Tooltip/AyahTooltip';
 import postBookmark from '../../../api/bookmark/PostBookmark';
-import TafsirModal from '../components/Modals/TafsirModal';
-import TafsirBottomSheet from '../components/Modals/TafsirModal1';
+import TafsirModal from './Modals/TafsirModal';
 import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
 
@@ -48,7 +47,7 @@ const MoshafPage = React.memo((route) => {
   const containerWidth = useMemo(() => width * 0.9, [width]);
   const [tooltipData, setTooltipData] = useState(null);
   const [tafsirVisible, setTafsirVisible] = useState(false);
-  const [selectedTafsirSource, setSelectedTafsirSource] = useState('1');
+  const [selectedTafsirSource, setSelectedTafsirSource] = useState(1);
 
   useEffect(() => {
     if (routePageNumber) {
