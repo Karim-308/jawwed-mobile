@@ -404,6 +404,7 @@ const styles = StyleSheet.create({
   ayahText: {
     color: '#fff',
     textAlign: 'center',
+    fontFamily: 'UthmanicHafs',
   },
   horizontalScrollContainer: {
     paddingVertical: 5, 
