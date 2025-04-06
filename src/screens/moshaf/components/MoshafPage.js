@@ -389,6 +389,10 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
                     y: e.nativeEvent.pageY,
                   });
                 }}
+                onPress={() => {
+                  setTooltipData(null);
+                  setSelectedAyahs({});
+                }}
                 
                 activeOpacity={0.7}
               >
@@ -411,8 +415,8 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
   
   return (
     <SafeAreaView style={styles.MushafVeiwContainer}>
-    
-    
+
+      
       <GestureRecognizer onSwipeLeft={() => onSwipe('SWIPE_LEFT')} onSwipeRight={() => onSwipe('SWIPE_RIGHT')} style={{ flex: 1, position: 'relative'  }}>
         {renderAyahLines()}
         {/* Render the tooltip component when a word is long-pressed*/}
