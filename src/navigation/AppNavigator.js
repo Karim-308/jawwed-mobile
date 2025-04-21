@@ -7,7 +7,9 @@ import MoshafIndexScreen from '../screens/moshaf-index/MoshafIndexScreen';
 import MoshafScreen from '../screens/moshaf/MoshafScreen';
 import BookmarkScreen from '../screens/bookmark/BookmarkScreen';
 import Header from '../screens/moshaf/components/MoshafHeader';
+import AzkarCategories from '../screens/azkar/AzkarCategoriesScreen';
 import { PRIMARY_GOLD } from '../constants/colors';
+import AzkarDetails from '../screens/azkar/components/AzkarDetails';
 
 const Stack = createStackNavigator();
 
@@ -54,6 +56,36 @@ const AppNavigator = () => (
         options={{
           headerTitle: () => <Header />,
           headerTintColor: `${PRIMARY_GOLD}`,
+          headerTitleStyle: {
+            fontFamily: 'UthmanicHafs',
+            fontSize: 30,
+          },
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#000',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AzkarPage"
+        component={AzkarCategories}
+        options={{
+          title: 'الأذكار',
+          headerTitleStyle: {
+            fontFamily: 'UthmanicHafs',
+            fontSize: 30,
+          },
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#000',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="AzkarDetails"
+        component={AzkarDetails}
+        options={{
+          title: ' ',
           headerTitleStyle: {
             fontFamily: 'UthmanicHafs',
             fontSize: 30,

@@ -27,6 +27,8 @@ export default function App() {
       try {
         await Font.loadAsync({
           'UthmanicHafs': require('./src/assets/fonts/Hafs.ttf'),
+          'digitalkhatt': require('./src/assets/fonts/digitalkhatt (4).otf'),
+          'PRO': require('./src/assets/fonts/AQEEQSANSPRO-Thin.otf'),
         });
         setFontLoaded(true);
       } catch (error) {
