@@ -168,7 +168,7 @@ const TafsirModal = ({
       <Modal visible={true} transparent animationType="none">
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={handleBackdropPress}>
-            <View style={styles.backdrop} />
+            <View style={styles.backdrop} testID="modal-backdrop" />
           </TouchableWithoutFeedback>
 
           <Animated.View
@@ -231,17 +231,18 @@ const TafsirModal = ({
               {/* TAFSIR CONTENT */}
               <ScrollView style={styles.tafsirScrollContainer}>
                 {loading ? (
-                  <ActivityIndicator size="large" color="#EFB975" />
+                  <ActivityIndicator testID="loading-indicator" size="large" color="#EFB975" />
                 ) : error ? (
                   <Text style={styles.errorText}>{error}</Text>
                 ) : (
-                  <TafsirContent tafsir={tafsir} textSize={textSize} />
+                  <TafsirContent testID="tafsir-content" tafsir={tafsir} textSize={textSize} />
                 )}
               </ScrollView>
 
               {/* FONT SIZE SLIDER */}
               <View style={styles.sliderContainer}>
                 <Slider
+                  testID="font-size-slider"
                   style={{ width: '80%' }}
                   minimumValue={14}
                   maximumValue={24}
