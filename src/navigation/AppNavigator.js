@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import HomeScreen from '../screens/home/HomeScreen';
 import MoshafIndexScreen from '../screens/moshaf-index/MoshafIndexScreen';
+import PrayerTimesScreen from '../screens/prayer-times/PrayerTimesScreen';
 import MoshafScreen from '../screens/moshaf/MoshafScreen';
 import BookmarkScreen from '../screens/bookmark/BookmarkScreen';
 import Header from '../screens/moshaf/components/MoshafHeader';
@@ -94,6 +95,18 @@ const AppNavigator = () => (
           headerStyle: {
             backgroundColor: '#000',
           },
+        }}
+      />
+      <Stack.Screen
+        name="PrayerTimesPage"
+        component={PrayerTimesScreen}
+        options={{
+          title: 'مواقيت الصلاة',
+          headerTitleStyle: {
+            fontFamily: 'UthmanicHafs',
+            fontSize: 30,
+          },
+          headerTitleAlign: 'center',
         }}
       />
     </Stack.Navigator>
