@@ -4,6 +4,7 @@ import audioReducer from './reducers/audioReducer';
 import navigationReducer from './reducers/navigationReducer';
 import indexTypeReducer from './reducers/indexTypeReducer';
 import pageReducer from './reducers/pageReducer';
+import prayerTimesReducer from './reducers/prayerTimesReducer';
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   navigation: navigationReducer,
   indexType: indexTypeReducer,
   page: pageReducer,
+  prayerTimes: prayerTimesReducer
   // Add other reducers here
 });
 

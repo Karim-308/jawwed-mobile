@@ -90,9 +90,11 @@ const HomeScreen = () => {
       <View style={styles.features}>
         <Text style={styles.sectionTitle}>القــائــــــمة</Text>
         <View
-          flexDirection="row"
-          style={{ width: "100%", justifyContent: "center" }}
+          flexDirection="row-reverse"
+          flexWrap='wrap'
+          style={{ width: "100%", justifyContent: "flex-start" }}
         >
+
           {/* Feature 1: Index Page */}
           <TouchableOpacity
             style={styles.featureItem}
@@ -132,6 +134,16 @@ const HomeScreen = () => {
             />
             <Text style={styles.featureText}>الأذكار</Text>
           </TouchableOpacity>
+
+          {/* Feature 5: Prayer Times */}
+          <TouchableOpacity
+            style={styles.featureItem}
+            onPress={() => navigation.navigate('PrayerTimesPage')}
+          >
+            <Ionicons name="time-outline" size={60} color="#EFB975" />
+            <Text style={styles.featureText}>مواقيت الصلاة</Text>
+          </TouchableOpacity>
+
         </View>
       </View>
     </SafeAreaView>
@@ -184,7 +196,7 @@ const styles = StyleSheet.create({
   },
   features: {
     marginVertical: 20,
-    marginTop: 75,
+    marginTop: 75
   },
   sectionTitle: {
     fontSize: 20,
@@ -195,7 +207,7 @@ const styles = StyleSheet.create({
   },
   featureItem: {
     alignItems: "center",
-    marginHorizontal: 10,
+    margin: 10,
   },
   featureText: {
     fontSize: 12,
