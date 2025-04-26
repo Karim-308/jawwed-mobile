@@ -58,16 +58,16 @@ const MoshafPage = React.memo((route) => {
 
   const onSwipe = useCallback(
     throttle((direction) => {
-      if (direction === 'SWIPE_LEFT' && pageNumber > 1) {
+      const currentPage = Number(pageNumber); // Make sure it's a number
+  
+      if (direction === 'SWIPE_LEFT' && currentPage > 1) {
         toggleAyahSelection();
         setTooltipData(null);
-        setTafsirVisible(false);
-        dispatch(setPageNumber(pageNumber - 1));
-      } else if (direction === 'SWIPE_RIGHT' && pageNumber < 604) {
+        dispatch(setPageNumber(currentPage - 1));
+      } else if (direction === 'SWIPE_RIGHT' && currentPage < 604) {
         toggleAyahSelection();
         setTooltipData(null);
-        setTafsirVisible(false);
-        dispatch(setPageNumber(pageNumber + 1));
+        dispatch(setPageNumber(currentPage + 1));
       }
     }, 500),
     [dispatch, pageNumber]
