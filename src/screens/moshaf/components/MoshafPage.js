@@ -63,10 +63,12 @@ const MoshafPage = React.memo((route) => {
       if (direction === 'SWIPE_LEFT' && currentPage > 1) {
         toggleAyahSelection();
         setTooltipData(null);
+        setTafsirVisible(false);
         dispatch(setPageNumber(currentPage - 1));
       } else if (direction === 'SWIPE_RIGHT' && currentPage < 604) {
         toggleAyahSelection();
         setTooltipData(null);
+        setTafsirVisible(false);
         dispatch(setPageNumber(currentPage + 1));
       }
     }, 500),
