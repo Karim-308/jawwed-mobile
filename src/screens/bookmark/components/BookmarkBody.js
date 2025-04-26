@@ -10,8 +10,8 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const goToVerse = (pageNumber) => {
-    dispatch(setPageNumber(pageNumber)); // Dispatch Redux action to update page number
-    navigation.navigate('MoshafPage', { pageNumber }); // Pass pageNumber as navigation parameter
+    dispatch(setPageNumber(Number(pageNumber)));
+    navigation.navigate('MoshafPage'); // Pass pageNumber as navigation parameter
   }
   
   const renderBookmark = ({ item }) => (
