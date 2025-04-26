@@ -12,18 +12,22 @@
       "backgroundColor": "#000000"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIViewSemanticContentAttribute": "forceRightToLeft" 
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/for-splash.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.karim308.jawwed", 
+      "package": "com.karim308.jawwed",
       "usesCleartextTraffic": true,
       "permissions": [
         "INTERNET"
-      ]
+      ],
+      "supportsRtl": true
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
@@ -33,7 +37,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "54d22dcb-376a-43a8-b210-2b32bf442b27"
+        "projectId": "66e3979b-8bd4-4222-9f98-da5e1d5b6f66"
       }
     }
   }

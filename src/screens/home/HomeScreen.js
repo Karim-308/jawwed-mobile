@@ -5,14 +5,13 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   ImageBackground,
   SafeAreaView,
   Image,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan"; // Correct Madhab import
+import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -21,10 +20,9 @@ const HomeScreen = () => {
   const [timeLeft, setTimeLeft] = useState("");
 
   useEffect(() => {
-    // Set up location coordinates
-    const coordinates = new Coordinates(30.0444, 31.2357); // Cairo, Egypt
+    const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
     const params = CalculationMethod.MuslimWorldLeague();
-    params.madhab = Madhab.Shafi; // Correctly assign Madhab
+    params.madhab = Madhab.Shafi;
 
     const calculatePrayerTimes = () => {
       const now = new Date();
@@ -41,7 +39,7 @@ const HomeScreen = () => {
       if (nextPrayerKey) {
         setNextPrayer(
           nextPrayerKey.charAt(0).toUpperCase() + nextPrayerKey.slice(1)
-        ); // Capitalize
+        );
         const timeDifference = prayerTimes[nextPrayerKey] - now;
         const hours = Math.floor(timeDifference / 1000 / 60 / 60);
         const minutes = Math.floor((timeDifference / 1000 / 60) % 60);
@@ -55,30 +53,30 @@ const HomeScreen = () => {
     calculatePrayerTimes();
     const interval = setInterval(calculatePrayerTimes, 1000);
 
-    return () => clearInterval(interval); // Clean up interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header with Background Image */}
+      {/* Header with background */}
       <ImageBackground
         source={require("../../assets/images/home_background.png")}
         style={styles.headerBackground}
         resizeMode="cover"
       >
-        {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.clock}>{currentTime}</Text>
           <Text style={styles.prayerTime}>
             {nextPrayer ? `${nextPrayer} - ${timeLeft}` : "No upcoming prayer"}
           </Text>
+
           <View style={styles.searchContainer}>
             <MaterialIcons name="language" size={24} color="#EFB975" />
             <MaterialIcons name="notifications" size={24} color="#EFB975" />
             <TextInput
               placeholder="انقر هنـــا للبحث"
-              writingDirection="rtl"
               placeholderTextColor="#666"
+              writingDirection="rtl"
               style={styles.searchInput}
             />
             <MaterialIcons name="search" size={24} color="#EFB975" />
@@ -88,14 +86,12 @@ const HomeScreen = () => {
 
       {/* Features Section */}
       <View style={styles.features}>
+        {/* Section Title */}
         <Text style={styles.sectionTitle}>القــائــــــمة</Text>
-        <View
-          flexDirection="row-reverse"
-          flexWrap='wrap'
-          style={{ width: "100%", justifyContent: "flex-start" }}
-        >
 
-          {/* Feature 1: Index Page */}
+        {/* Features Buttons */}
+        <View style={styles.featuresList}>
+          {/* Index Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("IndexPage")}
@@ -104,7 +100,7 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>الفهرس</Text>
           </TouchableOpacity>
 
-          {/* Feature 2: Moshaf Page */}
+          {/* Moshaf Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("MoshafPage")}
@@ -113,7 +109,7 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>المصحف</Text>
           </TouchableOpacity>
 
-          {/* Feature 3: Bookmark Page */}
+          {/* Bookmark Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("BookmarkPage")}
@@ -122,7 +118,7 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>الإشارات المرجعية</Text>
           </TouchableOpacity>
 
-          {/* Feature 4: Azkar Page */}
+          {/* Azkar Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("AzkarPage")}
@@ -135,7 +131,7 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>الأذكار</Text>
           </TouchableOpacity>
 
-          {/* Feature 5: Prayer Times */}
+          {/* Prayer Times Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate('PrayerTimesPage')}
@@ -143,7 +139,6 @@ const HomeScreen = () => {
             <Ionicons name="time-outline" size={60} color="#EFB975" />
             <Text style={styles.featureText}>مواقيت الصلاة</Text>
           </TouchableOpacity>
-
         </View>
       </View>
     </SafeAreaView>
@@ -157,11 +152,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
     paddingHorizontal: 10,
-    paddingTop: 40, // Offset to avoid overlap with status bar
+    paddingTop: 40,
   },
   headerBackground: {
     width: "100%",
-    height: 200, // Adjust height to fit your image size
+    height: 200,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -193,10 +188,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
     color: "#FFF",
+    textAlign: "right",
+    writingDirection: "rtl",
   },
   features: {
     marginVertical: 20,
-    marginTop: 75
+    marginTop: 75,
   },
   sectionTitle: {
     fontSize: 20,
@@ -204,6 +201,12 @@ const styles = StyleSheet.create({
     color: "#FFF",
     marginBottom: 20,
     textAlign: "right",
+  },
+  featuresList: {
+    flexDirection: "row-reverse",
+    flexWrap: "wrap",
+    width: "100%",
+    justifyContent: "flex-start",
   },
   featureItem: {
     alignItems: "center",
@@ -213,6 +216,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#FFF",
     marginTop: 5,
+    textAlign: "center",
   },
   azkarImage: {
     width: 60,

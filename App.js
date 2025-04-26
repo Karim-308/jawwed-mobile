@@ -1,33 +1,37 @@
-import { LogBox } from 'react-native';
-// Ignore all log notifications
+import { LogBox, I18nManager } from "react-native";
+import { useEffect } from "react";
+
 LogBox.ignoreAllLogs(true);
 
-// Override console methods
-if (__DEV__) {
-  console.log = () => {};
-  console.warn = () => {};
-  console.error = () => {};
-}
-
-
-import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
-import * as Font from 'expo-font';
-import { Provider } from 'react-redux';
-import store from './src/redux/store';
-import IntroScreen from './src/screens/Intro/IntroScreen';
-import AppNavigator from './src/navigation/AppNavigator';
+import React, { useState } from "react";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
+import * as Font from "expo-font";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+import IntroScreen from "./src/screens/Intro/IntroScreen";
+import AppNavigator from "./src/navigation/AppNavigator";
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
+    async function setupRTL() {
+      if (!I18nManager.isRTL) {
+        await I18nManager.forceRTL(true);
+        await Updates.reloadAsync(); // Restart app after forcing RTL
+      }
+    }
+  
+    setupRTL();
+  }, []);
+  
+  useEffect(() => {
     const loadAppResources = async () => {
       try {
         await Font.loadAsync({
           'UthmanicHafs': require('./src/assets/fonts/Hafs.ttf'),
-          'digitalkhatt': require('./src/assets/fonts/digitalkhatt (4).otf'),
+          'digitalkhatt': require('./src/assets/fonts/digitalkhatt4.otf'),
           'PRO': require('./src/assets/fonts/AQEEQSANSPRO-Thin.otf'),
         });
         setFontLoaded(true);
@@ -61,8 +65,8 @@ export default function App() {
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
