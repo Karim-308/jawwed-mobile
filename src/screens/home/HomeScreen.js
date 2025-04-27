@@ -13,11 +13,19 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan";
 
+const prayerNamesArabic = {
+  fajr: "الفجر",
+  dhuhr: "الظهر",
+  asr: "العصر",
+  maghrib: "المغرب",
+  isha: "العشاء",
+};
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [currentTime, setCurrentTime] = useState("");
   const [nextPrayer, setNextPrayer] = useState("");
-  const [timeLeft, setTimeLeft] = useState("");
+  const [remainingSeconds, setRemainingSeconds] = useState(0);
 
   useEffect(() => {
     const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
@@ -27,38 +35,57 @@ const HomeScreen = () => {
     const calculatePrayerTimes = () => {
       const now = new Date();
       const prayerTimes = new PrayerTimes(coordinates, now, params);
+
       setCurrentTime(
-        now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        now.toLocaleTimeString('ar-EG', { hour: "2-digit", minute: "2-digit" })
       );
 
       const prayerKeys = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
-      const nextPrayerKey = prayerKeys.find(
+      let nextPrayerKey = prayerKeys.find(
         (key) => prayerTimes[key] && now < prayerTimes[key]
       );
 
-      if (nextPrayerKey) {
-        setNextPrayer(
-          nextPrayerKey.charAt(0).toUpperCase() + nextPrayerKey.slice(1)
-        );
-        const timeDifference = prayerTimes[nextPrayerKey] - now;
-        const hours = Math.floor(timeDifference / 1000 / 60 / 60);
-        const minutes = Math.floor((timeDifference / 1000 / 60) % 60);
-        setTimeLeft(`${hours}h ${minutes}m left`);
+      if (!nextPrayerKey) {
+        // After Isha, next prayer is tomorrow's Fajr
+        const tomorrow = new Date(now);
+        tomorrow.setDate(now.getDate() + 1);
+        const tomorrowPrayerTimes = new PrayerTimes(coordinates, tomorrow, params);
+        nextPrayerKey = "fajr";
+        const timeDifference = Math.floor((tomorrowPrayerTimes.fajr - now) / 1000);
+        setNextPrayer(prayerNamesArabic[nextPrayerKey]);
+        setRemainingSeconds(timeDifference);
       } else {
-        setNextPrayer("None");
-        setTimeLeft("");
+        const timeDifference = Math.floor((prayerTimes[nextPrayerKey] - now) / 1000);
+        setNextPrayer(prayerNamesArabic[nextPrayerKey]);
+        setRemainingSeconds(timeDifference);
       }
     };
 
     calculatePrayerTimes();
-    const interval = setInterval(calculatePrayerTimes, 1000);
+    const prayerInterval = setInterval(calculatePrayerTimes, 60000); // Refresh prayer every 1 minute
+    const countdownInterval = setInterval(() => {
+      setRemainingSeconds(prev => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(prayerInterval);
+      clearInterval(countdownInterval);
+    };
   }, []);
+
+  const formatTime = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${toArabicNumber(hrs)}:${toArabicNumber(mins)}:${toArabicNumber(secs)}`;
+  };
+
+  const toArabicNumber = (num) => {
+    return num.toString().padStart(2, '0').replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header with background */}
       <ImageBackground
         source={require("../../assets/images/home_background.png")}
         style={styles.headerBackground}
@@ -67,7 +94,7 @@ const HomeScreen = () => {
         <View style={styles.header}>
           <Text style={styles.clock}>{currentTime}</Text>
           <Text style={styles.prayerTime}>
-            {nextPrayer ? `${nextPrayer} - ${timeLeft}` : "No upcoming prayer"}
+            {nextPrayer ? `متبقي ${formatTime(remainingSeconds)} لصلاة ${nextPrayer}` : "لا يوجد صلاة قادمة"}
           </Text>
 
           <View style={styles.searchContainer}>
@@ -84,14 +111,10 @@ const HomeScreen = () => {
         </View>
       </ImageBackground>
 
-      {/* Features Section */}
       <View style={styles.features}>
-        {/* Section Title */}
         <Text style={styles.sectionTitle}>القــائــــــمة</Text>
 
-        {/* Features Buttons */}
         <View style={styles.featuresList}>
-          {/* Index Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("IndexPage")}
@@ -100,7 +123,6 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>الفهرس</Text>
           </TouchableOpacity>
 
-          {/* Moshaf Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("MoshafPage")}
@@ -109,7 +131,6 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>المصحف</Text>
           </TouchableOpacity>
 
-          {/* Bookmark Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("BookmarkPage")}
@@ -118,7 +139,6 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>الإشارات المرجعية</Text>
           </TouchableOpacity>
 
-          {/* Azkar Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("AzkarPage")}
@@ -131,7 +151,6 @@ const HomeScreen = () => {
             <Text style={styles.featureText}>الأذكار</Text>
           </TouchableOpacity>
 
-          {/* Prayer Times Page */}
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate('PrayerTimesPage')}
@@ -170,7 +189,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
   },
   prayerTime: {
-    fontSize: 16,
+    fontSize: 20,
     color: "#FFF",
     marginTop: 5,
     textAlign: "center",
