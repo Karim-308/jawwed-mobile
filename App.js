@@ -1,9 +1,6 @@
 import { LogBox, I18nManager } from "react-native";
-import { useEffect } from "react";
-
-LogBox.ignoreAllLogs(true);
-
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 import { View, ActivityIndicator, StyleSheet } from "react-native";
 import * as Font from "expo-font";
 import { Provider } from "react-redux";
@@ -11,21 +8,20 @@ import store from "./src/redux/store";
 import IntroScreen from "./src/screens/Intro/IntroScreen";
 import AppNavigator from "./src/navigation/AppNavigator";
 
+LogBox.ignoreAllLogs(true);
+
+
+// Lock layout direction immediately after imports to prevent metro bundling issues
+// and to ensure that the app is always in RTL mode.
+if (!I18nManager.isRTL) {
+  I18nManager.allowRTL(false);
+  I18nManager.forceRTL(false);
+}
+
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
 
-  useEffect(() => {
-    async function setupRTL() {
-      if (!I18nManager.isRTL) {
-        await I18nManager.forceRTL(true);
-        await Updates.reloadAsync(); // Restart app after forcing RTL
-      }
-    }
-  
-    setupRTL();
-  }, []);
-  
   useEffect(() => {
     const loadAppResources = async () => {
       try {

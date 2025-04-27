@@ -14,7 +14,7 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIViewSemanticContentAttribute": "forceRightToLeft" 
+        "UIViewSemanticContentAttribute": "forceRightToLeft"
       }
     },
     "android": {
@@ -26,14 +26,14 @@
       "usesCleartextTraffic": true,
       "permissions": [
         "INTERNET"
-      ],
-      "supportsRtl": true
+      ]
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-secure-store"
     ],
     "extra": {
       "eas": {
