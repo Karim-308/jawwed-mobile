@@ -1,14 +1,14 @@
 import axios from 'axios';
+import {get} from '../../utils/localStorage/secureStore'; // Adjust the import path as necessary
+import jawwedHttpClient from '../../utils/httpclient'; // Adjust the import path as necessary 
+
 
 const getBookmarks = async () => {
-  const url = 'https://jawwed-api.runasp.net/api/Bookmark';
-  const defaultUserId = 2;
+  const url = 'Bookmark';
+  const token = await get('userToken'); // Assuming you have a function to get the token
 
   try {
-    const response = await axios.get(url, {
-      params: { userId: defaultUserId },
-      timeout: 10000 // Timeout set to 10 seconds
-    });
+    const response = await jawwedHttpClient.get(url);
 
     // Handle success
     console.log('Bookmarks retrieved successfully:', response.data);

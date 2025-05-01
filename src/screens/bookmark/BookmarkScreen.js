@@ -5,57 +5,80 @@ import Header from './components/BookmarkHeader';
 import Body from './components/BookmarkBody';
 import getBookmarks from '../../api/bookmark/GetBookmark';
 import deleteBookmark from '../../api/bookmark/DeleteBookmark';
+import { useSelector } from 'react-redux';
+import NotLoggedInMessage from '../profile/components/NotLoggedInMessage';
+import { get } from '../../utils/localStorage/secureStore'; // Adjust the import path as necessary
+import { ActivityIndicator } from 'react-native';
 
 const BookmarkScreen = () => {
+  const [isLoggedIn,setIsLoggedIn] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const token = await get('userToken');
+      setIsLoggedIn(!!token); // true if token exists
+    };
+    checkLogin();
+  }, []);
 
   useEffect(() => {
     const loadResources = async () => {
       try {
-        await Font.loadAsync({
-          'UthmanicHafs': require('../../assets/fonts/Hafs.ttf'),
-        });
         const data = await getBookmarks();
         setBookmarks(data);
       } catch (err) {
-        setError('Failed to load bookmarks or fonts.');
+        setError("Failed to load bookmarks");
         console.error(err);
       } finally {
-        setFontLoaded(true);
         setLoading(false);
       }
     };
 
-    loadResources();
-  }, []);
+    if (isLoggedIn) loadResources(); // ✅ only fetch if logged in
+  }, [isLoggedIn]);
 
   const handleDelete = async (userId, verseKey) => {
     try {
       await deleteBookmark(userId, verseKey);
-      setBookmarks((prevBookmarks) =>
-        prevBookmarks.filter((bookmark) => bookmark.verseKey !== verseKey)
-      );
+      setBookmarks((prev) => prev.filter((b) => b.verseKey !== verseKey));
     } catch (error) {
       console.error('Error deleting bookmark:', error);
     }
   };
 
+
+if (isLoggedIn === null) {
   return (
     <View style={styles.container}>
-      {/*<Header />*/}
+      <ActivityIndicator size="large" color="#fff" />
+    </View>
+  );
+}
+
+
+  if (!isLoggedIn) {
+    return (
+      <View style={styles.container}>
+        <NotLoggedInMessage />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
       <Body
         bookmarks={bookmarks}
         loading={loading}
         error={error}
-        fontLoaded={fontLoaded}
         handleDelete={handleDelete}
       />
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

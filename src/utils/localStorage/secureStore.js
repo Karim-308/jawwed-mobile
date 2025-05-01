@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 
-export async function saveSecureItem(key, value) {
+export async function save(key, value) {
   try {
     await SecureStore.setItemAsync(key, value);
   } catch (error) {
@@ -8,7 +8,7 @@ export async function saveSecureItem(key, value) {
   }
 }
 
-export async function getSecureItem(key) {
+export async function get(key) {
   try {
     const value = await SecureStore.getItemAsync(key);
     return value;
@@ -18,7 +18,7 @@ export async function getSecureItem(key) {
   }
 }
 
-export async function deleteSecureItem(key) {
+export async function remove(key) {
   try {
     await SecureStore.deleteItemAsync(key);
   } catch (error) {

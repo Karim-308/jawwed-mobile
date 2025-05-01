@@ -1,16 +1,19 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import HomeScreen from '../screens/home/HomeScreen';
-import MoshafIndexScreen from '../screens/moshaf-index/MoshafIndexScreen';
-import PrayerTimesScreen from '../screens/prayer-times/PrayerTimesScreen';
-import MoshafScreen from '../screens/moshaf/MoshafScreen';
-import BookmarkScreen from '../screens/bookmark/BookmarkScreen';
-import Header from '../screens/moshaf/components/MoshafHeader';
-import AzkarCategories from '../screens/azkar/AzkarCategoriesScreen';
-import { PRIMARY_GOLD } from '../constants/colors';
-import AzkarDetails from '../screens/azkar/components/AzkarDetails';
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import HomeScreen from "../screens/home/HomeScreen";
+import MoshafIndexScreen from "../screens/moshaf-index/MoshafIndexScreen";
+import MoshafScreen from "../screens/moshaf/MoshafScreen";
+import BookmarkScreen from "../screens/bookmark/BookmarkScreen";
+import Header from "../screens/moshaf/components/MoshafHeader";
+import { PRIMARY_GOLD } from "../constants/colors";
+import LoginScreen from "../screens/login/LoginScreen";
+import ProfileScreen from "../screens/profile/ProfileScreen";
+import QuizScreen from "../screens/quiz/QuizScreen";
+import AzkarCategories from "../screens/azkar/AzkarCategoriesScreen";
+import AzkarDetails from "../screens/azkar/components/AzkarDetails";
+import PrayerTimesScreen from "../screens/prayer-times/PrayerTimesScreen";
 
 const Stack = createStackNavigator();
 
@@ -18,37 +21,50 @@ const AppNavigator = () => (
   <NavigationContainer>
     <StatusBar style="light" />
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Login"
       screenOptions={{
-        headerStyle: { backgroundColor: '#000', elevation: 0, shadowOpacity: 0 },
-        headerTintColor: '#FFF',
-        headerTitleStyle: { fontWeight: 'bold' },
+        headerStyle: {
+          backgroundColor: "#000",
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTintColor: "#FFF",
+        headerTitleStyle: { fontWeight: "bold" },
         headerBackTitleVisible: false,
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="IndexPage"
         component={MoshafIndexScreen}
         options={{
-          title: 'الفهرس',
+          title: "الفهرس",
           headerTitleStyle: {
-            fontFamily: 'UthmanicHafs',
+            fontFamily: "UthmanicHafs",
             fontSize: 30,
           },
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
         name="BookmarkPage"
         component={BookmarkScreen}
         options={{
-          title: 'الإشارات المرجعية',
+          title: "الإشارات المرجعية",
           headerTitleStyle: {
-            fontFamily: 'UthmanicHafs',
+            fontFamily: "UthmanicHafs",
             fontSize: 30,
           },
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
@@ -58,57 +74,77 @@ const AppNavigator = () => (
           headerTitle: () => <Header />,
           headerTintColor: `${PRIMARY_GOLD}`,
           headerTitleStyle: {
-            fontFamily: 'UthmanicHafs',
+            fontFamily: "UthmanicHafs",
             fontSize: 30,
           },
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
           headerStyle: {
-            backgroundColor: '#000',
+            backgroundColor: "#000",
           },
+        }}
+      />
+      <Stack.Screen
+        name="ProfilePage"
+        component={ProfileScreen}
+        options={{
+          title: "الملف الشخصي",
+          headerTitleStyle: {
+            fontFamily: "UthmanicHafs",
+            fontSize: 30,
+          },
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
         name="AzkarPage"
         component={AzkarCategories}
         options={{
-          title: 'الأذكار',
+          title: "الأذكار",
           headerTitleStyle: {
-            fontFamily: 'UthmanicHafs',
+            fontFamily: "UthmanicHafs",
             fontSize: 30,
           },
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#000',
-          },
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
-        name="AzkarDetails"
+        name="AzkarDetailsPage"
         component={AzkarDetails}
-        options={{
-          title: ' ',
+        options={({ route }) => ({
+          title: route.params?.title || "الأذكار", // ✅ fallback Arabic title
           headerTitleStyle: {
-            fontFamily: 'UthmanicHafs',
+            fontFamily: "UthmanicHafs",
             fontSize: 30,
           },
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: '#000',
+          headerTitleAlign: "center",
+        })}
+      />
+
+      <Stack.Screen
+        name="QuizPage"
+        component={QuizScreen}
+        options={{
+          title: "Quiz",
+          headerTitleStyle: {
+            fontFamily: "UthmanicHafs",
+            fontSize: 30,
           },
+          headerTitleAlign: "center",
         }}
       />
       <Stack.Screen
         name="PrayerTimesPage"
         component={PrayerTimesScreen}
         options={{
-          title: 'مواقيت الصلاة',
+          title: "مواقيت الصلاة",
           headerTitleStyle: {
-            fontFamily: 'UthmanicHafs',
+            fontFamily: "UthmanicHafs",
             fontSize: 30,
           },
-          headerTitleAlign: 'center',
+          headerTitleAlign: "center",
         }}
       />
+
     </Stack.Navigator>
   </NavigationContainer>
 );
