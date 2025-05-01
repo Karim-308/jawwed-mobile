@@ -5,6 +5,7 @@ import navigationReducer from './reducers/navigationReducer';
 import indexReducer from './reducers/indexReducer';
 import pageReducer from './reducers/pageReducer';
 import prayerTimesReducer from './reducers/prayerTimesReducer';
+import authReducer from './reducers/authReducer';
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   navigation: navigationReducer,
   index: indexReducer,
   page: pageReducer,
-  prayerTimes: prayerTimesReducer
+  prayerTimes: prayerTimesReducer,
+  auth: authReducer,
   // Add other reducers here
 });
 
