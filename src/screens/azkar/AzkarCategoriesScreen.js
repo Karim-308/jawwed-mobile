@@ -12,11 +12,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { getAzkarCategories } from '../../api/azkar/getAzkarCategories'; // adjust path as needed
 import { useNavigation } from '@react-navigation/native';
 
-I18nManager.forceRTL(true); // RTL layout for Arabic
 
-const AzkarCategories = ({ navigation }) => {
+
+const AzkarCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -34,9 +35,11 @@ const AzkarCategories = ({ navigation }) => {
   }, []);
 
   const handleCardPress = (item) => {
-    navigation.navigate('AzkarDetails', {
+    navigation.navigate('AzkarDetailsPage', {
       categoryId: item.categoryId,
+      title: item.category, // ✅ add title here
     });
+    
   };
   
 

@@ -9,9 +9,10 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan";
+import { get } from "../../utils/localStorage/secureStore"; // Adjust the import path as necessary
 
 const prayerNamesArabic = {
   fajr: "الفجر",
@@ -37,7 +38,7 @@ const HomeScreen = () => {
       const prayerTimes = new PrayerTimes(coordinates, now, params);
 
       setCurrentTime(
-        now.toLocaleTimeString('ar-EG', { hour: "2-digit", minute: "2-digit" })
+        now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" })
       );
 
       const prayerKeys = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
@@ -46,7 +47,6 @@ const HomeScreen = () => {
       );
 
       if (!nextPrayerKey) {
-        // After Isha, next prayer is tomorrow's Fajr
         const tomorrow = new Date(now);
         tomorrow.setDate(now.getDate() + 1);
         const tomorrowPrayerTimes = new PrayerTimes(coordinates, tomorrow, params);
@@ -62,9 +62,9 @@ const HomeScreen = () => {
     };
 
     calculatePrayerTimes();
-    const prayerInterval = setInterval(calculatePrayerTimes, 60000); // Refresh prayer every 1 minute
+    const prayerInterval = setInterval(calculatePrayerTimes, 60000);
     const countdownInterval = setInterval(() => {
-      setRemainingSeconds(prev => (prev > 0 ? prev - 1 : 0));
+      setRemainingSeconds((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
     return () => {
@@ -81,7 +81,7 @@ const HomeScreen = () => {
   };
 
   const toArabicNumber = (num) => {
-    return num.toString().padStart(2, '0').replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
+    return num.toString().padStart(2, "0").replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
   };
 
   return (
@@ -91,10 +91,19 @@ const HomeScreen = () => {
         style={styles.headerBackground}
         resizeMode="cover"
       >
+        <TouchableOpacity
+          style={styles.profileIcon}
+          onPress={() => navigation.navigate("ProfilePage")}
+        >
+          <Ionicons name="person-circle-outline" size={60} color="#ffffff" />
+        </TouchableOpacity>
+
         <View style={styles.header}>
           <Text style={styles.clock}>{currentTime}</Text>
           <Text style={styles.prayerTime}>
-            {nextPrayer ? `متبقي ${formatTime(remainingSeconds)} لصلاة ${nextPrayer}` : "لا يوجد صلاة قادمة"}
+            {nextPrayer
+              ? `متبقي ${formatTime(remainingSeconds)} لصلاة ${nextPrayer}`
+              : "لا يوجد صلاة قادمة"}
           </Text>
 
           <View style={styles.searchContainer}>
@@ -153,10 +162,18 @@ const HomeScreen = () => {
 
           <TouchableOpacity
             style={styles.featureItem}
-            onPress={() => navigation.navigate('PrayerTimesPage')}
+            onPress={() => navigation.navigate("PrayerTimesPage")}
           >
             <Ionicons name="time-outline" size={60} color="#EFB975" />
             <Text style={styles.featureText}>مواقيت الصلاة</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.featureItem}
+            onPress={() => navigation.navigate("QuizPage")}
+          >
+            <FontAwesome5 name="chalkboard-teacher" size={60} color="#EFB975" />
+            <Text style={styles.featureText}>اختبار القرآن</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -241,5 +258,11 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     tintColor: "#EFB975",
+  },
+  profileIcon: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    zIndex: 10,
   },
 });

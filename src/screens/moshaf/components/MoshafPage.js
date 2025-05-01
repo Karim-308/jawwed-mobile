@@ -12,6 +12,8 @@ import postBookmark from '../../../api/bookmark/PostBookmark';
 import TafsirModal from './Modals/TafsirModal';
 import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
+import { get } from '../../../utils/localStorage/secureStore'; // Adjust the import path as necessary
+import NotLoggedInMessage from '../../profile/components/NotLoggedInMessage';
 
 
 // Helper function: Identify ayah boundaries based on Arabic digits.
@@ -48,6 +50,17 @@ const MoshafPage = React.memo((route) => {
   const [tooltipData, setTooltipData] = useState(null);
   const [tafsirVisible, setTafsirVisible] = useState(false);
   const [selectedTafsirSource, setSelectedTafsirSource] = useState(1);
+  const [isLoggedIn,setIsLoggedIn] = useState(null);
+  
+  
+
+    useEffect(() => {
+      const checkLogin = async () => {
+        const token = await get('userToken');
+        setIsLoggedIn(!!token);
+      };
+      checkLogin();
+    }, []);
 
   useEffect(() => {
     if (routePageNumber) {
@@ -228,7 +241,10 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
     };
   
     try {
-      // Send the data to the API
+      if (!isLoggedIn) {
+        console.log("User is not logged in. Cannot bookmark.");
+        return;
+      }
       const response = await postBookmark(bookmarkData);
       //console.log('Bookmark successfully posted:', response);
     } catch (error) {
