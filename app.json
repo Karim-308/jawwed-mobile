@@ -19,17 +19,19 @@
         "foregroundImage": "./src/assets/images/for-splash.png",
         "backgroundColor": "#000000"
       },
-      "package": "com.karim308.jawwed", 
-      "usesCleartextTraffic": true,
+      "package": "jawwed.company.com",
       "permissions": [
         "INTERNET"
-      ]
+      ],
+       "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "@react-native-firebase/app",
+      "@react-native-firebase/messaging"
     ],
     "extra": {
       "eas": {
