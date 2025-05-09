@@ -175,6 +175,13 @@ const HomeScreen = () => {
             <FontAwesome5 name="chalkboard-teacher" size={60} color="#EFB975" />
             <Text style={styles.featureText}>اختبار القرآن</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.featureItem}
+            onPress={() => navigation.navigate("QiblahPage")}
+          >
+            <MaterialCommunityIcons name="compass-outline" size={60} color="#EFB975" />
+            <Text style={styles.featureText}>اتجاه القِبلة</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
