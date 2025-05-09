@@ -73,7 +73,6 @@ const LoginScreen = () => {
           setUserInfo({ name, email });
           setJwtToken(token);
           dispatch(setLoggedIn());
-          Alert.alert("Login Successful", `Welcome ${name}`);
           navigation.navigate("Home");
         } catch (err) {
           console.error("❌ Login Error:", err);
