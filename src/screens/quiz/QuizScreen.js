@@ -118,7 +118,15 @@ const QuizScreen = () => {
     }
   };
 
-  if (isLoggedIn === null || loading) {
+    if (!isLoggedIn) {
+    return (
+      <View style={styles.container}>
+        <NotLoggedInMessage />
+      </View>
+    );
+  }
+
+  if (loading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#F4A950" />
@@ -126,13 +134,6 @@ const QuizScreen = () => {
     );
   }
 
-  if (!isLoggedIn) {
-    return (
-      <View style={styles.container}>
-        <NotLoggedInMessage />
-      </View>
-    );
-  }
 
   if (quizQuestions.length === 0) {
     return (
