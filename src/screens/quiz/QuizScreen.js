@@ -1,36 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
 import { getQuiz } from "../../api/quiz/getquiz";
-import { get } from "../../utils/localStorage/secureStore"; // Adjust the import path as necessary
+import { get } from "../../utils/localStorage/secureStore";
+import { postQuiz } from "../../api/quiz/postquiz";
+import CustomAlert from "../../components/Alert/CustomAlert";
 
 const QuizScreen = () => {
   const navigation = useNavigation();
-  const [isLoggedIn,setIsLoggedIn] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [quizQuestions, setQuizQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
+  const [sessionId, setSessionId] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
-    useEffect(() => {
-      const checkLogin = async () => {
-        const token = await get('userToken');
-        setIsLoggedIn(!!token); // true if token exists
-      };
-      checkLogin();
-    }, []);
-  
+  // Shuffle helper
+  const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const token = await get("userToken");
+      setIsLoggedIn(!!token);
+    };
+    checkLogin();
+  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) return;
     const fetchQuiz = async () => {
       try {
         const data = await getQuiz();
-        setQuizQuestions(data.questions); // ✅ fixed key
+        const shuffledQuestions = data.questions.map((q) => ({
+          ...q,
+          shuffledOptions: shuffleArray(q.options),
+        }));
+        setQuizQuestions(shuffledQuestions);
+        setSessionId(data.quizSessionID);
+        console.log("Quiz data:", data);
       } catch (error) {
         console.error("Quiz fetch error:", error);
       } finally {
@@ -62,10 +82,13 @@ const QuizScreen = () => {
   };
 
   const selectAnswer = (option) => {
-    const questionID = quizQuestions[currentQuestionIndex].questionID;
+    const question = quizQuestions[currentQuestionIndex];
     setAnswers((prev) => ({
       ...prev,
-      [questionID]: option, // ✅ store by ID not index
+      [question.questionID]: {
+        questionHeader: question.questionHeader,
+        questionAnswer: option,
+      },
     }));
   };
 
@@ -83,19 +106,26 @@ const QuizScreen = () => {
     }
   };
 
-  const finishQuiz = () => {
-    console.log("User Answers:", answers);
-    navigation.goBack(); // You may want to send data to backend here
+  const finishQuiz = async () => {
+    const formattedAnswers = Object.values(answers);
+
+    try {
+      const response = await postQuiz(sessionId, formattedAnswers);
+      setAlertMessage(response.message);
+      setShowAlert(true);
+    } catch (error) {
+      console.error("Quiz submission failed:", error);
+    }
   };
 
-  if (isLoggedIn === null) {
+  if (isLoggedIn === null || loading) {
     return (
       <View style={styles.container}>
         <ActivityIndicator size="large" color="#F4A950" />
       </View>
     );
   }
-  
+
   if (!isLoggedIn) {
     return (
       <View style={styles.container}>
@@ -104,11 +134,10 @@ const QuizScreen = () => {
     );
   }
 
-
-  if (loading || quizQuestions.length === 0) {
+  if (quizQuestions.length === 0) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#F4A950" />
+        <Text style={styles.optionText}>No quiz available.</Text>
       </View>
     );
   }
@@ -121,12 +150,15 @@ const QuizScreen = () => {
       <Text style={styles.timerText}>⏳ {formatTime(timeLeft)}</Text>
       <Text style={styles.questionText}>{currentQuestion.questionHeader}</Text>
 
-      {currentQuestion.options.map((option, index) => {
-        const isSelected = selectedAnswer === option;
+      {currentQuestion.shuffledOptions.map((option, index) => {
+        const isSelected = selectedAnswer?.questionAnswer === option;
         return (
           <TouchableOpacity
             key={index}
-            style={[styles.optionButton, isSelected && styles.selectedOptionButton]}
+            style={[
+              styles.optionButton,
+              isSelected && styles.selectedOptionButton,
+            ]}
             onPress={() => selectAnswer(option)}
           >
             <Text style={styles.optionText}>{option}</Text>
@@ -136,7 +168,10 @@ const QuizScreen = () => {
 
       <View style={styles.navigationButtonsContainer}>
         <TouchableOpacity
-          style={[styles.navButton, currentQuestionIndex === 0 && { opacity: 0.5 }]}
+          style={[
+            styles.navButton,
+            currentQuestionIndex === 0 && { opacity: 0.5 },
+          ]}
           onPress={goBack}
           disabled={currentQuestionIndex === 0}
         >
@@ -155,6 +190,16 @@ const QuizScreen = () => {
       <Text style={styles.progressText}>
         {currentQuestionIndex + 1} of {quizQuestions.length}
       </Text>
+      
+      {/* Custom Alert */}
+      <CustomAlert
+        visible={showAlert}
+        onClose={() => {
+          setShowAlert(false);
+          navigation.goBack();
+        }}
+        message={alertMessage}
+      />
     </View>
   );
 };
@@ -204,17 +249,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 100,
   },
   navButton: {
-    backgroundColor: '#F4A950',
+    backgroundColor: "#F4A950",
     padding: 10,
     borderRadius: 10,
     flex: 0.44,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navButtonText: {
-    fontSize: 18,
-    color: "#000000",
-    fontWeight: "bold",
+    alignItems: "center",
+    justifyContent: "center",
   },
   progressText: {
     marginTop: 20,

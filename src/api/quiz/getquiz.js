@@ -1,16 +1,16 @@
-// src/api/getquiz.js
-
-import axios from 'axios';
-import jawwedHttpClient from '../../utils/httpclient'; // Adjust the import path as necessary 
+import  jawwedHttpClient from '../../utils/httpclient';
 
 export const getQuiz = async () => {
-  const url = 'Quiz'; // Adjust the URL as necessary
+  const url = 'Quiz';
   try {
-    const { data } = await jawwedHttpClient.request(url);
-    console.log('Quiz data retrieved successfully:', data);
+    const { data } = await jawwedHttpClient.get(url);
     return data;
   } catch (error) {
-    console.error('Error fetching quiz:', error);
+    console.error('❌ Error fetching quiz:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+    });
     throw error;
   }
 };
