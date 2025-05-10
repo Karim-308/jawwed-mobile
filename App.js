@@ -37,7 +37,7 @@ export default function App() {
     };
 
     loadAppResources();
-  }, []); 
+  }, []);
 
   if (showIntro) {
     return <IntroScreen onFinish={() => setShowIntro(false)} />;
