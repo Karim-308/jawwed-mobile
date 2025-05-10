@@ -14,7 +14,7 @@ import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
 import { getQuiz } from "../../api/quiz/getquiz";
 import { get } from "../../utils/localStorage/secureStore";
 import { postQuiz } from "../../api/quiz/postquiz";
-import CustomAlert from "../../components/Alert/CustomAlert";
+import QuizAlert from "../../components/Alert/QuizAlert";
 
 const QuizScreen = () => {
   const navigation = useNavigation();
@@ -111,7 +111,7 @@ const QuizScreen = () => {
 
     try {
       const response = await postQuiz(sessionId, formattedAnswers);
-      setAlertMessage(response.message);
+      setAlertMessage(response.passed ? "تهانينا! لقد نجحت في الاختبار." : "للأسف، لم تنجح في الاختبار.");
       setShowAlert(true);
     } catch (error) {
       console.error("Quiz submission failed:", error);
@@ -193,7 +193,7 @@ const QuizScreen = () => {
       </Text>
       
       {/* Custom Alert */}
-      <CustomAlert
+      <QuizAlert
         visible={showAlert}
         onClose={() => {
           setShowAlert(false);

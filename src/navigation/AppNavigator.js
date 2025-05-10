@@ -125,7 +125,7 @@ const AppNavigator = () => (
         name="QuizPage"
         component={QuizScreen}
         options={{
-          title: "Quiz",
+          title: "اختبار القرآن",
           headerTitleStyle: {
             fontFamily: "UthmanicHafs",
             fontSize: 30,

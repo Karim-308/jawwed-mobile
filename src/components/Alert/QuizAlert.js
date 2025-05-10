@@ -2,16 +2,16 @@ import React from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const CustomAlert = ({ visible, onClose, message }) => {
+const QuizAlert = ({ visible, onClose, message }) => {
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.modalBox}>
           <Ionicons name="checkmark-circle" size={48} color="#F4A950" />
-          <Text style={styles.title}>Quiz Submitted</Text>
+          <Text style={styles.title}> تم الاختبار</Text>
           <Text style={styles.message}>{message}</Text>
           <TouchableOpacity style={styles.okButton} onPress={onClose}>
-            <Text style={styles.okText}>Back to Home</Text>
+            <Text style={styles.okText}>الصفحة الرئيسية</Text>
           </TouchableOpacity>
         </View>
       </View>
