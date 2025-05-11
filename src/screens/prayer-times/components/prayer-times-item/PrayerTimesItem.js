@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { getItemBackgroundColor } from './PrayerTimesItemFunctions';
+import { DARK_GREY, PRIMARY_GOLD } from '../../../../constants/colors';
 
 export default function PrayerTimesItem({prayer}) {
 
   return (
-      <View style={[styles.prayerTimesCard, {backgroundColor: getItemBackgroundColor(prayer.name)}]}>
+      <View style={styles.prayerTimesCard}>
         <Text style={styles.prayerTime}>{prayer.time}</Text>
         <Text style={styles.PrayerName}>{prayer.name}</Text>
       </View>
@@ -19,7 +19,9 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      padding: 3,
+      backgroundColor: DARK_GREY,
+      borderColor: PRIMARY_GOLD,
+      borderWidth: 1,
       borderRadius: 10,
       margin: 15,
       marginVertical: 5
