@@ -1,3 +1,5 @@
+import { DARK_GREY, PRIMARY_GOLD } from '../../../../constants/colors';
+
 // for styling the auto-detect location button's background
 export const getLocationBackgroundColor = (locationDeterminationMethod) => {
     if(locationDeterminationMethod === 'Auto')

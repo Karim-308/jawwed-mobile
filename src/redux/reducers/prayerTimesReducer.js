@@ -8,6 +8,9 @@ const initialState = {
     timeZone: null,
     prayerTimes: null,
     isSettingsMenuVisible: false,
+    isNotificationsMenuVisible: false,
+    isPrayerTimesNotificationsActive: false,
+    isMuteDuringPrayerTimesActive: false,
     errorStatus: null
 };
 
@@ -22,6 +25,9 @@ const actionTypes = {
     SET_TIME_ZONE: 'SET_TIME_ZONE',
     SET_PRAYER_TIMES: 'SET_PRAYER_TIMES',
     SET_IS_SETTINGS_MENU_VISIBLE: 'SET_IS_SETTINGS_MENU_VISIBLE',
+    SET_IS_NOTIFICATIONS_MENU_VISIBLE: 'SET_IS_NOTIFICATIONS_MENU_VISIBLE',
+    SWITCH_IS_PRAYER_TIMES_NOTIFICATIONS_ACTIVE: 'SWITCH_IS_PRAYER_TIMES_NOTIFICATIONS_ACTIVE',
+    SWITCH_IS_MUTE_DURING_PRAYER_TIMES_ACTIVE: 'SWITCH_IS_MUTE_DURING_PRAYER_TIMES_ACTIVE',
     SET_ERROR_STATUS: 'SET_ERROR_STATUS'
 };
 
@@ -62,6 +68,16 @@ export const setIsSettingsMenuVisible = (isSettingsMenuVisible) => ({
     type: actionTypes.SET_IS_SETTINGS_MENU_VISIBLE,
     payload: isSettingsMenuVisible
 });
+export const setIsNotificationsMenuVisible = (isNotificationsMenuVisible) => ({
+    type: actionTypes.SET_IS_NOTIFICATIONS_MENU_VISIBLE,
+    payload: isNotificationsMenuVisible
+});
+export const switchIsPrayerTimesNotificationsActive = () => ({
+    type: actionTypes.SWITCH_IS_PRAYER_TIMES_NOTIFICATIONS_ACTIVE
+});
+export const switchIsMuteDuringPrayerTimesActive = () => ({
+    type: actionTypes.SWITCH_IS_MUTE_DURING_PRAYER_TIMES_ACTIVE
+});
 export const setErrorStatus = (errorStatus) => ({
     type: actionTypes.SET_ERROR_STATUS,
     payload: errorStatus
@@ -88,6 +104,12 @@ const prayerTimesReducer = (state = initialState, action) => {
             return { ...state, prayerTimes: action.payload };
         case actionTypes.SET_IS_SETTINGS_MENU_VISIBLE:
             return { ...state, isSettingsMenuVisible: action.payload };
+        case actionTypes.SET_IS_NOTIFICATIONS_MENU_VISIBLE:
+            return { ...state, isNotificationsMenuVisible: action.payload };
+        case actionTypes.SWITCH_IS_PRAYER_TIMES_NOTIFICATIONS_ACTIVE:
+            return { ...state, isPrayerTimesNotificationsActive: !state.isPrayerTimesNotificationsActive};
+        case actionTypes.SWITCH_IS_MUTE_DURING_PRAYER_TIMES_ACTIVE:
+            return { ...state, isMuteDuringPrayerTimesActive: !state.isMuteDuringPrayerTimesActive};
         case actionTypes.SET_ERROR_STATUS:
             return { ...state, errorStatus: action.payload };
         default:
