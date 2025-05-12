@@ -6,7 +6,7 @@ import { Coordinates } from 'adhan';
 import { setCountry, setCity, setCoordinates, setCalculationMethod, setMazhab, setLocationDeterminationMethod,setIsSettingsMenuVisible, setErrorStatus } from '../../../../redux/reducers/prayerTimesReducer';
 import { coordinatesOptionData, calculationMethodOptionData, mazhabOptionData } from '../PrayerTimesData';
 import { getLocationBackgroundColor, getOptionBorderColor } from './PrayerTimesSettingsMenuFunctions';
-import { PRIMARY_GOLD, DARK_GREY } from '../../../../constants/colors';
+import { PRIMARY_GOLD, DARK_GREY, DARK_GOLD } from '../../../../constants/colors';
 import { getCurrentCoordinates } from '../../../../utils/location-utils/LocationUtils';
 
 
@@ -308,7 +308,7 @@ export default function PrayerTimesSettingsMenu() {
                         (!isDefualtOptionsActivated)?
                             <TouchableOpacity onPress={() => setDefaultSettings()}>
                                 <Text
-                                    style={[styles.defaultsButton, {backgroundColor: '#DE9953'}]}
+                                    style={[styles.defaultsButton, {backgroundColor: DARK_GOLD}]}
                                 >تطبيق الوضع الافتراضي</Text>
                             </TouchableOpacity>
                             :

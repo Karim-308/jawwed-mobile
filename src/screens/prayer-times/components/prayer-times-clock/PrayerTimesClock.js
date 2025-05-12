@@ -42,28 +42,26 @@ export default function PrayerTimesClock() {
 
     return (
         (prayerTimes)?
-            <View style={styles.container}>
-                <Text style={styles.time}>{currentTime}</Text>
+        <View style={styles.container}>
+            <Text style={styles.time}>{currentTime}</Text>
+            {
+                (hoursLeft !== 0)?
+                    <Text style={styles.nextPrayer}>متبقي {Intl.NumberFormat('ar-EG').format(hoursLeft)} ساعة و {Intl.NumberFormat('ar-EG').format(minutesLeft)} دقيقة</Text>
+                    :
+                    <Text style={styles.nextPrayer}>متبقي {Intl.NumberFormat('ar-EG').format(minutesLeft)} دقيقة</Text>
+            }
+            <Text style={styles.nextPrayer}> على رفع أذان صلاة {nextPrayerName}</Text>
+            <View>
                 {
-                    (hoursLeft !== 0)?
-                        <Text style={styles.nextPrayer}>متبقي {Intl.NumberFormat('ar-EG').format(hoursLeft)} ساعة و {Intl.NumberFormat('ar-EG').format(minutesLeft)} دقيقة</Text>
+                    (locationDeterminationMethod === 'Manual')?
+                        <Text style={styles.locationText}>{country} - {city}</Text>
                         :
-                        <Text style={styles.nextPrayer}>متبقي {Intl.NumberFormat('ar-EG').format(minutesLeft)} دقيقة</Text>
+                        <Text style={styles.locationText}>تم تحديد الموقع تلقائياً</Text>
                 }
-                <Text style={styles.nextPrayer}> على رفع أذان صلاة {nextPrayerName}</Text>
-                <View>
-                    {
-                        (locationDeterminationMethod === 'Manual')?
-                            <Text style={styles.locationText}>{country} - {city}</Text>
-                            :
-                            <Text style={styles.locationText}>تم تحديد الموقع تلقائياً</Text>
-                    }
-                </View>
             </View>
-            :
-            <View style={styles.container}>
-                <Text>سيتم عرض الوقت بعد ضبط الإعدادات</Text>
-            </View>
+        </View>
+        :
+        <></>
     );
 }
 
@@ -74,11 +72,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#1C1C1E',
-        borderColor: '#EFB975',
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 15,
     },
     time: {
         fontSize: 36,
