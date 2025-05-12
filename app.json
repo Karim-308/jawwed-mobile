@@ -19,7 +19,7 @@
         "foregroundImage": "./src/assets/images/for-splash.png",
         "backgroundColor": "#000000"
       },
-      "package": "jawwed.company.com",
+      "package": "com.karim308.jawwed",
       "permissions": [
         "INTERNET"
       ],

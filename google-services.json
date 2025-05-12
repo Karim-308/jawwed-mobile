@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "19510603492",
-    "project_id": "jawwedapi-mobile",
-    "storage_bucket": "jawwedapi-mobile.firebasestorage.app"
+    "project_number": "343764051818",
+    "project_id": "jawwed-frontend",
+    "storage_bucket": "jawwed-frontend.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:19510603492:android:eb6e8a45e13939da9306f1",
+        "mobilesdk_app_id": "1:343764051818:android:37afda1dde25509f2aa713",
         "android_client_info": {
-          "package_name": "jawwed.company.com"
+          "package_name": "com.karim308.jawwed"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD9ZMrUraITAaoQgDU7SEGmQN2RXvWUUW8"
+          "current_key": "AIzaSyCj2gvljQZv9L26mwmAvFMlogc8MXqt1IE"
         }
       ],
       "services": {

@@ -1,13 +1,13 @@
 import { LogBox } from 'react-native';
-// Ignore all log notifications
-LogBox.ignoreAllLogs(true);
+/*// Ignore all log notifications
+LogBox.ignoreAllLogs(false);
 
 // Override console methods
 if (__DEV__) {
   console.log = () => {};
   console.warn = () => {};
   console.error = () => {};
-}
+}*/
 
 
 import React, { useState, useEffect } from 'react';
@@ -17,6 +17,8 @@ import { Provider } from 'react-redux';
 import store from './src/redux/store';
 import IntroScreen from './src/screens/Intro/IntroScreen';
 import AppNavigator from './src/navigation/AppNavigator';
+import { getFcmTokenAndSendToJawwed } from './src/api/notifications/firebasetoken';
+import { get } from 'lodash';
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -37,6 +39,11 @@ export default function App() {
     };
 
     loadAppResources();
+  }, []);
+
+  useEffect(() => {
+    console.log('App mounted');
+    console.log(getFcmTokenAndSendToJawwed());
   }, []);
 
   if (showIntro) {

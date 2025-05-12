@@ -1,23 +1,35 @@
-import messaging from '@react-native-firebase/messaging';
+import '@react-native-firebase/app';
+import { getApp } from '@react-native-firebase/app';
+import {
+  getMessaging,
+  requestPermission,
+  getToken,
+  AuthorizationStatus,
+} from '@react-native-firebase/messaging';
 
 export async function getFcmTokenAndSendToJawwed() {
-  // Request permission (first time only)
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  const app = getApp();
+  const messaging = getMessaging(app);
 
+  // Request permission (first time only)
+  const authStatus = await requestPermission();
+  const enabled =
+    authStatus === AuthorizationStatus.AUTHORIZED ||
+    authStatus === AuthorizationStatus.PROVISIONAL;
   if (!enabled) {
     console.warn('Push permission not granted');
     return;
   }
 
   // Get the FCM token
-  const fcmToken = await messaging().getToken();
+  const fcmToken = await getToken(messaging);
   console.log('FCM Token:', fcmToken);
+  return fcmToken;
+}
+
 
 // Send it to your backend API
-try {
+/*try {
     await fetch('https://jawwed-api.runasp.net/api/Notification/register-device', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,5 +37,4 @@ try {
     });
 } catch (error) {
     console.error('Failed to register FCM token:', error);
-}
-}
+}*/
