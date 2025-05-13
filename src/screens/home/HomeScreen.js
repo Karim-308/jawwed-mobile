@@ -9,10 +9,15 @@ import {
   SafeAreaView,
   Image,
 } from "react-native";
-import { Ionicons, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan";
-import { get } from "../../utils/localStorage/secureStore"; // Adjust the import path as necessary
+
 
 const prayerNamesArabic = {
   fajr: "الفجر",
@@ -49,13 +54,21 @@ const HomeScreen = () => {
       if (!nextPrayerKey) {
         const tomorrow = new Date(now);
         tomorrow.setDate(now.getDate() + 1);
-        const tomorrowPrayerTimes = new PrayerTimes(coordinates, tomorrow, params);
+        const tomorrowPrayerTimes = new PrayerTimes(
+          coordinates,
+          tomorrow,
+          params
+        );
         nextPrayerKey = "fajr";
-        const timeDifference = Math.floor((tomorrowPrayerTimes.fajr - now) / 1000);
+        const timeDifference = Math.floor(
+          (tomorrowPrayerTimes.fajr - now) / 1000
+        );
         setNextPrayer(prayerNamesArabic[nextPrayerKey]);
         setRemainingSeconds(timeDifference);
       } else {
-        const timeDifference = Math.floor((prayerTimes[nextPrayerKey] - now) / 1000);
+        const timeDifference = Math.floor(
+          (prayerTimes[nextPrayerKey] - now) / 1000
+        );
         setNextPrayer(prayerNamesArabic[nextPrayerKey]);
         setRemainingSeconds(timeDifference);
       }
@@ -77,11 +90,16 @@ const HomeScreen = () => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${toArabicNumber(hrs)}:${toArabicNumber(mins)}:${toArabicNumber(secs)}`;
+    return `${toArabicNumber(hrs)}:${toArabicNumber(mins)}:${toArabicNumber(
+      secs
+    )}`;
   };
 
   const toArabicNumber = (num) => {
-    return num.toString().padStart(2, "0").replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+    return num
+      .toString()
+      .padStart(2, "0")
+      .replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
   };
 
   return (
@@ -95,7 +113,11 @@ const HomeScreen = () => {
           style={styles.profileIcon}
           onPress={() => navigation.navigate("ProfilePage")}
         >
-          <Ionicons name="person-circle-outline" size={60} color="#ffffff" />
+          <Image
+            source={require("../../assets/images/profileiconcopy.png")} // use your actual image path
+            style={styles.profileImage}
+            resizeMode="contain"
+          />
         </TouchableOpacity>
 
         <View style={styles.header}>
@@ -179,7 +201,11 @@ const HomeScreen = () => {
             style={styles.featureItem}
             onPress={() => navigation.navigate("QiblahPage")}
           >
-            <MaterialCommunityIcons name="compass-outline" size={60} color="#EFB975" />
+            <MaterialCommunityIcons
+              name="compass-outline"
+              size={60}
+              color="#EFB975"
+            />
             <Text style={styles.featureText}>اتجاه القِبلة</Text>
           </TouchableOpacity>
         </View>
@@ -271,5 +297,10 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
     zIndex: 10,
+  },
+  profileImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 40, // optional, for circular effect if the image is square
   },
 });

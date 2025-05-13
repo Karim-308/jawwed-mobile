@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { PrayerTimes, SunnahTimes } from 'adhan';
 import { getTimezone } from '../../../../api/services/timezone/TimezoneService';
 import PrayerTimesItem from '../prayer-times-item/PrayerTimesItem';
-import { PRIMARY_GOLD } from '../../../../constants/colors';
-import { setPrayerTimes, setTimeZone, setErrorStatus } from '../../../../redux/reducers/prayerTimesReducer';
+import { setPrayerTimes, setTimeZone, setIsSettingsMenuVisible, setErrorStatus } from '../../../../redux/reducers/prayerTimesReducer';
 import { getCalculationMethodParam, getMazhabParam } from './PrayerTimesListFunctions';
 import { formatTime } from '../../../../utils/time-utils/TimeUtils';
 
@@ -30,7 +29,11 @@ export default function PrayerTimesList() {
         dispatch(setTimeZone(timeZone));
     }
 
-    const errorStatus = useSelector((state) => state.prayerTimes.errorStatus);
+    // Settings Menu
+    const assignIsSettingsMenuVisible = (isSettingsMenuVisible) => {
+        dispatch(setIsSettingsMenuVisible(isSettingsMenuVisible));
+    }
+
     const assignErrorStatus = (errorStatus) => {
         dispatch(setErrorStatus(errorStatus));
     }
@@ -96,6 +99,9 @@ export default function PrayerTimesList() {
             ) : (
                 <View style={styles.messageContainer}>
                     <Text style={styles.text}>من فضلك، اضبط الإعدادات حتى يتم عرض مواقيت الصلاة</Text>
+                    <TouchableOpacity onPress={() => assignIsSettingsMenuVisible(true)}>
+                        <Text style={styles.settingsButton}>الإعــدادات</Text>
+                    </TouchableOpacity>
                 </View>
             )}
 
@@ -126,15 +132,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         direction: 'rtl',
         width: '90%',
-        borderStyle: 'solid',
-        borderColor: `${PRIMARY_GOLD}`,
-        borderRadius: 10,
-        borderWidth: 1
     },
     text: {
         fontSize: 20,
         textAlign: 'center',
         color: '#FFF',
         margin: 10
+    },
+    settingsButton: {
+        fontSize: 16,
+        color: 'white',
+        backgroundColor: '#DE9953',
+        borderRadius: 5,
+        paddingHorizontal: 30,
+        paddingVertical: 10,
     },
 });

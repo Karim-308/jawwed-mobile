@@ -30,6 +30,7 @@
     "expo-font": "~13.0.4",
     "expo-linear-gradient": "~14.0.2",
     "expo-location": "~18.0.10",
+    "expo-notifications": "~0.29.14",
     "expo-screen-orientation": "~8.0.4",
     "expo-secure-store": "~14.0.1",
     "expo-sensors": "~14.0.2",
