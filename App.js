@@ -7,8 +7,10 @@ import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import IntroScreen from "./src/screens/Intro/IntroScreen";
 import AppNavigator from "./src/navigation/AppNavigator";
+import  requestUserPermission from "./src/api/notifications/firebasetoken";
+import { get } from "lodash";
 
-LogBox.ignoreAllLogs(true);
+LogBox.ignoreAllLogs(false);
 
 
 // Lock layout direction immediately after imports to prevent metro bundling issues
@@ -38,6 +40,13 @@ export default function App() {
 
     loadAppResources();
   }, []);
+
+    useEffect(() => {
+    console.log('Setting up notification permission');
+    requestUserPermission();
+    console.log('Notification setup complete');
+  }, []);
+
 
   if (showIntro) {
     return <IntroScreen onFinish={() => setShowIntro(false)} />;

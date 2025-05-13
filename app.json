@@ -26,7 +26,8 @@
       "usesCleartextTraffic": true,
       "permissions": [
         "INTERNET"
-      ]
+      ],
+       "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
@@ -39,6 +40,7 @@
       "eas": {
         "projectId": "66e3979b-8bd4-4222-9f98-da5e1d5b6f66"
       }
-    }
+    },
+    "owner": "jawwedteam"
   }
 }
