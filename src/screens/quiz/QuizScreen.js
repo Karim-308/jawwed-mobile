@@ -15,6 +15,7 @@ import { getQuiz } from "../../api/quiz/getquiz";
 import { get } from "../../utils/localStorage/secureStore";
 import { postQuiz } from "../../api/quiz/postquiz";
 import QuizAlert from "../../components/Alert/QuizAlert";
+import Colors from "../../constants/newColors";
 
 const QuizScreen = () => {
   const navigation = useNavigation();
@@ -23,13 +24,25 @@ const QuizScreen = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(true);
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes
+  const [timeLeft, setTimeLeft] = useState(600);
   const [sessionId, setSessionId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [darkMode, setDarkMode] = useState(true);
 
-  // Shuffle helper
   const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get("darkMode");
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === "true");
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, []);
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -50,7 +63,6 @@ const QuizScreen = () => {
         }));
         setQuizQuestions(shuffledQuestions);
         setSessionId(data.quizSessionID);
-        console.log("Quiz data:", data);
       } catch (error) {
         console.error("Quiz fetch error:", error);
       } finally {
@@ -108,7 +120,6 @@ const QuizScreen = () => {
 
   const finishQuiz = async () => {
     const formattedAnswers = Object.values(answers);
-
     try {
       const response = await postQuiz(sessionId, formattedAnswers);
       setAlertMessage(response.passed ? "تهانينا! لقد نجحت في الاختبار." : "للأسف، لم تنجح في الاختبار.");
@@ -118,9 +129,11 @@ const QuizScreen = () => {
     }
   };
 
-    if (!isLoggedIn) {
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
+  if (!isLoggedIn) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
         <NotLoggedInMessage />
       </View>
     );
@@ -128,17 +141,16 @@ const QuizScreen = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#F4A950" />
+      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+        <ActivityIndicator size="large" color={Colors.highlight} />
       </View>
     );
   }
 
-
   if (quizQuestions.length === 0) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.optionText}>No quiz available.</Text>
+      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+        <Text style={[styles.optionText, { color: currentColors.optionText }]}>No quiz available.</Text>
       </View>
     );
   }
@@ -147,9 +159,9 @@ const QuizScreen = () => {
   const selectedAnswer = answers[currentQuestion.questionID];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.timerText}>⏳ {formatTime(timeLeft)}</Text>
-      <Text style={styles.questionText}>{currentQuestion.questionHeader}</Text>
+    <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <Text style={[styles.timerText, { color: currentColors.timer }]}>⏳ {formatTime(timeLeft)}</Text>
+      <Text style={[styles.questionText, { color: currentColors.question }]}>{currentQuestion.questionHeader}</Text>
 
       {currentQuestion.shuffledOptions.map((option, index) => {
         const isSelected = selectedAnswer?.questionAnswer === option;
@@ -158,11 +170,11 @@ const QuizScreen = () => {
             key={index}
             style={[
               styles.optionButton,
-              isSelected && styles.selectedOptionButton,
+              { backgroundColor: isSelected ? currentColors.selectedOptionBackground : currentColors.optionBackground, borderColor: currentColors.timer }
             ]}
             onPress={() => selectAnswer(option)}
           >
-            <Text style={styles.optionText}>{option}</Text>
+            <Text style={[styles.optionText, { color: currentColors.optionText }]}>{option}</Text>
           </TouchableOpacity>
         );
       })}
@@ -171,28 +183,31 @@ const QuizScreen = () => {
         <TouchableOpacity
           style={[
             styles.navButton,
+            { backgroundColor: currentColors.navButtonBackground },
             currentQuestionIndex === 0 && { opacity: 0.5 },
           ]}
           onPress={goBack}
           disabled={currentQuestionIndex === 0}
         >
-          <Ionicons name="arrow-back" size={24} color="#000" />
+          <Ionicons name="arrow-back" size={24} color={currentColors.navButtonText} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navButton} onPress={goNext}>
+        <TouchableOpacity
+          style={[styles.navButton, { backgroundColor: currentColors.navButtonBackground }]}
+          onPress={goNext}
+        >
           {currentQuestionIndex === quizQuestions.length - 1 ? (
-            <Ionicons name="checkmark-done" size={24} color="#000" />
+            <Ionicons name="checkmark-done" size={24} color={currentColors.navButtonText} />
           ) : (
-            <Ionicons name="arrow-forward" size={24} color="#000" />
+            <Ionicons name="arrow-forward" size={24} color={currentColors.navButtonText} />
           )}
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.progressText}>
+      <Text style={[styles.progressText, { color: currentColors.progressText }]}>
         {currentQuestionIndex + 1} of {quizQuestions.length}
       </Text>
-      
-      {/* Custom Alert */}
+
       <QuizAlert
         visible={showAlert}
         onClose={() => {
@@ -210,7 +225,6 @@ export default QuizScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
     justifyContent: "center",
     padding: 20,
   },
@@ -218,30 +232,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     marginBottom: 10,
-    color: "#F4A950",
   },
   questionText: {
     fontSize: 22,
     marginBottom: 30,
     textAlign: "center",
-    color: "#ffffff",
   },
   optionButton: {
-    backgroundColor: "#1C1C1E",
     padding: 15,
     borderRadius: 12,
     marginVertical: 8,
     borderWidth: 1,
-    borderColor: "#F4A950",
-  },
-  selectedOptionButton: {
-    backgroundColor: "#F4A950",
-    borderColor: "#ffffff",
   },
   optionText: {
     fontSize: 18,
     textAlign: "center",
-    color: "#ffffff",
   },
   navigationButtonsContainer: {
     flexDirection: "row",
@@ -250,7 +255,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 100,
   },
   navButton: {
-    backgroundColor: "#F4A950",
     padding: 10,
     borderRadius: 10,
     flex: 0.44,
@@ -261,6 +265,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     textAlign: "center",
-    color: "#F4A950",
   },
 });

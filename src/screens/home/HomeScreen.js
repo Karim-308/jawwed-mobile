@@ -15,9 +15,10 @@ import {
   MaterialCommunityIcons,
   FontAwesome5,
 } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan";
-
+import { get } from "../../utils/localStorage/secureStore";
+import Colors from "../../constants/newColors";
 
 const prayerNamesArabic = {
   fajr: "الفجر",
@@ -32,6 +33,22 @@ const HomeScreen = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [nextPrayer, setNextPrayer] = useState("");
   const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [darkMode, setDarkMode] = useState(true);
+
+useFocusEffect(
+  React.useCallback(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get("darkMode");
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === "true");
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, [])
+);
+
 
   useEffect(() => {
     const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
@@ -102,8 +119,10 @@ const HomeScreen = () => {
       .replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
   };
 
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background }]}>
       <ImageBackground
         source={require("../../assets/images/home_background.png")}
         style={styles.headerBackground}
@@ -114,60 +133,60 @@ const HomeScreen = () => {
           onPress={() => navigation.navigate("ProfilePage")}
         >
           <Image
-            source={require("../../assets/images/profileiconcopy.png")} // use your actual image path
+            source={require("../../assets/images/profileiconcopy.png")}
             style={styles.profileImage}
             resizeMode="contain"
           />
         </TouchableOpacity>
 
         <View style={styles.header}>
-          <Text style={styles.clock}>{currentTime}</Text>
-          <Text style={styles.prayerTime}>
+          <Text style={[styles.clock, { color: currentColors.clock }]}>{currentTime}</Text>
+          <Text style={[styles.prayerTime, { color: currentColors.prayerTime }]}>
             {nextPrayer
               ? `متبقي ${formatTime(remainingSeconds)} لصلاة ${nextPrayer}`
               : "لا يوجد صلاة قادمة"}
           </Text>
 
-          <View style={styles.searchContainer}>
-            <MaterialIcons name="language" size={24} color="#EFB975" />
-            <MaterialIcons name="notifications" size={24} color="#EFB975" />
+          <View style={[styles.searchContainer, { backgroundColor: currentColors.searchBackground }]}>
+            <MaterialIcons name="language" size={24} color={Colors.highlight} />
+            <MaterialIcons name="notifications" size={24} color={Colors.highlight} />
             <TextInput
               placeholder="انقر هنـــا للبحث"
-              placeholderTextColor="#666"
+              placeholderTextColor={currentColors.inputPlaceholder}
               writingDirection="rtl"
-              style={styles.searchInput}
+              style={[styles.searchInput, { color: currentColors.text }]}
             />
-            <MaterialIcons name="search" size={24} color="#EFB975" />
+            <MaterialIcons name="search" size={24} color={Colors.highlight} />
           </View>
         </View>
       </ImageBackground>
 
       <View style={styles.features}>
-        <Text style={styles.sectionTitle}>القــائــــــمة</Text>
+        <Text style={[styles.sectionTitle, { color: currentColors.sectionTitle }]}>القــائــــــمة</Text>
 
         <View style={styles.featuresList}>
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("IndexPage")}
           >
-            <MaterialIcons name="menu-book" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>الفهرس</Text>
+            <MaterialIcons name="menu-book" size={60} color={Colors.highlight} />
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الفهرس</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("MoshafPage")}
           >
-            <MaterialIcons name="import-contacts" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>المصحف</Text>
+            <MaterialIcons name="import-contacts" size={60} color={Colors.highlight} />
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>المصحف</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("BookmarkPage")}
           >
-            <Ionicons name="bookmarks-outline" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>الإشارات المرجعية</Text>
+            <Ionicons name="bookmarks-outline" size={60} color={Colors.highlight} />
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الإشارات المرجعية</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -176,27 +195,28 @@ const HomeScreen = () => {
           >
             <Image
               source={require("../../assets/images/AzkarIcon.png")}
-              style={styles.azkarImage}
+              style={[styles.azkarImage, { tintColor: Colors.highlight }]}
               resizeMode="contain"
             />
-            <Text style={styles.featureText}>الأذكار</Text>
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الأذكار</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("PrayerTimesPage")}
           >
-            <Ionicons name="time-outline" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>مواقيت الصلاة</Text>
+            <Ionicons name="time-outline" size={60} color={Colors.highlight} />
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>مواقيت الصلاة</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("QuizPage")}
           >
-            <FontAwesome5 name="chalkboard-teacher" size={60} color="#EFB975" />
-            <Text style={styles.featureText}>اختبار القرآن</Text>
+            <FontAwesome5 name="chalkboard-teacher" size={60} color={Colors.highlight} />
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>اختبار القرآن</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("QiblahPage")}
@@ -204,9 +224,20 @@ const HomeScreen = () => {
             <MaterialCommunityIcons
               name="compass-outline"
               size={60}
-              color="#EFB975"
+              color={Colors.highlight}
             />
-            <Text style={styles.featureText}>اتجاه القِبلة</Text>
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>اتجاه القِبلة</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.featureItem}
+            onPress={() => navigation.navigate("MasbahaPage")}
+          >
+            <Image
+              source={require("../../assets/images/AzkarIcon.png")}
+              style={[styles.azkarImage, { tintColor: Colors.highlight }]}
+              resizeMode="contain"
+            />
+            <Text style={[styles.featureText, { color: currentColors.featureText }]}>سبحة</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -219,7 +250,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
     paddingHorizontal: 10,
     paddingTop: 40,
   },
@@ -236,18 +266,15 @@ const styles = StyleSheet.create({
   clock: {
     fontSize: 36,
     fontWeight: "bold",
-    color: "#FFF",
   },
   prayerTime: {
     fontSize: 20,
-    color: "#FFF",
     marginTop: 5,
     textAlign: "center",
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#222",
     borderRadius: 10,
     paddingHorizontal: 10,
     marginTop: 15,
@@ -256,7 +283,6 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     marginHorizontal: 10,
-    color: "#FFF",
     textAlign: "right",
     writingDirection: "rtl",
   },
@@ -267,7 +293,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#FFF",
     marginBottom: 20,
     textAlign: "right",
   },
@@ -283,14 +308,12 @@ const styles = StyleSheet.create({
   },
   featureText: {
     fontSize: 12,
-    color: "#FFF",
     marginTop: 5,
     textAlign: "center",
   },
   azkarImage: {
     width: 60,
     height: 60,
-    tintColor: "#EFB975",
   },
   profileIcon: {
     position: "absolute",
@@ -301,6 +324,6 @@ const styles = StyleSheet.create({
   profileImage: {
     width: 70,
     height: 70,
-    borderRadius: 40, // optional, for circular effect if the image is square
+    borderRadius: 40,
   },
 });

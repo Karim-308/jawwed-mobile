@@ -7,15 +7,16 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
+  Switch,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { loginWithGoogleToken } from "../../api/auth/login/loginApi";
-import { get } from "../../utils/localStorage/secureStore";
+import { get, save } from "../../utils/localStorage/secureStore";
 import { useDispatch } from "react-redux";
 import { setLoggedIn } from "../../redux/actions/authActions";
-import { set } from "lodash";
+import Colors from "../../constants/newColors";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -27,7 +28,7 @@ const LoginScreen = () => {
   const [jwtToken, setJwtToken] = useState("");
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-
+  const [darkMode, setDarkMode] = useState(true);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     androidClientId:
@@ -37,7 +38,20 @@ const LoginScreen = () => {
     scopes: ["openid", "profile", "email"],
   });
 
-  // Step 1: Check if already logged in (on mount)
+  // Load dark mode preference on mount
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get("darkMode");
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === "true");
+      } else {
+        setDarkMode(true); // default
+      }
+    };
+    loadDarkMode();
+  }, []);
+
+  // Check login on mount
   useEffect(() => {
     const checkLogin = async () => {
       const token = await get("userToken");
@@ -46,7 +60,7 @@ const LoginScreen = () => {
     checkLogin();
   }, []);
 
-  // Step 2: If logged in, navigate to Home
+  // Navigate if already logged in
   useEffect(() => {
     if (isLoggedIn === true) {
       navigation.reset({
@@ -55,9 +69,8 @@ const LoginScreen = () => {
       });
     }
   }, [isLoggedIn]);
-  
 
-  // Step 3: Handle Google login response
+  // Handle Google login response
   useEffect(() => {
     const handleLogin = async () => {
       if (response?.type === "success" && response.params?.id_token) {
@@ -86,27 +99,50 @@ const LoginScreen = () => {
     handleLogin();
   }, [response]);
 
-  // Step 4: Handle loading state
+  // Handle dark mode toggle
+  const toggleDarkMode = async (value) => {
+    setDarkMode(value);
+    await save("darkMode", value.toString());
+  };
+
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
+  // Loading screen
   if (isLoggedIn === null || loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#EFB975" />
-        <Text style={{ color: "#fff", marginTop: 10 }}>
+      <View style={[styles.loadingContainer, { backgroundColor: currentColors.loaderBackground }]}>
+        <ActivityIndicator size="large" color={Colors.dark.underline} />
+        <Text style={{ color: currentColors.loaderText, marginTop: 10 }}>
           {loading ? "Logging in..." : "Checking session..."}
         </Text>
       </View>
     );
   }
-  
 
-  // Step 5: Show login screen if not logged in
+  // Login screen
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
-      <View style={styles.underline} />
+    <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <Text style={[styles.title, { color: currentColors.text }]}>Sign In</Text>
+      <View style={[styles.underline, { backgroundColor: currentColors.underline }]} />
 
-      <TouchableOpacity style={styles.button} onPress={() => promptAsync()}>
-        <Text style={styles.buttonText}>Continue with Google</Text>
+      {/* Dark Mode Toggle */}
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}>
+        <Text style={{ color: currentColors.text, marginRight: 10 }}>
+          {darkMode ? "Dark Mode" : "Light Mode"}
+        </Text>
+        <Switch
+          value={darkMode}
+          onValueChange={toggleDarkMode}
+          trackColor={Colors.trackColor}
+          thumbColor={currentColors.thumbColor}
+        />
+      </View>
+
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: currentColors.buttonBackground }]}
+        onPress={() => promptAsync()}
+      >
+        <Text style={[styles.buttonText, { color: currentColors.text }]}>Continue with Google</Text>
         <Image
           source={require("../../assets/images/google.png")}
           style={styles.googleIcon}
@@ -114,16 +150,16 @@ const LoginScreen = () => {
       </TouchableOpacity>
 
       <View style={styles.separatorContainer}>
-        <View style={styles.separator} />
-        <Text style={styles.orText}>OR</Text>
-        <View style={styles.separator} />
+        <View style={[styles.separator, { backgroundColor: currentColors.separator }]} />
+        <Text style={[styles.orText, { color: currentColors.text }]}>OR</Text>
+        <View style={[styles.separator, { backgroundColor: currentColors.separator }]} />
       </View>
 
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button, { backgroundColor: currentColors.buttonBackground }]}
         onPress={() => navigation.navigate("Home")}
       >
-        <Text style={styles.buttonText}>Continue As Guest</Text>
+        <Text style={[styles.buttonText, { color: currentColors.text }]}>Continue As Guest</Text>
       </TouchableOpacity>
 
       <Image
@@ -137,18 +173,15 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: "#000",
     justifyContent: "center",
     alignItems: "center",
   },
   title: {
-    color: "#ddd",
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 10,
@@ -156,12 +189,10 @@ const styles = StyleSheet.create({
   underline: {
     width: 60,
     height: 2,
-    backgroundColor: "#E0A500",
     marginBottom: 40,
   },
   button: {
     flexDirection: "row",
-    backgroundColor: "#222",
     padding: 15,
     borderRadius: 10,
     width: "80%",
@@ -170,7 +201,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   buttonText: {
-    color: "#ddd",
     fontSize: 16,
   },
   googleIcon: {
@@ -187,10 +217,8 @@ const styles = StyleSheet.create({
   separator: {
     flex: 1,
     height: 1,
-    backgroundColor: "#555",
   },
   orText: {
-    color: "#ddd",
     marginHorizontal: 10,
   },
   backgroundImage: {

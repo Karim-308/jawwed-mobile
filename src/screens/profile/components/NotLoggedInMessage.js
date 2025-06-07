@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
+import { get } from '../../../utils/localStorage/secureStore'; // Adjust path as necessary
+import Colors from '../../../constants/newColors'; // Adjust path as necessary
 
 const NotLoggedInMessage = () => {
   const navigation = useNavigation();
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get('darkMode');
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === 'true');
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, []);
+
+  const currentColors = darkMode ? Colors.dark : Colors.light;
 
   const goToLogin = () => {
     navigation.dispatch(
@@ -15,11 +32,22 @@ const NotLoggedInMessage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.message}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: currentColors.background },
+      ]}
+    >
+      <Text style={[styles.message, { color: currentColors.text }]}>
         لا يمكنك عرض معلوماتك حاليًا، يجب عليك تسجيل الدخول أولًا
       </Text>
-      <TouchableOpacity style={styles.loginButton} onPress={goToLogin}>
+      <TouchableOpacity
+        style={[
+          styles.loginButton,
+          { backgroundColor: Colors.highlight },
+        ]}
+        onPress={goToLogin}
+      >
         <Text style={styles.loginButtonText}>تسجيل الدخول</Text>
       </TouchableOpacity>
     </View>
@@ -34,13 +62,11 @@ const styles = StyleSheet.create({
     padding: 25,
   },
   message: {
-    color: '#fff',
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
   },
   loginButton: {
-    backgroundColor: '#EFB975',
     paddingHorizontal: 25,
     paddingVertical: 12,
     borderRadius: 10,

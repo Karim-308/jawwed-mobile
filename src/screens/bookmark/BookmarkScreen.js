@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  RefreshControl,
+  FlatList,
+} from 'react-native';
 import * as Font from 'expo-font';
 import Header from './components/BookmarkHeader';
 import Body from './components/BookmarkBody';
@@ -7,38 +13,59 @@ import getBookmarks from '../../api/bookmark/GetBookmark';
 import deleteBookmark from '../../api/bookmark/DeleteBookmark';
 import { useSelector } from 'react-redux';
 import NotLoggedInMessage from '../profile/components/NotLoggedInMessage';
-import { get } from '../../utils/localStorage/secureStore'; // Adjust the import path as necessary
-import { ActivityIndicator } from 'react-native';
+import { get } from '../../utils/localStorage/secureStore';
+import Colors from '../../constants/newColors'; // Using your existing color constants!
 
 const BookmarkScreen = () => {
-  const [isLoggedIn,setIsLoggedIn] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     const checkLogin = async () => {
       const token = await get('userToken');
-      setIsLoggedIn(!!token); // true if token exists
+      setIsLoggedIn(!!token);
     };
     checkLogin();
   }, []);
 
   useEffect(() => {
-    const loadResources = async () => {
-      try {
-        const data = await getBookmarks();
-        setBookmarks(data);
-      } catch (err) {
-        setError("Failed to load bookmarks");
-        console.error(err);
-      } finally {
-        setLoading(false);
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get('darkMode');
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === 'true');
+      } else {
+        setDarkMode(true);
       }
     };
+    loadDarkMode();
+  }, []);
 
-    if (isLoggedIn) loadResources(); // ✅ only fetch if logged in
+  const fetchBookmarks = async () => {
+    try {
+      setLoading(true);
+      const data = await getBookmarks();
+      setBookmarks(data);
+    } catch (err) {
+      setError("Failed to load bookmarks");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) fetchBookmarks();
   }, [isLoggedIn]);
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchBookmarks();
+    setRefreshing(false);
+  };
 
   const handleDelete = async (userId, verseKey) => {
     try {
@@ -49,43 +76,65 @@ const BookmarkScreen = () => {
     }
   };
 
+  const currentColors = darkMode ? Colors.dark : Colors.light;
 
-if (isLoggedIn === null) {
-  return (
-    <View style={styles.container}>
-      <ActivityIndicator size="large" color="#fff" />
-    </View>
-  );
-}
-
+  if (isLoggedIn === null) {
+    return (
+      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+        <ActivityIndicator size="large" color={Colors.highlight} />
+      </View>
+    );
+  }
 
   if (!isLoggedIn) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
         <NotLoggedInMessage />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Body
-        bookmarks={bookmarks}
-        loading={loading}
-        error={error}
-        handleDelete={handleDelete}
+    <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <FlatList
+        data={bookmarks}
+        keyExtractor={(item) => item.verseKey}
+        renderItem={({ item }) => (
+          <Body
+            bookmarks={[item]}
+            loading={false}
+            error={null}
+            handleDelete={handleDelete}
+          />
+        )}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            colors={[Colors.highlight]}
+            progressBackgroundColor={currentColors.background}
+          />
+        }
+        ListEmptyComponent={
+          loading ? (
+            <ActivityIndicator size="large" color={Colors.highlight} />
+          ) : null
+        }
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     paddingTop: 70,
     flex: 1,
-    backgroundColor: '#000',
     padding: 16,
+  },
+  listContainer: {
+    paddingBottom: 16,
   },
 });
 

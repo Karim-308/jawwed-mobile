@@ -7,12 +7,14 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Alert,
+  Switch,
 } from 'react-native';
-import { get, remove } from '../../utils/localStorage/secureStore'; 
+import { get, remove, save } from '../../utils/localStorage/secureStore';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import NotLoggedInMessage from './components/NotLoggedInMessage';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLoggedOut } from '../../redux/actions/authActions';
+import Colors from '../../constants/newColors'; // Adjust path as needed
 
 const TOKEN_KEY = 'userToken';
 const EMAIL_KEY = 'userEmail';
@@ -20,9 +22,12 @@ const NAME_KEY = 'userName';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
-  const [isLoggedIn,setIsLoggedIn] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userInfo, setUserInfo] = useState({ name: '', email: '' });
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -31,7 +36,18 @@ const ProfileScreen = () => {
     };
     checkLogin();
   }, []);
-  
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get('darkMode');
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === 'true');
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, []);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -53,14 +69,13 @@ const ProfileScreen = () => {
     }
   }, [isLoggedIn]);
 
-  const dispatch = useDispatch();
   const handleSignOut = async () => {
     try {
       await remove(TOKEN_KEY);
       await remove(EMAIL_KEY);
       await remove(NAME_KEY);
 
-      dispatch(setLoggedOut()); // Update Redux state
+      dispatch(setLoggedOut());
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
@@ -73,9 +88,21 @@ const ProfileScreen = () => {
     }
   };
 
+  const toggleDarkMode = async () => {
+    try {
+      const newDarkMode = !darkMode;
+      setDarkMode(newDarkMode);
+      await save('darkMode', newDarkMode.toString());
+    } catch (error) {
+      console.error('Error toggling dark mode:', error);
+    }
+  };
+
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
   if (!isLoggedIn) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background }]}>
         <NotLoggedInMessage />
       </SafeAreaView>
     );
@@ -83,23 +110,33 @@ const ProfileScreen = () => {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <ActivityIndicator size="large" color="#EFB975" />
+      <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background }]}>
+        <ActivityIndicator size="large" color={Colors.highlight} />
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background }]}>
       <View style={styles.content}>
-        <Text style={styles.label}>الاسم:</Text>
-        <Text style={styles.value}>{userInfo.name}</Text>
+        <Text style={[styles.label, { color: currentColors.text }]}>الاسم:</Text>
+        <Text style={[styles.value, { color: currentColors.text }]}>{userInfo.name}</Text>
 
-        <Text style={styles.label}>البريد الإلكتروني:</Text>
-        <Text style={styles.value}>{userInfo.email}</Text>
+        <Text style={[styles.label, { color: currentColors.text }]}>البريد الإلكتروني:</Text>
+        <Text style={[styles.value, { color: currentColors.text }]}>{userInfo.email}</Text>
+
+        <View style={styles.toggleContainer}>
+          <Text style={[styles.label, { color: currentColors.text }]}>الوضع الليلي:</Text>
+          <Switch
+            value={darkMode}
+            onValueChange={toggleDarkMode}
+            trackColor={Colors.trackColor}
+            thumbColor={darkMode ? Colors.dark.thumbColor : Colors.light.thumbColor}
+          />
+        </View>
       </View>
 
-      <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+      <TouchableOpacity style={[styles.signOutButton, { backgroundColor: Colors.highlight }]} onPress={handleSignOut}>
         <Text style={styles.signOutText}>تسجيل الخروج</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -109,24 +146,20 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
     justifyContent: 'space-between',
   },
   content: {
     padding: 20,
   },
   label: {
-    color: '#EFB975',
     fontSize: 18,
     marginBottom: 5,
   },
   value: {
-    color: '#fff',
     fontSize: 16,
     marginBottom: 20,
   },
   signOutButton: {
-    backgroundColor: '#EFB975',
     padding: 15,
     margin: 20,
     borderRadius: 10,
@@ -137,28 +170,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  notLoggedInContainer: {
-    flex: 1,
-    justifyContent: 'center',
+  toggleContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 25,
-  },
-  notLoggedInText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  loginButton: {
-    backgroundColor: '#EFB975',
-    paddingHorizontal: 25,
-    paddingVertical: 12,
-    borderRadius: 10,
-  },
-  loginButtonText: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: 'bold',
+    justifyContent: 'space-between',
+    marginTop: 20,
   },
 });
 

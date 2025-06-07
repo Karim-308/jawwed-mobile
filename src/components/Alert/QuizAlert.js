@@ -1,17 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from "../../constants/newColors";
+import { get } from "../../utils/localStorage/secureStore";
 
 const QuizAlert = ({ visible, onClose, message }) => {
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get("darkMode");
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === "true");
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, []);
+
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
-        <View style={styles.modalBox}>
-          <Ionicons name="checkmark-circle" size={48} color="#F4A950" />
-          <Text style={styles.title}> تم الاختبار</Text>
-          <Text style={styles.message}>{message}</Text>
-          <TouchableOpacity style={styles.okButton} onPress={onClose}>
-            <Text style={styles.okText}>الصفحة الرئيسية</Text>
+        <View
+          style={[
+            styles.modalBox,
+            {
+              backgroundColor: currentColors.optionBackground,
+              borderColor: Colors.highlight,
+            },
+          ]}
+        >
+          <Ionicons name="checkmark-circle" size={48} color={Colors.highlight} />
+          <Text style={[styles.title, { color: Colors.highlight }]}>تم الاختبار</Text>
+          <Text style={[styles.message, { color: currentColors.text }]}>{message}</Text>
+          <TouchableOpacity
+            style={[styles.okButton, { backgroundColor: Colors.highlight }]}
+            onPress={onClose}
+          >
+            <Text style={[styles.okText, { color: currentColors.navButtonText }]}>الصفحة الرئيسية</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -19,7 +48,7 @@ const QuizAlert = ({ visible, onClose, message }) => {
   );
 };
 
-export default CustomAlert;
+export default QuizAlert;
 
 const styles = StyleSheet.create({
   overlay: {
@@ -29,34 +58,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalBox: {
-    backgroundColor: "#1C1C1E",
     borderRadius: 20,
     padding: 30,
     alignItems: "center",
     width: "80%",
-    borderColor: "#F4A950",
     borderWidth: 1.2,
   },
   title: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#F4A950",
     marginTop: 10,
   },
   message: {
     fontSize: 16,
-    color: "#fff",
     textAlign: "center",
     marginVertical: 15,
   },
   okButton: {
-    backgroundColor: "#F4A950",
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 10,
   },
   okText: {
     fontSize: 16,
-    color: "#000",
   },
 });

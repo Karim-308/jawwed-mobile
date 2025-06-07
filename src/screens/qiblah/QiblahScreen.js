@@ -11,7 +11,9 @@ import {
 import * as Location from "expo-location";
 import { Accelerometer } from "expo-sensors";
 import PlacePhoneMessage from "./components/PlacePhoneMessage";
-
+import { get } from "../../utils/localStorage/secureStore";
+import Colors from "../../constants/newColors"; // adjust path as necessary
+import PlacePhoneMessageLight from "./components/PlacePhoneMessageLight"; // adjust path if needed
 const KAABA_LAT = 21.4225;
 const KAABA_LON = 39.8262;
 
@@ -22,8 +24,21 @@ export default function QiblahCompass() {
   const [isAligned, setIsAligned] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [flatSurface, setFlatSurface] = useState(true);
+  const [darkMode, setDarkMode] = useState(true);
 
   const borderAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get("darkMode");
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === "true");
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -101,6 +116,8 @@ export default function QiblahCompass() {
     }
   }, [isAligned, flatSurface]);
 
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
   const getInstruction = () => {
     if (!flatSurface) return "يرجى وضع الهاتف على سطح مستوٍ";
     if (isAligned) return "أنت الآن باتجاه القبلة";
@@ -112,7 +129,7 @@ export default function QiblahCompass() {
 
   const interpolatedBorderColor = borderAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ["#F6A94A", "#FFD580"],
+    outputRange: [Colors.highlight, "#FFD580"],
   });
 
   const interpolatedScale = borderAnim.interpolate({
@@ -121,21 +138,35 @@ export default function QiblahCompass() {
   });
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: currentColors.qiblahBackground }]}
+    >
       {!flatSurface ? (
-        <PlacePhoneMessage />
+        darkMode ? (
+            <PlacePhoneMessage />
+        ) : (
+            <PlacePhoneMessageLight />
+        )
       ) : (
         <Text
-          style={[styles.title, isAligned && flatSurface && styles.aligned]}
+          style={[
+            styles.title,
+            { color: currentColors.text },
+            isAligned && flatSurface && styles.aligned,
+          ]}
         >
           {getInstruction()}
         </Text>
       )}
 
-      {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
+      {errorMsg && (
+        <Text style={[styles.error, { color: Colors.highlight }]}>
+          {errorMsg}
+        </Text>
+      )}
 
       {!location ? (
-        <ActivityIndicator size="large" color="#F6A94A" />
+        <ActivityIndicator size="large" color={Colors.highlight} />
       ) : (
         flatSurface && (
           <Animated.View
@@ -146,7 +177,9 @@ export default function QiblahCompass() {
                   isAligned && flatSurface
                     ? "#00C851"
                     : interpolatedBorderColor,
+                backgroundColor: currentColors.optionBackground,
                 transform: [{ scale: isAligned ? 1 : interpolatedScale }],
+                shadowColor: currentColors.text,
               },
             ]}
           >
@@ -155,7 +188,8 @@ export default function QiblahCompass() {
               style={[
                 styles.compass,
                 {
-                  tintColor: isAligned && flatSurface ? "#00C851" : "#F6A94A",
+                  tintColor:
+                    isAligned && flatSurface ? "#00C851" : Colors.highlight,
                 },
               ]}
             />
@@ -169,7 +203,6 @@ export default function QiblahCompass() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0B0B0D",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -178,7 +211,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "600",
     fontFamily: "UthmanicHafs",
-    color: "#FFFFFF",
     textAlign: "center",
     marginBottom: 25,
   },
@@ -186,7 +218,6 @@ const styles = StyleSheet.create({
     color: "#00C851",
   },
   error: {
-    color: "#FF6B6B",
     marginBottom: 15,
     textAlign: "center",
   },
@@ -197,7 +228,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#1C1C1E",
   },
   compass: {
     width: 240,

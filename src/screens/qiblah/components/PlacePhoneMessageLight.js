@@ -1,12 +1,12 @@
-// components/PlacePhoneMessage.js
-
+import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import Colors from '../../../constants/newColors'; // adjust path if needed
 
-const PlacePhoneMessage = () => {
+const PlacePhoneMessageLight = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../../assets/images/flat-surface-dark.png')}
+        source={require('../../../assets/images/flat-surface-light.png')}
         style={styles.image}
       />
       <Text style={styles.text}>يرجى وضع الهاتف على سطح مستوٍ</Text>
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flex: 1,
     paddingTop: 100,
-    backgroundColor: 'black',
+    backgroundColor: "White"
+,
   },
   image: {
     width: 400,
@@ -29,10 +30,10 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 22,
-    color: '#FFFFFF',
+    color: Colors.light.text,
     textAlign: 'center',
     fontFamily: 'UthmanicHafs',
   },
 });
 
-export default PlacePhoneMessage;
+export default PlacePhoneMessageLight;
