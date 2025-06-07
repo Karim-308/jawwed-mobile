@@ -8,7 +8,8 @@ import store from "./src/redux/store";
 import IntroScreen from "./src/screens/Intro/IntroScreen";
 import AppNavigator from "./src/navigation/AppNavigator";
 import  requestUserPermission from "./src/api/notifications/firebasetoken";
-import { get } from "lodash";
+import { setupDatabase } from "./src/utils/database/setupDatabase";
+
 
 LogBox.ignoreAllLogs(false);
 
@@ -45,6 +46,10 @@ export default function App() {
     console.log('Setting up notification permission');
     requestUserPermission();
     console.log('Notification setup complete');
+  }, []);
+
+    useEffect(() => {
+    setupDatabase();
   }, []);
 
 

@@ -2,6 +2,7 @@
   "expo": {
     "name": "Jawwed",
     "slug": "jawwed",
+    "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/Jawwed-Icon.png",
@@ -27,20 +28,20 @@
       "permissions": [
         "INTERNET"
       ],
-       "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "expo-sqlite"
     ],
     "extra": {
       "eas": {
-        "projectId": "66e3979b-8bd4-4222-9f98-da5e1d5b6f66"
+        "projectId": "7cd3cd6f-30f7-49f0-ab80-a204836bc8ad"
       }
-    },
-    "owner": "jawwedteam"
+    }
   }
 }
