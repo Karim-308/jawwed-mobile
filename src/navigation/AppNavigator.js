@@ -15,6 +15,7 @@ import AzkarCategories from "../screens/azkar/AzkarCategoriesScreen";
 import AzkarDetails from "../screens/azkar/components/AzkarDetails";
 import PrayerTimesScreen from "../screens/prayer-times/PrayerTimesScreen";
 import QiblahCompass from "../screens/qiblah/QiblahScreen";
+import MasbahaScreen from "../screens/masbaha/MasbahaScreen";
 
 const Stack = createStackNavigator();
 
@@ -150,6 +151,18 @@ const AppNavigator = () => (
         component={QiblahCompass}
         options={{
           title: "اتجاه القِبلة",
+          headerTitleStyle: {
+            fontFamily: "UthmanicHafs",
+            fontSize: 30,
+          },
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="MasbahaPage"
+        component={MasbahaScreen}
+        options={{
+          title: "سبحة",
           headerTitleStyle: {
             fontFamily: "UthmanicHafs",
             fontSize: 30,
