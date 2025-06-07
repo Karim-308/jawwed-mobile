@@ -8,7 +8,7 @@ const createReadingGoal = async () => {
       durationDays: 400,
       totalPages: 604,
       startPage: 1,
-      reminderTime: "00:48:00"
+      reminderTime: "15:30:41"
     };
 
     const response = await axios.post(

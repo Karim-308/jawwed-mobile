@@ -29,7 +29,15 @@ const BottomNavigationBar = () => {
   const navigation = useNavigation();
 
 
-  const arabicPageNumber = useMemo(() => Intl.NumberFormat('ar-EG').format(pageNumber), [pageNumber]);
+const toArabicNumber = (num) => {
+  return num
+    .toString()
+    .padStart(1, "0")
+    .replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+};
+
+const arabicPageNumber = useMemo(() => toArabicNumber(pageNumber), [pageNumber]);
+
   // Hides the navigation bar
   const handleHide = () => {
     dispatch(hideNav());
