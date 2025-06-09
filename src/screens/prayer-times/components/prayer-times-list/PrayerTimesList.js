@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { PrayerTimes, SunnahTimes } from 'adhan';
-import { getTimezone } from '../../../../api/services/timezone/TimezoneService';
+import { getTimeZone } from '../../../../api/services/timezone/TimezoneService';
+import { ENV } from '../../../../../env';
 import PrayerTimesItem from '../prayer-times-item/PrayerTimesItem';
 import { setPrayerTimes, setTimeZone, setIsSettingsMenuVisible, setErrorStatus } from '../../../../redux/reducers/prayerTimesReducer';
 import { getCalculationMethodParam, getMazhabParam } from './PrayerTimesListFunctions';
-import { formatTime } from '../../../../utils/time-utils/TimeUtils';
+import { formatTime } from '../../../../utils/date-time-utils/DateTimeUtils';
+import { toArabicNumerals } from '../../../../utils/helpers';
 
 
 export default function PrayerTimesList() {
@@ -38,15 +40,18 @@ export default function PrayerTimesList() {
         dispatch(setErrorStatus(errorStatus));
     }
 
-    const apiKey = ''; // to be added
+    const apiKey = ENV.development.TIMEZONE_FROM_COORDINATES_API_KEY;
 
     // Update the timezone if coordinates changed then trigger the update of prayer and sunnah times
     useEffect(() => {
 
         const updateTimeZone = async () => {
-            const timezoneInfo = await getTimezone(apiKey, coordinates.latitude, coordinates.longitude);
+            const timezoneInfo = await getTimeZone(apiKey, coordinates.latitude, coordinates.longitude);
             if(timezoneInfo.errorStatus === null)
-                assignTimeZone(timezoneInfo.timezone);
+                assignTimeZone({
+                    'zoneName': timezoneInfo.zoneName,
+                    'gmtOffset': timezoneInfo.gmtOffset
+                });
             else
                 assignErrorStatus(timezoneInfo.errorStatus);
         }
@@ -87,14 +92,14 @@ export default function PrayerTimesList() {
 
             {(prayerTimes && sunnahTimes && timeZone)? (
             <View style={styles.paryerTimesList}>           
-                <PrayerTimesItem prayer={{name: 'الفجر', time: formatTime(prayerTimes.fajr, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'الشروق', time: formatTime(prayerTimes.sunrise, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'الظهر', time: formatTime(prayerTimes.dhuhr, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'العصر', time: formatTime(prayerTimes.asr, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'المغرب', time: formatTime(prayerTimes.maghrib, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'العشاء', time: formatTime(prayerTimes.isha, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'منتصف الليل', time: formatTime(sunnahTimes.middleOfTheNight, timeZone)}}/>
-                <PrayerTimesItem prayer={{name: 'ثلث الليل الأخير', time: formatTime(sunnahTimes.lastThirdOfTheNight, timeZone)}}/>
+                <PrayerTimesItem prayer={{name: 'الفجر', time: toArabicNumerals(formatTime(prayerTimes.fajr))}}/>
+                <PrayerTimesItem prayer={{name: 'الشروق', time: toArabicNumerals(formatTime(prayerTimes.sunrise))}}/>
+                <PrayerTimesItem prayer={{name: 'الظهر', time: toArabicNumerals(formatTime(prayerTimes.dhuhr))}}/>
+                <PrayerTimesItem prayer={{name: 'العصر', time: toArabicNumerals(formatTime(prayerTimes.asr))}}/>
+                <PrayerTimesItem prayer={{name: 'المغرب', time: toArabicNumerals(formatTime(prayerTimes.maghrib))}}/>
+                <PrayerTimesItem prayer={{name: 'العشاء', time: toArabicNumerals(formatTime(prayerTimes.isha))}}/>
+                <PrayerTimesItem prayer={{name: 'منتصف الليل', time: toArabicNumerals(formatTime(sunnahTimes.middleOfTheNight))}}/>
+                <PrayerTimesItem prayer={{name: 'ثلث الليل الأخير', time: toArabicNumerals(formatTime(sunnahTimes.lastThirdOfTheNight))}}/>
             </View>
             ) : (
                 <View style={styles.messageContainer}>

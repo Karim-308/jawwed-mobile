@@ -1,23 +1,29 @@
-// get the next prayer name and time based on the current time
-export const getNextPrayer = async (prayerNames, prayerTimes, timeNow) => {
+import { prayerNames } from '../PrayerTimesData';
+import { getHoursDiff, getMinutesDiff } from '../../../../utils/date-time-utils/DateTimeUtils';
 
-    let nextPrayer = {
+// get the next prayer information based on the current time
+export const getNextPrayer = async (prayerTimes, zonedDateTimeNow) => {
+
+    const nextPrayer = {
         name: null,
-        time: null
+        hoursLeft: null,
+        minutesLeft: null
     };
 
     const prayerKeys = Object.keys(prayerNames);
-    const nextPrayerKey = prayerKeys.find((key) => prayerTimes[key] && timeNow < prayerTimes[key]);
 
-    if (nextPrayerKey){
-        nextPrayer.name = prayerNames[nextPrayerKey];
-        nextPrayer.time = prayerTimes[nextPrayerKey].getTime();
-    }          
-    // After Ishaa and Before 12:00 AM
-    else {
-        nextPrayer.name = prayerNames['fajr'];
-        nextPrayer.time = prayerTimes['fajr'].getTime() + (24 * 60 * 60 * 1000);
-    }
+    prayerKeys.forEach((key) => {
+        const prayerHoursDiff = getHoursDiff(zonedDateTimeNow, prayerTimes[key]);
+        const prayerMinutesDiff = getMinutesDiff(zonedDateTimeNow, prayerTimes[key]);
+        if ((prayerHoursDiff < nextPrayer.hoursLeft) || 
+            ((prayerHoursDiff === nextPrayer.hoursLeft) && (prayerMinutesDiff < nextPrayer.minutesLeft)) ||
+            (nextPrayer.hoursLeft === null))
+        {
+            nextPrayer.name = prayerNames[key];
+            nextPrayer.hoursLeft = prayerHoursDiff;
+            nextPrayer.minutesLeft = prayerMinutesDiff;
+        }
+    });
 
     return nextPrayer;
 };
