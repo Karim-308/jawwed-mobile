@@ -9,16 +9,20 @@ import IntroScreen from "./src/screens/Intro/IntroScreen";
 import AppNavigator from "./src/navigation/AppNavigator";
 import  requestUserPermission from "./src/api/notifications/firebasetoken";
 import { setupDatabase } from "./src/utils/database/setupDatabase";
-
+import * as Updates from 'expo-updates';
 
 LogBox.ignoreAllLogs(false);
 
 
 // Lock layout direction immediately after imports to prevent metro bundling issues
 // and to ensure that the app is always in RTL mode.
-if (!I18nManager.isRTL) {
+// 🔒 Lock layout direction as early as possible
+if (I18nManager.isRTL) {
   I18nManager.allowRTL(false);
   I18nManager.forceRTL(false);
+
+  // 🔁 Force reload if layout direction was RTL
+  Updates.reloadAsync(); // 👈 Force reload with new layout
 }
 
 export default function App() {

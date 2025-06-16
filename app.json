@@ -19,6 +19,8 @@
       }
     },
     "android": {
+      "allowRTL": false,
+      "supportsRTL": false,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/for-splash.png",
         "backgroundColor": "#000000"
