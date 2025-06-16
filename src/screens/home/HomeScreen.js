@@ -35,20 +35,19 @@ const HomeScreen = () => {
   const [remainingSeconds, setRemainingSeconds] = useState(0);
   const [darkMode, setDarkMode] = useState(true);
 
-useFocusEffect(
-  React.useCallback(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
-  }, [])
-);
-
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadDarkMode = async () => {
+        const storedDarkMode = await get("darkMode");
+        if (storedDarkMode !== null) {
+          setDarkMode(storedDarkMode === "true");
+        } else {
+          setDarkMode(true);
+        }
+      };
+      loadDarkMode();
+    }, [])
+  );
 
   useEffect(() => {
     const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
@@ -59,8 +58,14 @@ useFocusEffect(
       const now = new Date();
       const prayerTimes = new PrayerTimes(coordinates, now, params);
 
+      const hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+      const minutes = now.getMinutes();
+      const isPM = now.getHours() >= 12;
+
       setCurrentTime(
-        now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" })
+        `${toArabicNumber(hours)}:${toArabicNumber(minutes)} ${
+          isPM ? "م" : "ص"
+        }`
       );
 
       const prayerKeys = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
@@ -122,7 +127,9 @@ useFocusEffect(
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: currentColors.background }]}
+    >
       <ImageBackground
         source={require("../../assets/images/home_background.png")}
         style={styles.headerBackground}
@@ -140,16 +147,33 @@ useFocusEffect(
         </TouchableOpacity>
 
         <View style={styles.header}>
-          <Text style={[styles.clock, { color: currentColors.clock }]}>{currentTime}</Text>
-          <Text style={[styles.prayerTime, { color: currentColors.prayerTime }]}>
+          <Text style={[styles.clock, { color: currentColors.clock }]}>
+            {currentTime.replace(/[صم]$/, "")}
+            <Text style={styles.amPm}>
+              {currentTime.slice(-1)} {/* This will be either "ص" or "م" */}
+            </Text>
+          </Text>
+
+          <Text
+            style={[styles.prayerTime, { color: currentColors.prayerTime }]}
+          >
             {nextPrayer
               ? `متبقي ${formatTime(remainingSeconds)} لصلاة ${nextPrayer}`
               : "لا يوجد صلاة قادمة"}
           </Text>
 
-          <View style={[styles.searchContainer, { backgroundColor: currentColors.searchBackground }]}>
+          <View
+            style={[
+              styles.searchContainer,
+              { backgroundColor: currentColors.searchBackground },
+            ]}
+          >
             <MaterialIcons name="language" size={24} color={Colors.highlight} />
-            <MaterialIcons name="notifications" size={24} color={Colors.highlight} />
+            <MaterialIcons
+              name="notifications"
+              size={24}
+              color={Colors.highlight}
+            />
             <TextInput
               placeholder="انقر هنـــا للبحث"
               placeholderTextColor={currentColors.inputPlaceholder}
@@ -162,31 +186,59 @@ useFocusEffect(
       </ImageBackground>
 
       <View style={styles.features}>
-        <Text style={[styles.sectionTitle, { color: currentColors.sectionTitle }]}>القــائــــــمة</Text>
+        <Text
+          style={[styles.sectionTitle, { color: currentColors.sectionTitle }]}
+        >
+          القــائــــــمة
+        </Text>
 
         <View style={styles.featuresList}>
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("IndexPage")}
           >
-            <MaterialIcons name="menu-book" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الفهرس</Text>
+            <MaterialIcons
+              name="menu-book"
+              size={60}
+              color={Colors.highlight}
+            />
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              الفهرس
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("MoshafPage")}
           >
-            <MaterialIcons name="import-contacts" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>المصحف</Text>
+            <MaterialIcons
+              name="import-contacts"
+              size={60}
+              color={Colors.highlight}
+            />
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              المصحف
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("BookmarkPage")}
           >
-            <Ionicons name="bookmarks-outline" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الإشارات المرجعية</Text>
+            <Ionicons
+              name="bookmarks-outline"
+              size={60}
+              color={Colors.highlight}
+            />
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              الإشارات المرجعية
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -198,7 +250,11 @@ useFocusEffect(
               style={[styles.azkarImage, { tintColor: Colors.highlight }]}
               resizeMode="contain"
             />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الأذكار</Text>
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              الأذكار
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -206,15 +262,27 @@ useFocusEffect(
             onPress={() => navigation.navigate("PrayerTimesPage")}
           >
             <Ionicons name="time-outline" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>مواقيت الصلاة</Text>
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              مواقيت الصلاة
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("QuizPage")}
           >
-            <FontAwesome5 name="chalkboard-teacher" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>اختبار القرآن</Text>
+            <Image
+              source={require("../../assets/images/quiz.png")}
+              style={[styles.quizImage, { tintColor: Colors.highlight }]}
+              resizeMode="contain"
+            />
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              اختبار القرآن
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -226,18 +294,26 @@ useFocusEffect(
               size={60}
               color={Colors.highlight}
             />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>اتجاه القِبلة</Text>
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              اتجاه القِبلة
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.featureItem}
             onPress={() => navigation.navigate("MasbahaPage")}
           >
             <Image
-              source={require("../../assets/images/AzkarIcon.png")}
+              source={require("../../assets/images/prayer-breads.png")}
               style={[styles.azkarImage, { tintColor: Colors.highlight }]}
               resizeMode="contain"
             />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>سبحة</Text>
+            <Text
+              style={[styles.featureText, { color: currentColors.featureText }]}
+            >
+              سبحة
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -264,7 +340,7 @@ const styles = StyleSheet.create({
     marginTop: 170,
   },
   clock: {
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: "bold",
   },
   prayerTime: {
@@ -312,8 +388,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   azkarImage: {
-    width: 60,
     height: 60,
+    width: 60,
+  },
+  quizImage: {
+    height: 60,
+    width: 60,
   },
   profileIcon: {
     position: "absolute",
@@ -326,4 +406,11 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 40,
   },
+  amPm: {
+  fontSize: 24,  
+  lineHeight: 36, 
+  marginLeft: 4,
+  fontWeight: "normal",
+},
+
 });
