@@ -89,8 +89,8 @@ const LoginScreen = () => {
           navigation.navigate("Home");
         } catch (err) {
           console.error("❌ Login Error:", err);
-          Alert.alert("Login Error", err.message || "Something went wrong.");
-        } finally {
+          Alert.alert("خطأ في تسجيل الدخول", err.message || "حدث خطأ ما.");
+
           setLoading(false);
         }
       }
@@ -110,10 +110,15 @@ const LoginScreen = () => {
   // Loading screen
   if (isLoggedIn === null || loading) {
     return (
-      <View style={[styles.loadingContainer, { backgroundColor: currentColors.loaderBackground }]}>
+      <View
+        style={[
+          styles.loadingContainer,
+          { backgroundColor: currentColors.loaderBackground },
+        ]}
+      >
         <ActivityIndicator size="large" color={Colors.dark.underline} />
         <Text style={{ color: currentColors.loaderText, marginTop: 10 }}>
-          {loading ? "Logging in..." : "Checking session..."}
+          {loading ? "جاري تسجيل الدخول..." : "جارٍ التحقق من الجلسة..."}
         </Text>
       </View>
     );
@@ -121,28 +126,26 @@ const LoginScreen = () => {
 
   // Login screen
   return (
-    <View style={[styles.container, { backgroundColor: currentColors.background }]}>
-      <Text style={[styles.title, { color: currentColors.text }]}>Sign In</Text>
-      <View style={[styles.underline, { backgroundColor: currentColors.underline }]} />
-
-      {/* Dark Mode Toggle */}
-      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 20 }}>
-        <Text style={{ color: currentColors.text, marginRight: 10 }}>
-          {darkMode ? "Dark Mode" : "Light Mode"}
-        </Text>
-        <Switch
-          value={darkMode}
-          onValueChange={toggleDarkMode}
-          trackColor={Colors.trackColor}
-          thumbColor={currentColors.thumbColor}
-        />
-      </View>
+    <View
+      style={[styles.container, { backgroundColor: currentColors.background }]}
+    >
+      <Text style={[styles.title, { color: currentColors.text }]}>
+        تسجيل الدخول
+      </Text>
+      <View
+        style={[styles.underline, { backgroundColor: currentColors.underline }]}
+      />
 
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: currentColors.buttonBackground }]}
+        style={[
+          styles.button,
+          { backgroundColor: currentColors.buttonBackground },
+        ]}
         onPress={() => promptAsync()}
       >
-        <Text style={[styles.buttonText, { color: currentColors.text }]}>Continue with Google</Text>
+        <Text style={[styles.buttonText, { color: currentColors.text }]}>
+          المتابعة عبر جوجل
+        </Text>
         <Image
           source={require("../../assets/images/google.png")}
           style={styles.googleIcon}
@@ -150,17 +153,57 @@ const LoginScreen = () => {
       </TouchableOpacity>
 
       <View style={styles.separatorContainer}>
-        <View style={[styles.separator, { backgroundColor: currentColors.separator }]} />
-        <Text style={[styles.orText, { color: currentColors.text }]}>OR</Text>
-        <View style={[styles.separator, { backgroundColor: currentColors.separator }]} />
+        <View
+          style={[
+            styles.separator,
+            { backgroundColor: currentColors.separator },
+          ]}
+        />
+        <Text style={[styles.orText, { color: currentColors.text }]}>أو</Text>
+        <View
+          style={[
+            styles.separator,
+            { backgroundColor: currentColors.separator },
+          ]}
+        />
       </View>
 
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: currentColors.buttonBackground }]}
+        style={[
+          styles.button,
+          { backgroundColor: currentColors.buttonBackground },
+        ]}
         onPress={() => navigation.navigate("Home")}
       >
-        <Text style={[styles.buttonText, { color: currentColors.text }]}>Continue As Guest</Text>
+        <Text style={[styles.buttonText, { color: currentColors.text }]}>
+          المتابعة كزائر
+        </Text>
       </TouchableOpacity>
+
+      {/* Dark Mode Toggle */}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginBottom: 20,
+          marginTop: 20,
+          borderWidth: 3,
+          borderRadius: 10,
+          padding: 10,
+          borderColor: currentColors.buttonBackground,
+        }}
+      >
+        <Switch
+          value={darkMode}
+          onValueChange={toggleDarkMode}
+          trackColor={Colors.trackColor}
+          thumbColor={currentColors.thumbColor}
+          style={{ marginRight: 10 }}
+        />
+        <Text style={{ color: currentColors.text, marginLeft: 10 }}>
+          الوضع الليلي
+        </Text>
+      </View>
 
       <Image
         source={require("../../assets/images/login_background.png")}
