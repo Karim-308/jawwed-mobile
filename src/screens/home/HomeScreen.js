@@ -19,6 +19,12 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { PrayerTimes, CalculationMethod, Coordinates, Madhab } from "adhan";
 import { get } from "../../utils/localStorage/secureStore";
 import Colors from "../../constants/newColors";
+import { useSelector } from 'react-redux';
+import { indexTypesItems } from '../moshaf-index/components/IndexData';
+import BookIcon from '../../assets/images/open-book.png'; // adjust path if needed
+import Basmallah from '../../assets/images/basmallah.png'; // adjust path if needed
+import LastReadIcon from '../../assets/images/last-read.png'; // adjust path if needed
+import LastReadCard from './components/LastReadCard';
 
 const prayerNamesArabic = {
   fajr: "الفجر",
@@ -34,21 +40,86 @@ const HomeScreen = () => {
   const [nextPrayer, setNextPrayer] = useState("");
   const [remainingSeconds, setRemainingSeconds] = useState(0);
   const [darkMode, setDarkMode] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
-useFocusEffect(
-  React.useCallback(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
-  }, [])
-);
+  // Define features data
+  const features = [
+    {
+      id: 'index',
+      name: 'الفهرس',
+      icon: 'menu-book',
+      iconType: 'MaterialIcons',
+      screen: 'IndexPage'
+    },
+    {
+      id: 'moshaf',
+      name: 'المصحف',
+      icon: 'import-contacts',
+      iconType: 'MaterialIcons',
+      screen: 'MoshafPage'
+    },
+    {
+      id: 'bookmark',
+      name: 'الإشارات المرجعية',
+      icon: 'bookmarks-outline',
+      iconType: 'Ionicons',
+      screen: 'BookmarkPage'
+    },
+    {
+      id: 'azkar',
+      name: 'الأذكار',
+      icon: 'AzkarIcon',
+      iconType: 'Image',
+      screen: 'AzkarPage'
+    },
+    {
+      id: 'prayer',
+      name: 'مواقيت الصلاة',
+      icon: 'time-outline',
+      iconType: 'Ionicons',
+      screen: 'PrayerTimesPage'
+    },
+    {
+      id: 'quiz',
+      name: 'اختبار القرآن',
+      icon: 'chalkboard-teacher',
+      iconType: 'FontAwesome5',
+      screen: 'QuizPage'
+    },
+    {
+      id: 'qiblah',
+      name: 'اتجاه القِبلة',
+      icon: 'compass-outline',
+      iconType: 'MaterialCommunityIcons',
+      screen: 'QiblahPage'
+    },
+    {
+      id: 'masbaha',
+      name: 'سبحة',
+      icon: 'AzkarIcon',
+      iconType: 'Image',
+      screen: 'MasbahaPage'
+    }
+  ];
 
+  // Filter features based on search query
+  const filteredFeatures = features.filter(feature =>
+    feature.name.includes(searchQuery)
+  );
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadDarkMode = async () => {
+        const storedDarkMode = await get("darkMode");
+        if (storedDarkMode !== null) {
+          setDarkMode(storedDarkMode === "true");
+        } else {
+          setDarkMode(true);
+        }
+      };
+      loadDarkMode();
+    }, [])
+  );
 
   useEffect(() => {
     const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
@@ -121,8 +192,31 @@ useFocusEffect(
 
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
+  const renderIcon = (feature) => {
+    switch (feature.iconType) {
+      case 'MaterialIcons':
+        return <MaterialIcons name={feature.icon} size={40} color={Colors.highlight} style={styles.iconShine} />;
+      case 'Ionicons':
+        return <Ionicons name={feature.icon} size={40} color={Colors.highlight} style={styles.iconShine} />;
+      case 'FontAwesome5':
+        return <FontAwesome5 name={feature.icon} size={40} color={Colors.highlight} style={styles.iconShine} />;
+      case 'MaterialCommunityIcons':
+        return <MaterialCommunityIcons name={feature.icon} size={40} color={Colors.highlight} style={styles.iconShine} />;
+      case 'Image':
+        return (
+          <Image
+            source={require("../../assets/images/AzkarIcon.png")}
+            style={[styles.azkarImage, { tintColor: Colors.highlight }, styles.iconShine]}
+            resizeMode="contain"
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: currentColors.background, paddingTop: 24 }]}>
       <ImageBackground
         source={require("../../assets/images/home_background.png")}
         style={styles.headerBackground}
@@ -155,90 +249,41 @@ useFocusEffect(
               placeholderTextColor={currentColors.inputPlaceholder}
               writingDirection="rtl"
               style={[styles.searchInput, { color: currentColors.text }]}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
             />
-            <MaterialIcons name="search" size={24} color={Colors.highlight} />
+            {searchQuery ? (
+              <TouchableOpacity onPress={() => setSearchQuery("")}>
+                <MaterialIcons name="clear" size={24} color={Colors.highlight} />
+              </TouchableOpacity>
+            ) : (
+              <MaterialIcons name="search" size={24} color={Colors.highlight} />
+            )}
           </View>
         </View>
-      </ImageBackground>
 
-      <View style={styles.features}>
+      </ImageBackground>
+      <View style={[styles.features, { backgroundColor: currentColors.background }]}>
+
+      <View style={{ marginBottom: 5 }} />
+      <LastReadCard />
         <Text style={[styles.sectionTitle, { color: currentColors.sectionTitle }]}>القــائــــــمة</Text>
 
         <View style={styles.featuresList}>
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("IndexPage")}
-          >
-            <MaterialIcons name="menu-book" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الفهرس</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("MoshafPage")}
-          >
-            <MaterialIcons name="import-contacts" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>المصحف</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("BookmarkPage")}
-          >
-            <Ionicons name="bookmarks-outline" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الإشارات المرجعية</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("AzkarPage")}
-          >
-            <Image
-              source={require("../../assets/images/AzkarIcon.png")}
-              style={[styles.azkarImage, { tintColor: Colors.highlight }]}
-              resizeMode="contain"
-            />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>الأذكار</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("PrayerTimesPage")}
-          >
-            <Ionicons name="time-outline" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>مواقيت الصلاة</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("QuizPage")}
-          >
-            <FontAwesome5 name="chalkboard-teacher" size={60} color={Colors.highlight} />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>اختبار القرآن</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("QiblahPage")}
-          >
-            <MaterialCommunityIcons
-              name="compass-outline"
-              size={60}
-              color={Colors.highlight}
-            />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>اتجاه القِبلة</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.featureItem}
-            onPress={() => navigation.navigate("MasbahaPage")}
-          >
-            <Image
-              source={require("../../assets/images/AzkarIcon.png")}
-              style={[styles.azkarImage, { tintColor: Colors.highlight }]}
-              resizeMode="contain"
-            />
-            <Text style={[styles.featureText, { color: currentColors.featureText }]}>سبحة</Text>
-          </TouchableOpacity>
+          {filteredFeatures.map((feature) => (
+            <TouchableOpacity
+              key={feature.id}
+              style={[styles.featureItem, { backgroundColor: currentColors.featureBackground }]}
+              onPress={() => navigation.navigate(feature.screen)}
+            >
+              <View style={styles.iconContainer}>
+                {renderIcon(feature)}
+              </View>
+              <Text style={[styles.featureText, { color: currentColors.featureText }]}>
+                {feature.name}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
     </SafeAreaView>
@@ -297,23 +342,49 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   featuresList: {
-    flexDirection: "row-reverse",
-    flexWrap: "wrap",
-    width: "100%",
-    justifyContent: "flex-start",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+    gap: 15,
   },
   featureItem: {
-    alignItems: "center",
-    margin: 10,
+    width: '22%',
+    minWidth: 100,
+    aspectRatio: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 12,
+    padding: 10,
+    backgroundColor: '#212020',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  iconContainer: {
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 8,
+  },
+  iconShine: {
+    shadowColor: '#fff',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
   },
   featureText: {
     fontSize: 12,
+    textAlign: 'center',
     marginTop: 5,
-    textAlign: "center",
   },
   azkarImage: {
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
   },
   profileIcon: {
     position: "absolute",

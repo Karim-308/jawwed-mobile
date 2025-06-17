@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: DARK_GREY,
     paddingLeft: 10,
     paddingVertical: 5,
+    width: '100%',
   },
   hiddenContainer: {
     flexDirection: 'row',

@@ -21,6 +21,7 @@ const Colors = {
     clock: "#FFF",
     prayerTime: "#FFF",
     inputPlaceholder: "#666",
+    featureBackground: "#212020",
 
     // Quiz Specific
     timer: "#F4A950",
@@ -55,6 +56,7 @@ const Colors = {
     clock: "#000",
     prayerTime: "#000",
     inputPlaceholder: "#999",
+    featureBackground: "#f0f0f0",
 
     // Quiz Specific
     timer: "#F4A950",
