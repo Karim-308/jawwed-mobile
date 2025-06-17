@@ -8,6 +8,7 @@ import {
   Alert,
   ActivityIndicator,
   Switch,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as WebBrowser from "expo-web-browser";
@@ -17,6 +18,8 @@ import { get, save } from "../../utils/localStorage/secureStore";
 import { useDispatch } from "react-redux";
 import { setLoggedIn } from "../../redux/actions/authActions";
 import Colors from "../../constants/newColors";
+import { StatusBar as RNStatusBar, Platform } from "react-native";
+
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -126,14 +129,24 @@ const LoginScreen = () => {
 
   // Login screen
   return (
-    <View
-      style={[styles.container, { backgroundColor: currentColors.background }]}
+    <>
+    <View style={{ height: Platform.OS === "android" ? 24 : 0, backgroundColor: "black" }} />
+
+    <SafeAreaView
+      style={[
+        styles.container,
+        {
+          backgroundColor: currentColors.background,
+          paddingTop: Platform.OS === "android" ? RNStatusBar.currentHeight || 24 : 0,
+        },
+      ]}
     >
+
       <Text style={[styles.title, { color: currentColors.text }]}>
         تسجيل الدخول
       </Text>
       <View
-        style={[styles.underline, { backgroundColor: currentColors.underline }]}
+        style={[styles.underline, { backgroundColor: "#E0A500" }]}
       />
 
       <TouchableOpacity
@@ -209,7 +222,8 @@ const LoginScreen = () => {
         source={require("../../assets/images/login_background.png")}
         style={styles.backgroundImage}
       />
-    </View>
+    </SafeAreaView>
+    </>
   );
 };
 
