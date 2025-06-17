@@ -15,8 +15,8 @@ import * as Updates from 'expo-updates';
 LogBox.ignoreAllLogs(false);
 
 // Configure RTL
-I18nManager.allowRTL(true);
-I18nManager.forceRTL(true);
+I18nManager.allowRTL(false);
+I18nManager.forceRTL(false);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);

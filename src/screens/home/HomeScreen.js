@@ -8,6 +8,7 @@ import {
   ImageBackground,
   SafeAreaView,
   Image,
+  ScrollView,
 } from "react-native";
 import {
   Ionicons,
@@ -288,7 +289,14 @@ const HomeScreen = () => {
         <LastReadCard />
         <Text style={[styles.sectionTitle, { color: currentColors.sectionTitle }]}>القــائــــــمة</Text>
 
-        <View style={styles.featuresList}>
+        <ScrollView 
+          style={styles.featuresScrollView}
+          contentContainerStyle={styles.featuresList}
+          showsVerticalScrollIndicator={false}
+          bounces={true}
+          overScrollMode="never"
+          decelerationRate="fast"
+        >
           {filteredFeatures.map((feature) => (
             <TouchableOpacity
               key={feature.id}
@@ -303,7 +311,7 @@ const HomeScreen = () => {
               </Text>
             </TouchableOpacity>
           ))}
-        </View>
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -366,12 +374,16 @@ const styles = StyleSheet.create({
     textAlign: "right",
     marginTop: 10,
   },
+  featuresScrollView: {
+    flex: 1,
+  },
   featuresList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     paddingHorizontal: 5,
     gap: 15,
+    paddingBottom: 20,
   },
   featureItem: {
     width: '22%',

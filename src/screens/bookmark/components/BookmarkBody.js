@@ -64,27 +64,30 @@ const Body = ({ bookmarks, loading, error, handleDelete }) => {
       <View
         style={[
           styles.bookmarkCard,
-          { backgroundColor: currentColors.cardBackground },
+          { backgroundColor: currentColors.cardBackground || (darkMode ? '#23272f' : '#fff') },
         ]}
       >
         <View style={styles.cardContent}>
           <Text
             style={[
               styles.verse,
-              { color: currentColors.text, fontFamily: 'digitalkhatt' },
+              { color: currentColors.text, fontFamily: 'UthmanicHafs' },
             ]}
           >
             {item.verse}
           </Text>
         </View>
+        <View style={[
+          styles.divider,
+          {
+            backgroundColor: darkMode ? '#e0e0e0' : '#000',
+            opacity: darkMode ? 0.18 : 0.3,
+          }
+        ]} />
         <View style={styles.footer}>
           <View style={styles.pageSurahContainer}>
-            <Text style={[styles.pageNumber, { color: currentColors.text }]}>
-              صفحة: {toArabicNumber(item.page)}
-            </Text>
-            <Text style={[styles.surahName, { color: currentColors.text }]}>
-              {surahName}
-            </Text>
+            <Text style={[styles.pageNumber, { color: currentColors.text }]}>صفحة: {toArabicNumber(item.page)}</Text>
+            <Text style={[styles.surahName, { color: currentColors.text }]}>{surahName}</Text>
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -146,57 +149,69 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   bookmarkCard: {
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: 18,
+    padding: 22,
+    marginBottom: 22,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-    borderWidth: 0.5,
-    borderColor: '#ccc',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.13,
+    shadowRadius: 12,
+    elevation: 7,
+    borderWidth: 0,
   },
   cardContent: {
-    marginBottom: 16,
+    marginBottom: 18,
   },
   verse: {
-    fontSize: 20, // larger verse text
+    fontSize: 24,
     paddingTop: 10,
     textAlign: 'center',
-    lineHeight: 28,
+    lineHeight: 34,
+    letterSpacing: 0.5,
+  },
+  divider: {
+    height: 1,
+    marginVertical: 10,
   },
   pageSurahContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+    backgroundColor: 'transparent',
   },
   pageNumber: {
-    fontSize: 14,
-    opacity: 0.8,
+    fontSize: 15,
+    opacity: 0.7,
+    fontWeight: '500',
   },
   surahName: {
-    fontSize: 14, // same size as page number
-    opacity: 0.8,
+    fontSize: 15,
+    opacity: 0.7,
+    fontWeight: '500',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 6,
   },
   buttonContainer: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 12,
   },
   deleteButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 22,
+    borderRadius: 20,
+    minWidth: 64,
+    alignItems: 'center',
   },
   goToButton: {
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderRadius: 6,
+    paddingVertical: 8,
+    paddingHorizontal: 22,
+    borderRadius: 20,
+    minWidth: 64,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',

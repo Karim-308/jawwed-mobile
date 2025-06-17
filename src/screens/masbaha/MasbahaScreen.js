@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 50,
-    fontFamily: "PRO",
+    fontFamily: "UthmanicHafs",
     marginBottom: 20,
     textAlign: "center",
   },

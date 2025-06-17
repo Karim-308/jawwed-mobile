@@ -129,12 +129,18 @@ const BookmarkScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 70,
+    paddingTop: 30,
     flex: 1,
     padding: 16,
   },
   listContainer: {
     paddingBottom: 16,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#e0e0e0',
+    opacity: 0.18,
+    marginVertical: 10,
   },
 });
 

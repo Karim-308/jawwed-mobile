@@ -1,10 +1,13 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
-import { useSelector } from 'react-redux';
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, Platform, TouchableNativeFeedback } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import { indexTypesItems } from '../../moshaf-index/components/IndexData';
 import BookIcon from '../../../assets/images/open-book.png';
 import Basmallah from '../../../assets/images/basmallah.png';
 import LastReadIcon from '../../../assets/images/last-read.png';
+import { setPageNumber } from '../../../redux/actions/pageActions';
+import { goToScreenWithoutNestingInStack } from '../../../utils/navigation-utils/NavigationUtils';
 
 const { width } = Dimensions.get('window');
 const CARD_WIDTH = width * 0.9;
@@ -13,13 +16,20 @@ const CARD_HEIGHT = 131;
 const toArabicNumber = (num) => num.toString().replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]);
 
 const LastReadCard = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const pageNumber = useSelector((state) => state.page.pageNumber);
   const foundChapter = indexTypesItems.Chapter.find(
     (item, index, arr) => pageNumber >= item.pageNumber && (index === arr.length - 1 || pageNumber < arr[index + 1].pageNumber)
   );
   const surahName = foundChapter ? foundChapter.name : '';
 
-  return (
+  const handlePress = () => {
+    dispatch(setPageNumber(pageNumber));
+    goToScreenWithoutNestingInStack(navigation, 'MoshafPage');
+  };
+
+  const CardContent = () => (
     <View style={styles.lastReadCard}>
       <View style={styles.topRow}>
         <View style={styles.lastReadHeader}>
@@ -29,7 +39,7 @@ const LastReadCard = () => {
         <Image source={Basmallah} style={styles.basmallah} />
       </View>
       <View style={styles.bottomRow}>
-      <View style={styles.bookImageContainer}>
+        <View style={styles.bookImageContainer}>
           <Image source={BookIcon} style={styles.bookImage} />
         </View>
         <View style={styles.lastReadInfo}>
@@ -39,9 +49,43 @@ const LastReadCard = () => {
       </View>
     </View>
   );
+
+  if (Platform.OS === 'android') {
+    return (
+      <View style={styles.touchableContainer}>
+        <TouchableNativeFeedback
+          onPress={handlePress}
+          background={TouchableNativeFeedback.Ripple('rgba(255, 255, 255, 0.3)', false)}
+          useForeground={true}
+        >
+          <View style={styles.touchableContent}>
+            <CardContent />
+          </View>
+        </TouchableNativeFeedback>
+      </View>
+    );
+  }
+
+  return (
+    <TouchableOpacity onPress={handlePress} activeOpacity={0.7}>
+      <CardContent />
+    </TouchableOpacity>
+  );
 };
 
 const styles = StyleSheet.create({
+  touchableContainer: {
+    width: CARD_WIDTH,
+    height: CARD_HEIGHT,
+    borderRadius: 16,
+    overflow: 'hidden',
+    alignSelf: 'center',
+    marginVertical: 12,
+  },
+  touchableContent: {
+    width: '100%',
+    height: '100%',
+  },
   lastReadCard: {
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
@@ -50,7 +94,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingVertical: 15,
     paddingHorizontal: 18,
-    marginVertical: 12,
     justifyContent: 'space-between',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -79,6 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     fontWeight: 'bold',
+    marginLeft: 8,
   },
   basmallah: {
     width: 161,
@@ -114,7 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingBottom: 10,
+    paddingBottom: 0,
   },
   bookImage: {
     width: 128,
