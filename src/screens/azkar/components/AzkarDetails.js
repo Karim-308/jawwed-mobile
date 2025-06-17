@@ -232,7 +232,7 @@ const AzkarDetails = ({ route, navigation }) => {
                     onPress={() => handleStartCounting(item.zekrID)}
                     style={[
                       styles.startCountingButton,
-                      { backgroundColor: Colors.highlight },
+                      { backgroundColor: Colors.highlight, minWidth: 100},
                     ]}
                   >
                     <Text style={styles.buttonText}>
@@ -345,6 +345,7 @@ const styles = StyleSheet.create({
     minWidth: 30,
   },
   startCountingButton: {
+    alignItems: "center",
     paddingVertical: 6,
     paddingHorizontal: 14,
     borderRadius: 6,

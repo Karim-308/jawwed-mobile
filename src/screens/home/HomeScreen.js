@@ -120,6 +120,19 @@ const HomeScreen = () => {
       loadDarkMode();
     }, [])
   );
+  useFocusEffect(
+    React.useCallback(() => {
+      const loadDarkMode = async () => {
+        const storedDarkMode = await get("darkMode");
+        if (storedDarkMode !== null) {
+          setDarkMode(storedDarkMode === "true");
+        } else {
+          setDarkMode(true);
+        }
+      };
+      loadDarkMode();
+    }, [])
+  );
 
   useEffect(() => {
     const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
@@ -130,8 +143,14 @@ const HomeScreen = () => {
       const now = new Date();
       const prayerTimes = new PrayerTimes(coordinates, now, params);
 
+      const hours = now.getHours() % 12 || 12; // Convert to 12-hour format
+      const minutes = now.getMinutes();
+      const isPM = now.getHours() >= 12;
+
       setCurrentTime(
-        now.toLocaleTimeString("ar-EG", { hour: "2-digit", minute: "2-digit" })
+        `${toArabicNumber(hours)}:${toArabicNumber(minutes)} ${
+          isPM ? "م" : "ص"
+        }`
       );
 
       const prayerKeys = ["fajr", "dhuhr", "asr", "maghrib", "isha"];
@@ -234,16 +253,33 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <View style={styles.header}>
-          <Text style={[styles.clock, { color: currentColors.clock }]}>{currentTime}</Text>
-          <Text style={[styles.prayerTime, { color: currentColors.prayerTime }]}>
+          <Text style={[styles.clock, { color: currentColors.clock }]}>
+            {currentTime.replace(/[صم]$/, "")}
+            <Text style={styles.amPm}>
+              {currentTime.slice(-1)} {/* This will be either "ص" or "م" */}
+            </Text>
+          </Text>
+
+          <Text
+            style={[styles.prayerTime, { color: currentColors.prayerTime }]}
+          >
             {nextPrayer
               ? `متبقي ${formatTime(remainingSeconds)} لصلاة ${nextPrayer}`
               : "لا يوجد صلاة قادمة"}
           </Text>
 
-          <View style={[styles.searchContainer, { backgroundColor: currentColors.searchBackground }]}>
+          <View
+            style={[
+              styles.searchContainer,
+              { backgroundColor: currentColors.searchBackground },
+            ]}
+          >
             <MaterialIcons name="language" size={24} color={Colors.highlight} />
-            <MaterialIcons name="notifications" size={24} color={Colors.highlight} />
+            <MaterialIcons
+              name="notifications"
+              size={24}
+              color={Colors.highlight}
+            />
             <TextInput
               placeholder="انقر هنـــا للبحث"
               placeholderTextColor={currentColors.inputPlaceholder}
@@ -309,7 +345,7 @@ const styles = StyleSheet.create({
     marginTop: 170,
   },
   clock: {
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: "bold",
   },
   prayerTime: {
@@ -383,8 +419,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   azkarImage: {
+    height: 60,
     width: 40,
+  },
+  quizImage: {
     height: 40,
+    width: 60,
   },
   profileIcon: {
     position: "absolute",
@@ -397,4 +437,11 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 40,
   },
+  amPm: {
+  fontSize: 24,  
+  lineHeight: 36, 
+  marginLeft: 4,
+  fontWeight: "normal",
+},
+
 });
