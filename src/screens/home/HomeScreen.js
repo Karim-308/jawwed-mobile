@@ -34,6 +34,13 @@ const prayerNamesArabic = {
   isha: "العشاء",
 };
 
+const toArabicNumber = (num) => {
+  return num
+    .toString()
+    .padStart(2, "0")
+    .replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+};
+
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [currentTime, setCurrentTime] = useState("");
@@ -120,19 +127,6 @@ const HomeScreen = () => {
       loadDarkMode();
     }, [])
   );
-  useFocusEffect(
-    React.useCallback(() => {
-      const loadDarkMode = async () => {
-        const storedDarkMode = await get("darkMode");
-        if (storedDarkMode !== null) {
-          setDarkMode(storedDarkMode === "true");
-        } else {
-          setDarkMode(true);
-        }
-      };
-      loadDarkMode();
-    }, [])
-  );
 
   useEffect(() => {
     const coordinates = new Coordinates(30.0444, 31.2357); // Cairo
@@ -197,16 +191,7 @@ const HomeScreen = () => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${toArabicNumber(hrs)}:${toArabicNumber(mins)}:${toArabicNumber(
-      secs
-    )}`;
-  };
-
-  const toArabicNumber = (num) => {
-    return num
-      .toString()
-      .padStart(2, "0")
-      .replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+    return `${toArabicNumber(hrs)}:${toArabicNumber(mins)}:${toArabicNumber(secs)}`;
   };
 
   const currentColors = darkMode ? Colors.dark : Colors.light;
@@ -297,12 +282,10 @@ const HomeScreen = () => {
             )}
           </View>
         </View>
-
       </ImageBackground>
-      <View style={[styles.features, { backgroundColor: currentColors.background }]}>
 
-      <View style={{ marginBottom: 5 }} />
-      <LastReadCard />
+      <View style={styles.contentContainer}>
+        <LastReadCard />
         <Text style={[styles.sectionTitle, { color: currentColors.sectionTitle }]}>القــائــــــمة</Text>
 
         <View style={styles.featuresList}>
@@ -344,6 +327,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 170,
   },
+  contentContainer: {
+    marginTop: 50,
+    flex: 1,
+    paddingTop: 10,
+  },
   clock: {
     fontSize: 30,
     fontWeight: "bold",
@@ -376,6 +364,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "right",
+    marginTop: 10,
   },
   featuresList: {
     flexDirection: 'row',
@@ -415,6 +404,7 @@ const styles = StyleSheet.create({
   },
   featureText: {
     fontSize: 12,
+    fontWeight: 'medium',
     textAlign: 'center',
     marginTop: 5,
   },
@@ -438,10 +428,9 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   amPm: {
-  fontSize: 24,  
-  lineHeight: 36, 
-  marginLeft: 4,
-  fontWeight: "normal",
-},
-
+    fontSize: 24,  
+    lineHeight: 36, 
+    marginLeft: 4,
+    fontWeight: "normal",
+  },
 });

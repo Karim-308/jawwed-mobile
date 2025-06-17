@@ -29,12 +29,12 @@ const LastReadCard = () => {
         <Image source={Basmallah} style={styles.basmallah} />
       </View>
       <View style={styles.bottomRow}>
+      <View style={styles.bookImageContainer}>
+          <Image source={BookIcon} style={styles.bookImage} />
+        </View>
         <View style={styles.lastReadInfo}>
           <Text style={styles.surahName}>{surahName}</Text>
           <Text style={styles.pageNumber}>صفحة رقم: {toArabicNumber(pageNumber)}</Text>
-        </View>
-        <View style={styles.bookImageContainer}>
-          <Image source={BookIcon} style={styles.bookImage} />
         </View>
       </View>
     </View>
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5C77B',
     borderRadius: 16,
     alignSelf: 'center',
-    paddingVertical: 12,
+    paddingVertical: 15,
     paddingHorizontal: 18,
     marginVertical: 12,
     justifyContent: 'space-between',
@@ -59,14 +59,14 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topRow: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     width: '100%',
     paddingHorizontal: 12,
   },
   lastReadHeader: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     alignItems: 'center',
   },
   lastReadIcon: {
@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: '100%',
     marginTop: 8,
+    paddingHorizontal: 12,
+    paddingBottom: 10,
   },
   lastReadInfo: {
     alignItems: 'flex-end',
@@ -111,7 +113,8 @@ const styles = StyleSheet.create({
   bookImageContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
+    paddingBottom: 10,
   },
   bookImage: {
     width: 128,

@@ -7,27 +7,21 @@ import { Provider } from "react-redux";
 import store from "./src/redux/store";
 import IntroScreen from "./src/screens/Intro/IntroScreen";
 import AppNavigator from "./src/navigation/AppNavigator";
-import  requestUserPermission from "./src/api/notifications/firebasetoken";
+import requestUserPermission from "./src/api/notifications/firebasetoken";
 import { setupDatabase } from "./src/utils/database/setupDatabase";
 import * as Updates from 'expo-updates';
 
+// Enable all logs for debugging
 LogBox.ignoreAllLogs(false);
 
-
-// Lock layout direction immediately after imports to prevent metro bundling issues
-// and to ensure that the app is always in RTL mode.
-// 🔒 Lock layout direction as early as possible
-if (I18nManager.isRTL) {
-  I18nManager.allowRTL(false);
-  I18nManager.forceRTL(false);
-
-  // 🔁 Force reload if layout direction was RTL
-  Updates.reloadAsync(); // 👈 Force reload with new layout
-}
+// Configure RTL
+I18nManager.allowRTL(true);
+I18nManager.forceRTL(true);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadAppResources = async () => {
@@ -40,22 +34,42 @@ export default function App() {
         setFontLoaded(true);
       } catch (error) {
         console.error('Error loading fonts: ', error);
+        setError(error.message);
       }
     };
 
     loadAppResources();
   }, []);
 
-    useEffect(() => {
-    console.log('Setting up notification permission');
-    requestUserPermission();
-    console.log('Notification setup complete');
+  useEffect(() => {
+    const setupNotifications = async () => {
+      try {
+        await requestUserPermission();
+      } catch (error) {
+        console.error('Error setting up notifications:', error);
+      }
+    };
+    setupNotifications();
   }, []);
 
-    useEffect(() => {
-    setupDatabase();
+  useEffect(() => {
+    const setupDB = async () => {
+      try {
+        await setupDatabase();
+      } catch (error) {
+        console.error('Error setting up database:', error);
+      }
+    };
+    setupDB();
   }, []);
 
+  if (error) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#EFB975" />
+      </View>
+    );
+  }
 
   if (showIntro) {
     return <IntroScreen onFinish={() => setShowIntro(false)} />;
