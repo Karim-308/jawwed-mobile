@@ -16,9 +16,9 @@ import { useFocusEffect } from "@react-navigation/native";
 import { get } from "../../../utils/localStorage/secureStore";
 import Colors from "../../../constants/newColors";
 import {
-  getAllCounts,
-  saveCount,
-  resetCount,
+  getAllAzkarCounts,
+  saveAzkarCount,
+  resetAzkarCount,
 } from "../../../utils/database/countsRepository";
 
 I18nManager.forceRTL(true);
@@ -56,7 +56,7 @@ const AzkarDetails = ({ route, navigation }) => {
   };
 
   const fetchCounts = async () => {
-    await getAllCounts((loadedCounts) => {
+    await getAllAzkarCounts((loadedCounts) => {
       setCounts(loadedCounts);
     });
   };
@@ -171,7 +171,7 @@ const AzkarDetails = ({ route, navigation }) => {
       ...prev,
       [zekrID]: newCount,
     }));
-    await saveCount(zekrID, newCount);
+    await saveAzkarCount(zekrID, newCount);
   };
 
   const handleResetCounting = async (zekrID) => {
@@ -179,7 +179,7 @@ const AzkarDetails = ({ route, navigation }) => {
       ...prev,
       [zekrID]: 0,
     }));
-    await resetCount(zekrID);
+    await resetAzkarCount(zekrID);
   };
 
   if (loading) {

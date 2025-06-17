@@ -5,7 +5,7 @@ export const setupDatabase = async () => {
 
   // Create the counts table for Azkar (existing)
   await db.execAsync(`
-    CREATE TABLE IF NOT EXISTS counts (
+    CREATE TABLE IF NOT EXISTS azkar_counts (
       zekrID INTEGER PRIMARY KEY NOT NULL,
       count INTEGER
     );

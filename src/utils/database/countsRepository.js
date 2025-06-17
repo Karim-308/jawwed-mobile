@@ -1,10 +1,10 @@
 import { getDatabase } from './index';
 
 // Get all counts
-export const getAllCounts = async (callback) => {
+export const getAllAzkarCounts = async (callback) => {
   try {
     const db = await getDatabase();
-    const rows = await db.getAllAsync('SELECT zekrID, count FROM counts;');
+    const rows = await db.getAllAsync('SELECT zekrID, count FROM azkar_counts;');
 
     const counts = {};
     for (const row of rows) {
@@ -18,11 +18,11 @@ export const getAllCounts = async (callback) => {
 };
 
 // Save a count
-export const saveCount = async (zekrID, count) => {
+export const saveAzkarCount = async (zekrID, count) => {
   try {
     const db = await getDatabase();
     await db.runAsync(
-      'INSERT OR REPLACE INTO counts (zekrID, count) VALUES (?, ?);',
+      'INSERT OR REPLACE INTO azkar_counts (zekrID, count) VALUES (?, ?);',
       zekrID,
       count
     );
@@ -32,11 +32,11 @@ export const saveCount = async (zekrID, count) => {
 };
 
 // Reset a count
-export const resetCount = async (zekrID) => {
+export const resetAzkarCount = async (zekrID) => {
   try {
     const db = await getDatabase();
     await db.runAsync(
-      'UPDATE counts SET count = 0 WHERE zekrID = ?;',
+      'UPDATE azkar_counts SET count = 0 WHERE zekrID = ?;',
       zekrID
     );
   } catch (error) {
@@ -86,3 +86,4 @@ export const resetSebhaCount = async (sebhaID) => {
     console.error('Error resetting sebha count:', error);
   }
 };
+
