@@ -234,9 +234,9 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
   const handleBookmark = async (key) => {
     // Prepare the data for the API request
     const bookmarkData = {
-      userId: 2, // Replace with the actual userId or fetch it dynamically
       verseKey: key, // Pass the key as the verseKey
       verse: tooltipData.ayahText, // Assume tooltipData.ayahText contains the text
+      bookmarkType: 0, // 0 for verse
       page: pageNumber.toString(), // Ensure pageNumber is a string
     };
   
@@ -246,7 +246,6 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
         return;
       }
       const response = await postBookmark(bookmarkData);
-      //console.log('Bookmark successfully posted:', response);
     } catch (error) {
       console.error('Error posting bookmark:', error);
     }
