@@ -91,7 +91,7 @@ const Body = ({ bookmarks, loading, error, handleDelete }) => {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => handleDelete(2, item.verseKey)}
+              onPress={() => handleDelete(item.verseKey)}
               style={[styles.deleteButton, { backgroundColor: '#ff4d4d' }]}
             >
               <Text style={styles.buttonText}>إلغاء</Text>

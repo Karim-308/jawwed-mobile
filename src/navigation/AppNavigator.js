@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import HomeScreen from "../screens/home/HomeScreen";
 import MoshafIndexScreen from "../screens/moshaf-index/MoshafIndexScreen";
 import MoshafScreen from "../screens/moshaf/MoshafScreen";
-import BookmarkScreen from "../screens/bookmark/BookmarkScreen";
+import BookmarkTabs from "../screens/bookmark/BookmarkTabs";
 import Header from "../screens/moshaf/components/MoshafHeader";
 import { PRIMARY_GOLD } from "../constants/colors";
 import LoginScreen from "../screens/login/LoginScreen";
@@ -59,7 +59,7 @@ const AppNavigator = () => (
       />
       <Stack.Screen
         name="BookmarkPage"
-        component={BookmarkScreen}
+        component={BookmarkTabs}
         options={{
           title: "الإشارات المرجعية",
           headerTitleStyle: {

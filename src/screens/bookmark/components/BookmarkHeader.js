@@ -1,47 +1,37 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons'; // Using Ionicons for the arrow icon
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import Colors from "../../../constants/newColors"; // adjust path if needed
 
-const Header = () => {
-  const navigation = useNavigation();
-
-  const handleBackPress = () => {
-    navigation.navigate('Home');
-  };
+const BookmarkListHeader = ({ title, darkMode }) => {
+  const currentColors = darkMode ? Colors.dark : Colors.light;
 
   return (
-    <View style={styles.headerContainer}>
-      <TouchableOpacity
-        onPress={handleBackPress}
-        style={styles.backButton}
-        activeOpacity={0.6}
-      >
-        <Ionicons name="arrow-back" size={40} color="#FFD700" />
-      </TouchableOpacity>
-      <Text style={styles.headerText}>Bookmark</Text>
+    <View style={[styles.headerContainer, { backgroundColor: currentColors.background }]}>
+      <Text style={[styles.headerText, { color: currentColors.text }]}>
+        {title}
+      </Text>
+      <View style={[styles.headerDivider, { backgroundColor: currentColors.text, opacity: 0.1 }]} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  backButton: {
-    position: 'absolute',
-    left: 0,
-    padding: 10,
+    marginBottom: 10,
+    paddingHorizontal: 4,
+    paddingTop: 10,
   },
   headerText: {
-    flex: 1,
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "right",
+    fontFamily: "digitalkhatt",
+  },
+  headerDivider: {
+    height: 1,
+    marginTop: 6,
+    marginHorizontal: 2,
   },
 });
 
-export default Header;
+export default BookmarkListHeader;

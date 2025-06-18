@@ -1,54 +1,47 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
   ActivityIndicator,
   RefreshControl,
   FlatList,
-} from 'react-native';
-import * as Font from 'expo-font';
-import Header from './components/BookmarkHeader';
-import Body from './components/BookmarkBody';
-import getBookmarks from '../../api/bookmark/GetBookmark';
-import deleteBookmark from '../../api/bookmark/DeleteBookmark';
-import { useSelector } from 'react-redux';
-import NotLoggedInMessage from '../profile/components/NotLoggedInMessage';
-import { get } from '../../utils/localStorage/secureStore';
-import Colors from '../../constants/newColors'; // Using your existing color constants!
+  Text,
+} from "react-native";
+import * as Font from "expo-font";
+import Header from "./components/BookmarkHeader";
+import Body from "./components/BookmarkBody";
+import getBookmarks from "../../api/bookmark/GetBookmark";
+import deleteBookmark from "../../api/bookmark/DeleteBookmark";
+import { useSelector } from "react-redux";
+import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
+import { get } from "../../utils/localStorage/secureStore";
+import Colors from "../../constants/newColors"; // Using your existing color constants!
+import BookmarkListHeader from "./components/BookmarkHeader";
 
-const BookmarkScreen = () => {
+const QuranBookmarkScreen = ({ darkMode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
-  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     const checkLogin = async () => {
-      const token = await get('userToken');
+      const token = await get("userToken");
       setIsLoggedIn(!!token);
     };
     checkLogin();
-  }, []);
-
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get('darkMode');
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === 'true');
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
   }, []);
 
   const fetchBookmarks = async () => {
     try {
       setLoading(true);
       const data = await getBookmarks();
-      setBookmarks(data);
+
+      // Filter only verse bookmarks (bookmarkType 0)
+      const verseBookmarks = data.filter((b) => b.bookmarkType === 0);
+
+      setBookmarks(verseBookmarks);
     } catch (err) {
       setError("Failed to load bookmarks");
       console.error(err);
@@ -67,12 +60,15 @@ const BookmarkScreen = () => {
     setRefreshing(false);
   };
 
-  const handleDelete = async (userId, verseKey) => {
+  const handleDelete = async (verseKey) => {
     try {
-      await deleteBookmark(userId, verseKey);
+      await deleteBookmark({
+        identifier: verseKey,
+        type: 0, // Assuming type 0 is for verse bookmarks
+      });
       setBookmarks((prev) => prev.filter((b) => b.verseKey !== verseKey));
     } catch (error) {
-      console.error('Error deleting bookmark:', error);
+      console.error("Error deleting bookmark:", error);
     }
   };
 
@@ -80,7 +76,12 @@ const BookmarkScreen = () => {
 
   if (isLoggedIn === null) {
     return (
-      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: currentColors.background },
+        ]}
+      >
         <ActivityIndicator size="large" color={Colors.highlight} />
       </View>
     );
@@ -88,14 +89,21 @@ const BookmarkScreen = () => {
 
   if (!isLoggedIn) {
     return (
-      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: currentColors.background },
+        ]}
+      >
         <NotLoggedInMessage />
       </View>
     );
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+    <View
+      style={[styles.container, { backgroundColor: currentColors.background }]}
+    >
       <FlatList
         data={bookmarks}
         keyExtractor={(item) => item.verseKey}
@@ -115,10 +123,19 @@ const BookmarkScreen = () => {
             progressBackgroundColor={currentColors.background}
           />
         }
+        ListHeaderComponent={
+          <BookmarkListHeader title="الآيات" darkMode={darkMode} />
+        }
         ListEmptyComponent={
           loading ? (
             <ActivityIndicator size="large" color={Colors.highlight} />
-          ) : null
+          ) : (
+            <View style={{ alignItems: "center", marginTop: 40 }}>
+              <Text style={{ color: currentColors.text, fontSize: 20 }}>
+                لا توجد إشارات مرجعية حتى الآن
+              </Text>
+            </View>
+          )
         }
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
@@ -138,10 +155,10 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: "#e0e0e0",
     opacity: 0.18,
     marginVertical: 10,
   },
 });
 
-export default BookmarkScreen;
+export default QuranBookmarkScreen;
