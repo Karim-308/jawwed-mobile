@@ -1,27 +1,36 @@
 import { ToastAndroid, Alert, Platform } from 'react-native';
-import jawwedHttpClient from '../../utils/httpclient'; // ✅ Default import
+import jawwedHttpClient from '../../utils/httpclient';
 
 const postBookmark = async (bookmarkData) => {
-  const url = 'Bookmark'; // ✅ Relative to baseURL already set in jawwedHttpClient
+  const url = 'Bookmark';
+
+  // Construct request body dynamically based on bookmarkType
+  const body = {
+    bookmarkType: bookmarkData.bookmarkType,
+  };
+
+  if (bookmarkData.bookmarkType === 0) {
+    // Bookmarking a verse
+    body.verseKey = bookmarkData.verseKey;
+    body.verse = bookmarkData.verse;
+    body.page = bookmarkData.page;
+  } else if (bookmarkData.bookmarkType === 1) {
+    // Bookmarking a zekr
+    body.zekrID = bookmarkData.zekrID;
+  }
 
   try {
-    const response = await jawwedHttpClient.post(url, {
-      verseKey: bookmarkData.verseKey,
-      verse: bookmarkData.verse,
-      page: bookmarkData.page,
-    });
+    const response = await jawwedHttpClient.post(url, body);
 
-    // ✅ Success message
     console.log('Bookmark successfully posted:', response.data);
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Bookmark Saved', ToastAndroid.SHORT);
+      ToastAndroid.show('تم حفظ الإشارة المرجعية بنجاح', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Success', 'Bookmark Saved');
+      Alert.alert('تم الحفظ', 'تم حفظ الإشارة المرجعية بنجاح');
     }
 
     return response.data;
   } catch (error) {
-    // ✅ Error logging
     if (error.response) {
       console.error('Error response:', error.response);
     } else if (error.request) {
@@ -30,11 +39,10 @@ const postBookmark = async (bookmarkData) => {
       console.error('Error message:', error.message);
     }
 
-    // ✅ User feedback on failure
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Failed to save bookmark', ToastAndroid.SHORT);
+      ToastAndroid.show('فشل في حفظ الإشارة المرجعية', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Error', 'Failed to save bookmark');
+      Alert.alert('خطأ', 'فشل في حفظ الإشارة المرجعية');
     }
 
     throw error;

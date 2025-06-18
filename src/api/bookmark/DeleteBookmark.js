@@ -1,26 +1,27 @@
 import { ToastAndroid, Alert, Platform } from 'react-native';
-import jawwedHttpClient from '../../utils/httpclient'; // ✅ Using the configured Axios instance
+import jawwedHttpClient from '../../utils/httpclient';
 
-const deleteBookmark = async (userId, verseKey) => {
-  const url = 'Bookmark'; // ✅ Base URL is already handled in jawwedHttpClient
+const deleteBookmark = async ({ identifier, type }) => {
+  const url = 'Bookmark';
 
   try {
     const response = await jawwedHttpClient.delete(url, {
-      params: { userId, verseKey },
+      params: {
+        identifier: identifier.toString(),
+        type: type,
+      },
       timeout: 10000,
     });
 
-    // ✅ Success message
     console.log('Bookmark successfully deleted:', response.data);
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Bookmark Deleted', ToastAndroid.SHORT);
+      ToastAndroid.show('تم حذف الإشارة المرجعية بنجاح', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Success', 'Bookmark Deleted');
+      Alert.alert('تم الحذف', 'تم حذف الإشارة المرجعية بنجاح');
     }
 
     return response.data;
   } catch (error) {
-    // ✅ Error handling
     if (error.response) {
       console.error('Error response:', error.response);
     } else if (error.request) {
@@ -30,9 +31,9 @@ const deleteBookmark = async (userId, verseKey) => {
     }
 
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Failed to delete bookmark', ToastAndroid.SHORT);
+      ToastAndroid.show('فشل في حذف الإشارة المرجعية', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Error', 'Failed to delete bookmark');
+      Alert.alert('خطأ', 'فشل في حذف الإشارة المرجعية');
     }
 
     throw error;
