@@ -7,6 +7,8 @@ import {
   StyleSheet,
   I18nManager,
   TouchableOpacity,
+  Vibration,
+  Pressable,
 } from "react-native";
 import { getAzkarWithID } from "../../../api/azkar/getAzkarWithID";
 import { toArabicNumber } from "../../../utils/format";
@@ -20,6 +22,9 @@ import {
   saveAzkarCount,
   resetAzkarCount,
 } from "../../../utils/database/countsRepository";
+import postBookmark from "../../../api/bookmark/PostBookmark";
+import getBookmarks from "../../../api/bookmark/GetBookmark";
+import deleteBookmark from "../../../api/bookmark/DeleteBookmark";
 
 I18nManager.forceRTL(true);
 
@@ -33,11 +38,14 @@ const AzkarDetails = ({ route, navigation }) => {
   const [darkMode, setDarkMode] = useState(true);
   const isAudioPlayingRef = useRef(false);
   const [counts, setCounts] = useState({});
+  const [bookmarkedZekrIDs, setBookmarkedZekrIDs] = useState([]);
+  const [pressedZekrId, setPressedZekrId] = useState(null);
 
   useEffect(() => {
     (async () => {
       await fetchCategory();
       await fetchCounts();
+      await fetchBookmarkedZekrIDs();
     })();
   }, [categoryId]);
 
@@ -61,6 +69,43 @@ const AzkarDetails = ({ route, navigation }) => {
     });
   };
 
+  const handleBookmark = async (zekrID) => {
+    const idStr = zekrID.toString();
+    const isBookmarked = bookmarkedZekrIDs.includes(idStr);
+
+    try {
+      if (isBookmarked) {
+        // Unbookmark logic (you need to implement deleteBookmark API)
+        await deleteBookmark({ identifier: idStr, type: 1 });
+      } else {
+        await postBookmark({ bookmarkType: 1, zekrID: idStr });
+      }
+
+      // Refresh bookmarks after any change
+      await fetchBookmarkedZekrIDs();
+    } catch (error) {
+      console.error("Bookmark toggle failed:", error);
+    }
+  };
+
+  const fetchBookmarkedZekrIDs = async () => {
+    try {
+      const allBookmarks = await getBookmarks();
+
+      // Filter only zekr-type bookmarks
+      const zekrBookmarks = allBookmarks.filter(
+        (b) => b.bookmarkType === 1 && b.zekr && b.zekr.zekrID
+      );
+
+      // Extract IDs as strings
+      const ids = zekrBookmarks.map((b) => b.zekr.zekrID.toString());
+
+      setBookmarkedZekrIDs(ids);
+    } catch (error) {
+      console.error("Failed to load bookmarked azkar:", error);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       const storedDarkMode = await get("darkMode");
@@ -74,6 +119,7 @@ const AzkarDetails = ({ route, navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      // Refetch bookmarks every time the screen comes into focus
       return () => {
         if (sound) {
           (async () => {
@@ -166,6 +212,7 @@ const AzkarDetails = ({ route, navigation }) => {
   };
 
   const handleStartCounting = async (zekrID) => {
+    Vibration.vibrate(50); // Short vibration feedback
     const newCount = (counts[zekrID] || 0) + 1;
     setCounts((prev) => ({
       ...prev,
@@ -197,10 +244,7 @@ const AzkarDetails = ({ route, navigation }) => {
 
   return (
     <View
-      style={[
-        styles.container,
-        { backgroundColor: currentColors.background },
-      ]}
+      style={[styles.container, { backgroundColor: currentColors.background }]}
     >
       <FlatList
         data={categoryData.items}
@@ -218,21 +262,64 @@ const AzkarDetails = ({ route, navigation }) => {
                 },
               ]}
             >
-              <Text style={[styles.content, { color: currentColors.text }]}>
-                {item.content}
-              </Text>
+              <Pressable
+                onPress={() => handleStartCounting(item.zekrID)}
+                onPressIn={() => setPressedZekrId(item.zekrID)}
+                onPressOut={() => setPressedZekrId(null)}
+                style={[
+                  styles.countableTouchable,
+                  {
+                    backgroundColor:
+                      pressedZekrId === item.zekrID
+                        ? Colors.highlight // gold during press
+                        : darkMode
+                        ? "rgba(255,255,255,0.03)"
+                        : "rgba(0,0,0,0.04)",
+                  },
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.content,
+                    {
+                      color:
+                        pressedZekrId === item.zekrID
+                          ? "#fff"
+                          : currentColors.text, // white text on gold
+                    },
+                  ]}
+                >
+                  {item.content}
+                </Text>
+              </Pressable>
 
+              {/* footer section */}
               <View style={styles.footer}>
                 <Text style={[styles.count, { color: Colors.highlight }]}>
                   ×{toArabicNumber(item.count)}
                 </Text>
+
+                <TouchableOpacity
+                  onPress={() => handleBookmark(item.zekrID)}
+                  style={styles.bookmarkButton}
+                >
+                  <Ionicons
+                    name={
+                      bookmarkedZekrIDs.includes(item.zekrID.toString())
+                        ? "bookmark"
+                        : "bookmark-outline"
+                    }
+                    size={24}
+                    color={Colors.highlight}
+                  />
+                </TouchableOpacity>
 
                 <View style={styles.counterSection}>
                   <TouchableOpacity
                     onPress={() => handleStartCounting(item.zekrID)}
                     style={[
                       styles.startCountingButton,
-                      { backgroundColor: Colors.highlight, minWidth: 100},
+                      { backgroundColor: Colors.highlight, minWidth: 100 },
                     ]}
                   >
                     <Text style={styles.buttonText}>
@@ -250,7 +337,7 @@ const AzkarDetails = ({ route, navigation }) => {
                         { backgroundColor: "#ff4d4d" },
                       ]}
                     >
-                      <Text style={styles.buttonText}>إعادة</Text>
+                      <Ionicons name="refresh" size={20} color="#fff" />
                     </TouchableOpacity>
                   )}
                 </View>
@@ -312,7 +399,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     shadowOpacity: 0.15,
     shadowRadius: 5,
-    elevation: 6,
   },
   content: {
     fontSize: 20,
@@ -362,4 +448,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  bookmarkButton: {
+    paddingLeft: 12,
+    minWidth: 36,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 36,
+  },
+  countableTouchable: {
+  padding: 10,
+  borderRadius: 10,
+  marginBottom: 8,
+},
+
 });
