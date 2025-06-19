@@ -77,7 +77,7 @@ const HomeScreen = () => {
       id: 'azkar',
       name: 'الأذكار',
       icon: 'AzkarIcon',
-      iconType: 'Image',
+      iconType: 'Image-Azkar',
       screen: 'AzkarPage'
     },
     {
@@ -105,7 +105,7 @@ const HomeScreen = () => {
       id: 'masbaha',
       name: 'سبحة',
       icon: 'AzkarIcon',
-      iconType: 'Image',
+      iconType: 'Image-Sebha',
       screen: 'MasbahaPage'
     }
   ];
@@ -207,11 +207,19 @@ const HomeScreen = () => {
         return <FontAwesome5 name={feature.icon} size={40} color={Colors.highlight} style={styles.iconShine} />;
       case 'MaterialCommunityIcons':
         return <MaterialCommunityIcons name={feature.icon} size={40} color={Colors.highlight} style={styles.iconShine} />;
-      case 'Image':
+      case 'Image-Azkar':
         return (
           <Image
             source={require("../../assets/images/AzkarIcon.png")}
             style={[styles.azkarImage, { tintColor: Colors.highlight }, styles.iconShine]}
+            resizeMode="contain"
+          />
+        );
+      case 'Image-Sebha':
+        return (
+          <Image
+            source={require("../../assets/images/prayer-breads.png")}
+            style={[styles.sebhaImage, { tintColor: Colors.highlight }, styles.iconShine]}
             resizeMode="contain"
           />
         );
@@ -424,9 +432,13 @@ const styles = StyleSheet.create({
     height: 60,
     width: 40,
   },
-  quizImage: {
-    height: 40,
+  sebhaImage: {
+    height: 60,
     width: 60,
+  },
+  quizImage: {
+    height: 60,
+    width: 80,
   },
   profileIcon: {
     position: "absolute",
