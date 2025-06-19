@@ -1,3 +1,4 @@
+//src/screens/bookmark/QuranBookmarkScreen.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -13,25 +14,21 @@ import Body from "./components/BookmarkBody";
 import getBookmarks from "../../api/bookmark/GetBookmark";
 import deleteBookmark from "../../api/bookmark/DeleteBookmark";
 import { useSelector } from "react-redux";
-import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
 import { get } from "../../utils/localStorage/secureStore";
-import Colors from "../../constants/newColors"; // Using your existing color constants!
+import Colors from "../../constants/newColors";
 import BookmarkListHeader from "./components/BookmarkHeader";
 
-const QuranBookmarkScreen = ({ darkMode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+const QuranBookmarkScreen = ({ darkMode, focused }) => {
   const [bookmarks, setBookmarks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const checkLogin = async () => {
-      const token = await get("userToken");
-      setIsLoggedIn(!!token);
-    };
-    checkLogin();
-  }, []);
+    if (focused) {
+      fetchBookmarks();
+    }
+  }, [focused]);
 
   const fetchBookmarks = async () => {
     try {
@@ -49,10 +46,6 @@ const QuranBookmarkScreen = ({ darkMode }) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isLoggedIn) fetchBookmarks();
-  }, [isLoggedIn]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -74,7 +67,7 @@ const QuranBookmarkScreen = ({ darkMode }) => {
 
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
-  if (isLoggedIn === null) {
+  if (loading) {
     return (
       <View
         style={[
@@ -83,19 +76,6 @@ const QuranBookmarkScreen = ({ darkMode }) => {
         ]}
       >
         <ActivityIndicator size="large" color={Colors.highlight} />
-      </View>
-    );
-  }
-
-  if (!isLoggedIn) {
-    return (
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: currentColors.background },
-        ]}
-      >
-        <NotLoggedInMessage />
       </View>
     );
   }
@@ -131,8 +111,14 @@ const QuranBookmarkScreen = ({ darkMode }) => {
             <ActivityIndicator size="large" color={Colors.highlight} />
           ) : (
             <View style={{ alignItems: "center", marginTop: 40 }}>
-              <Text style={{ color: currentColors.text, fontSize: 20 }}>
-                لا توجد إشارات مرجعية حتى الآن
+              <Text
+                style={{
+                  color: currentColors.text,
+                  fontSize: 20,
+                  fontFamily: "UthmanicHafs",
+                }}
+              >
+                لا توجد إشارات مرجعية للآيات حتى الآن
               </Text>
             </View>
           )
@@ -146,9 +132,8 @@ const QuranBookmarkScreen = ({ darkMode }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
     flex: 1,
-    padding: 16,
+    paddingHorizontal: 16,
   },
   listContainer: {
     paddingBottom: 16,

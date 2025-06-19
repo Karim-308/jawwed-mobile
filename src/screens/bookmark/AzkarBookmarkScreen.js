@@ -179,10 +179,12 @@ const AzkarBookmarkScreen = ({ darkMode, focused, isTabActive }) => {
               style={{
                 color: currentColors.text,
                 textAlign: "center",
+                fontFamily: "UthmanicHafs",
                 marginTop: 40,
+                fontSize: 20,
               }}
             >
-              لا توجد إشارات مرجعية حتى الآن
+              لا توجد إشارات مرجعية للأذكار حتى الآن
             </Text>
           )
         }
@@ -339,7 +341,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 40,
   },
   loadingContainer: {
     flex: 1,
@@ -348,6 +349,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingBottom: 30,
+
   },
   card: {
     borderRadius: 20,

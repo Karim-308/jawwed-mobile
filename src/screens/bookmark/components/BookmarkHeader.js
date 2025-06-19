@@ -23,9 +23,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "right",
-    fontFamily: "digitalkhatt",
+    fontFamily: "UthmanicHafs",
   },
   headerDivider: {
     height: 1,
