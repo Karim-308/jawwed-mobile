@@ -1,4 +1,3 @@
-//src/screens/bookmark/BookmarkTabs.js
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
   View,
@@ -7,6 +6,8 @@ import {
   StyleSheet,
   Animated,
   ActivityIndicator,
+  TouchableOpacity,
+  Image,
 } from "react-native";
 import QuranBookmarkScreen from "./QuranBookmarkScreen";
 import AzkarBookmarkScreen from "./AzkarBookmarkScreen";
@@ -14,22 +15,23 @@ import Colors from "../../constants/newColors";
 import { get } from "../../utils/localStorage/secureStore";
 import { useFocusEffect } from "@react-navigation/native";
 import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
+import { Ionicons } from "@expo/vector-icons";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const BookmarkTabs = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef(null);
   const [darkMode, setDarkMode] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isFocused, setIsFocused] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  // Focus detection when navigating in/out of BookmarkTabs screen
   useFocusEffect(
     useCallback(() => {
       setIsFocused(true);
-      return () => setIsFocused(false); // on screen blur
+      return () => setIsFocused(false);
     }, [])
   );
 
@@ -47,8 +49,18 @@ const BookmarkTabs = () => {
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
   const screens = [
-    { key: "quran", Component: QuranBookmarkScreen },
-    { key: "azkar", Component: AzkarBookmarkScreen },
+    {
+      key: "quran",
+      image: require("../../assets/images/quran-bookmark-icon.png"),
+      label: "الآيات",
+      Component: QuranBookmarkScreen,
+    },
+    {
+      key: "azkar",
+      image: require("../../assets/images/azkar-bookmark-icon.png"),
+      label: "الأذكار",
+      Component: AzkarBookmarkScreen,
+    },
   ];
 
   if (isLoading || isLoggedIn === null) {
@@ -82,6 +94,7 @@ const BookmarkTabs = () => {
       style={[styles.container, { backgroundColor: currentColors.background }]}
     >
       <FlatList
+        ref={flatListRef}
         data={screens}
         horizontal
         pagingEnabled
@@ -112,24 +125,57 @@ const BookmarkTabs = () => {
         }}
       />
 
-      {/* Thin Indicator Bar */}
-      <View style={styles.indicatorWrapper}>
-        {screens.map((_, i) => (
-          <View
-            key={i}
-            style={[
-              styles.indicatorSegment,
-              {
-                backgroundColor:
-                  i === currentIndex
+      {/* Icon Bar with Rectangular Backgrounds */}
+      <View style={styles.tabBar}>
+        {screens.map((screen, i) => {
+          const isActive = i === currentIndex;
+          return (
+            <TouchableOpacity
+              key={screen.key}
+              onPress={() => {
+                flatListRef.current?.scrollToIndex({
+                  index: i,
+                  animated: true,
+                });
+                setCurrentIndex(i);
+              }}
+              style={[
+                styles.iconTabContainer,
+                {
+                  backgroundColor: isActive
                     ? Colors.highlight
                     : darkMode
-                    ? "#444"
-                    : "#ccc",
-              },
-            ]}
-          />
-        ))}
+                    ? "#222"
+                    : "#f0f0f0",
+                },
+              ]}
+              activeOpacity={0.8}
+            >
+              <Image
+                source={screen.image}
+                style={{
+                  width: screen.key === "quran" ? 30 : 50,
+                  height: screen.key === "quran" ? 28 : 28,
+                  tintColor: isActive ? "#fff" : darkMode ? "#aaa" : "#333",
+                  resizeMode: "contain",
+                }}
+              />
+
+              <View
+                style={[
+                  styles.indicatorSegment,
+                  {
+                    backgroundColor: isActive
+                      ? "#fff"
+                      : darkMode
+                      ? "#444"
+                      : "#ccc",
+                  },
+                ]}
+              />
+            </TouchableOpacity>
+          );
+        })}
       </View>
     </View>
   );
@@ -144,18 +190,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  indicatorWrapper: {
+  tabBar: {
     flexDirection: "row",
-
-    height: 7,
-    width: "100%",
-    backgroundColor: "transparent",
+    justifyContent: "space-around",
+    alignItems: "center",
     paddingHorizontal: 16,
-    marginBottom: 10,
+    paddingVertical: 10,
+  },
+  iconTabContainer: {
+    flex: 1,
+    marginHorizontal: 6,
+    paddingVertical: 5,
+    borderRadius: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 2,
   },
   indicatorSegment: {
-    flex: 1,
-    marginHorizontal: 4,
+    width: 30,
+    height: 4,
+    marginTop: 6,
     borderRadius: 2,
   },
 });
