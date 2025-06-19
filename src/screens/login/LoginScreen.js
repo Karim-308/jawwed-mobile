@@ -89,7 +89,7 @@ const LoginScreen = () => {
           setUserInfo({ name, email });
           setJwtToken(token);
           dispatch(setLoggedIn());
-          navigation.navigate("Home");
+          navigation.replace("Home");
         } catch (err) {
           console.error("❌ Login Error:", err);
           Alert.alert("خطأ في تسجيل الدخول", err.message || "حدث خطأ ما.");
