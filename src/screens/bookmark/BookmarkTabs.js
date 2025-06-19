@@ -1,3 +1,4 @@
+//src/screens/bookmark/BookmarkTabs.js
 import React, { useRef, useState, useEffect, useCallback } from "react";
 import {
   View,
@@ -12,6 +13,7 @@ import AzkarBookmarkScreen from "./AzkarBookmarkScreen";
 import Colors from "../../constants/newColors";
 import { get } from "../../utils/localStorage/secureStore";
 import { useFocusEffect } from "@react-navigation/native";
+import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -21,6 +23,7 @@ const BookmarkTabs = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isFocused, setIsFocused] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   // Focus detection when navigating in/out of BookmarkTabs screen
   useFocusEffect(
@@ -33,7 +36,9 @@ const BookmarkTabs = () => {
   useEffect(() => {
     const loadDarkMode = async () => {
       const storedDarkMode = await get("darkMode");
+      const token = await get("userToken");
       setDarkMode(storedDarkMode === "true");
+      setIsLoggedIn(!!token);
       setIsLoading(false);
     };
     loadDarkMode();
@@ -46,7 +51,7 @@ const BookmarkTabs = () => {
     { key: "azkar", Component: AzkarBookmarkScreen },
   ];
 
-  if (isLoading) {
+  if (isLoading || isLoggedIn === null) {
     return (
       <View
         style={[
@@ -55,6 +60,19 @@ const BookmarkTabs = () => {
         ]}
       >
         <ActivityIndicator size="large" color={Colors.highlight} />
+      </View>
+    );
+  }
+
+  if (!isLoggedIn) {
+    return (
+      <View
+        style={[
+          styles.loadingContainer,
+          { backgroundColor: currentColors.background },
+        ]}
+      >
+        <NotLoggedInMessage />
       </View>
     );
   }
@@ -128,7 +146,7 @@ const styles = StyleSheet.create({
   },
   indicatorWrapper: {
     flexDirection: "row",
-    
+
     height: 7,
     width: "100%",
     backgroundColor: "transparent",
