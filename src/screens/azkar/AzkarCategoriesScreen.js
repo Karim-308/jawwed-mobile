@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,12 +6,40 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { getAzkarCategories } from '../../api/azkar/getAzkarCategories';
-import { useNavigation } from '@react-navigation/native';
-import { get } from '../../utils/localStorage/secureStore';
-import Colors from '../../constants/newColors'; // adjust path as needed
+  Image,
+} from "react-native";
+import { getAzkarCategories } from "../../api/azkar/getAzkarCategories";
+import { useNavigation } from "@react-navigation/native";
+import { get } from "../../utils/localStorage/secureStore";
+import Colors from "../../constants/newColors";
+
+// Memoized card component
+const AzkarCard = React.memo(({ item, onPress, darkMode, currentColors }) => (
+  <TouchableOpacity
+    style={[styles.cardWrapper, { backgroundColor: currentColors.cardBackground }]}
+    onPress={() => onPress(item)}
+  >
+    <View style={styles.imageContainer}>
+      <Image
+        source={require("../../assets/images/azkar-background.png")}
+        style={[styles.decorImage, { opacity: darkMode ? 0.3 : 0.7 }]}
+        resizeMode="contain"
+      />
+    </View>
+
+    <Text style={[styles.cardTitle, { color: currentColors.text }]}>
+      {item.category}
+    </Text>
+
+    <View style={styles.imageContainer2}>
+      <Image
+        source={require("../../assets/images/azkar-background.png")}
+        style={[styles.decorImage, { opacity: darkMode ? 0.3 : 0.7 }]}
+        resizeMode="contain"
+      />
+    </View>
+  </TouchableOpacity>
+));
 
 const AzkarCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -36,11 +64,7 @@ const AzkarCategories = () => {
   useEffect(() => {
     const loadDarkMode = async () => {
       const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
+      setDarkMode(storedDarkMode === "true" || storedDarkMode === null);
     };
     loadDarkMode();
   }, []);
@@ -48,28 +72,22 @@ const AzkarCategories = () => {
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
   const handleCardPress = (item) => {
-    navigation.navigate('AzkarDetailsPage', {
+    navigation.navigate("AzkarDetailsPage", {
       categoryId: item.categoryId,
       title: item.category,
     });
   };
 
-  const renderCard = ({ item }) => (
-    <TouchableOpacity
-      style={styles.cardWrapper}
-      onPress={() => handleCardPress(item)}
-    >
-      <LinearGradient
-        colors={['#d1d1d1', '#a8a8a8', '#787878']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        style={styles.card}
-      >
-        <Text style={[styles.cardTitle, { color: currentColors.text }]}>
-          {item.category}
-        </Text>
-      </LinearGradient>
-    </TouchableOpacity>
+  const renderCard = useCallback(
+    ({ item }) => (
+      <AzkarCard
+        item={item}
+        onPress={handleCardPress}
+        darkMode={darkMode}
+        currentColors={currentColors}
+      />
+    ),
+    [darkMode, currentColors]
   );
 
   if (loading) {
@@ -87,10 +105,7 @@ const AzkarCategories = () => {
 
   return (
     <View
-      style={[
-        styles.container,
-        { backgroundColor: currentColors.background },
-      ]}
+      style={[styles.container, { backgroundColor: currentColors.background }]}
     >
       <FlatList
         data={categories}
@@ -98,6 +113,10 @@ const AzkarCategories = () => {
         keyExtractor={(item) => item.categoryId.toString()}
         contentContainerStyle={styles.cardContainer}
         showsVerticalScrollIndicator={false}
+        initialNumToRender={10}
+        maxToRenderPerBatch={5}
+        windowSize={10}
+        removeClippedSubviews={true}
       />
     </View>
   );
@@ -113,33 +132,52 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   cardContainer: {
     paddingBottom: 30,
   },
   cardWrapper: {
-    height: 60,
-    marginBottom: 12,
-    borderRadius: 12,
-    shadowColor: '#aaa',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 6,
-    overflow: 'hidden',
+    height: 70,
+    marginBottom: 16,
+    borderRadius: 20,
+    overflow: "hidden",
+    borderWidth: 2,
+    borderColor: "#D4AF37",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
   },
-  card: {
-    flex: 1,
-    borderRadius: 12,
-    justifyContent: 'center',
-    paddingHorizontal: 16,
+  imageContainer: {
+    position: "absolute",
+    top: "50%",
+    left: "10%",
+    width: 60,
+    height: 60,
+    marginLeft: -30,
+    marginTop: -30,
+    zIndex: 0,
+  },
+  imageContainer2: {
+    position: "absolute",
+    top: "50%",
+    right: "10%",
+    width: 60,
+    height: 60,
+    marginRight: -30,
+    marginTop: -30,
+    zIndex: 0,
+  },
+  decorImage: {
+    width: "100%",
+    height: "100%",
   },
   cardTitle: {
-    fontSize: 25,
-    fontFamily: 'UthmanicHafs',
-    fontWeight: '600',
-    textAlign: 'center',
+    fontSize: 22,
+    fontFamily: "UthmanicHafs",
+    fontWeight: "600",
+    textAlign: "center",
+    zIndex: 1,
   },
 });
