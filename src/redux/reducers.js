@@ -6,6 +6,7 @@ import indexReducer from './reducers/indexReducer';
 import pageReducer from './reducers/pageReducer';
 import prayerTimesReducer from './reducers/prayerTimesReducer';
 import authReducer from './reducers/authReducer';
+import darkModeReducer from './reducers/darkModeReducer'; // Import dark mode reducer
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   page: pageReducer,
   prayerTimes: prayerTimesReducer,
   auth: authReducer,
+  darkMode: darkModeReducer, 
   // Add other reducers here
 });
 
