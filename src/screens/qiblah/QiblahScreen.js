@@ -11,52 +11,61 @@ import {
 import * as Location from "expo-location";
 import { Accelerometer } from "expo-sensors";
 import PlacePhoneMessage from "./components/PlacePhoneMessage";
-import { get } from "../../utils/localStorage/secureStore";
-import Colors from "../../constants/newColors"; // adjust path as necessary
-import PlacePhoneMessageLight from "./components/PlacePhoneMessageLight"; // adjust path if needed
+import PlacePhoneMessageLight from "./components/PlacePhoneMessageLight";
+import { useSelector } from "react-redux";
+import Colors from "../../constants/newColors";
+
 const KAABA_LAT = 21.4225;
 const KAABA_LON = 39.8262;
 
 export default function QiblahCompass() {
   const [location, setLocation] = useState(null);
+  const [locationLoaded, setLocationLoaded] = useState(false);
   const [heading, setHeading] = useState(0);
   const [qiblaDirection, setQiblaDirection] = useState(0);
   const [isAligned, setIsAligned] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const [flatSurface, setFlatSurface] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
-
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
   const borderAnim = useRef(new Animated.Value(0)).current;
 
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
   useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
+    const setupLocationAndHeading = async () => {
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        console.log("📍 Location permission status:", status);
+        if (status !== "granted") {
+          setErrorMsg("تم رفض إذن الوصول إلى الموقع");
+          setLocationLoaded(true);
+          return;
+        }
+
+        const loc = await Location.getCurrentPositionAsync({});
+        console.log("✅ Location fetched:", loc);
+
+        if (loc && loc.coords) {
+          setLocation(loc.coords);
+        } else {
+          console.warn("⚠️ Location.coords is undefined");
+          setErrorMsg("تعذر الحصول على إحداثيات الموقع.");
+        }
+
+        Location.watchHeadingAsync((headingData) => {
+          const currentHeading =
+            headingData.trueHeading ?? headingData.magHeading;
+          setHeading(currentHeading);
+        });
+      } catch (err) {
+        console.error("❌ Error getting location:", err);
+        setErrorMsg("حدث خطأ أثناء جلب الموقع.");
+      } finally {
+        setLocationLoaded(true);
       }
     };
-    loadDarkMode();
-  }, []);
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("تم رفض إذن الوصول إلى الموقع");
-        return;
-      }
-
-      const loc = await Location.getCurrentPositionAsync({});
-      setLocation(loc.coords);
-
-      Location.watchHeadingAsync((headingData) => {
-        const currentHeading =
-          headingData.trueHeading ?? headingData.magHeading;
-        setHeading(currentHeading);
-      });
-    })();
+    setupLocationAndHeading();
   }, []);
 
   useEffect(() => {
@@ -83,8 +92,7 @@ export default function QiblahCompass() {
   }, [heading, qiblaDirection]);
 
   useEffect(() => {
-    const subscription = Accelerometer.addListener((data) => {
-      const { z } = data;
+    const subscription = Accelerometer.addListener(({ z }) => {
       setFlatSurface(Math.abs(z) > 0.95);
     });
 
@@ -116,15 +124,13 @@ export default function QiblahCompass() {
     }
   }, [isAligned, flatSurface]);
 
-  const currentColors = darkMode ? Colors.dark : Colors.light;
-
   const getInstruction = () => {
     if (!flatSurface) return "يرجى وضع الهاتف على سطح مستوٍ";
     if (isAligned) return "أنت الآن باتجاه القبلة";
     const diff = (qiblaDirection - heading + 360) % 360;
     return diff < 180
-      ? "قم بتدوير الهاتف جهة اليمين "
-      : "قم بتدوير الهاتف جهة اليسار ";
+      ? "قم بتدوير الهاتف جهة اليمين"
+      : "قم بتدوير الهاتف جهة اليسار";
   };
 
   const interpolatedBorderColor = borderAnim.interpolate({
@@ -137,16 +143,22 @@ export default function QiblahCompass() {
     outputRange: [1, 1.05],
   });
 
+  // 🌐 UI Rendering
+  if (!locationLoaded) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.highlight} />
+      </View>
+    );
+  }
+
   return (
     <View
       style={[styles.container, { backgroundColor: currentColors.qiblahBackground }]}
     >
+      {/* Instruction Text or Place Phone Message */}
       {!flatSurface ? (
-        darkMode ? (
-            <PlacePhoneMessage />
-        ) : (
-            <PlacePhoneMessageLight />
-        )
+        darkMode ? <PlacePhoneMessage /> : <PlacePhoneMessageLight />
       ) : (
         <Text
           style={[
@@ -159,12 +171,14 @@ export default function QiblahCompass() {
         </Text>
       )}
 
+      {/* Error Message */}
       {errorMsg && (
         <Text style={[styles.error, { color: Colors.highlight }]}>
           {errorMsg}
         </Text>
       )}
 
+      {/* Compass or Spinner */}
       {!location ? (
         <ActivityIndicator size="large" color={Colors.highlight} />
       ) : (
@@ -206,6 +220,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: Colors.dark.background,
   },
   title: {
     fontSize: 30,

@@ -3,21 +3,10 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../constants/newColors";
 import { get } from "../../utils/localStorage/secureStore";
+import { useSelector } from "react-redux"; // Redux for dark mode
 
 const QuizAlert = ({ visible, onClose, message }) => {
-  const [darkMode, setDarkMode] = useState(true);
-
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
-  }, []);
+  const darkMode = useSelector((state) => state.darkMode.darkMode); // Redux for dark mode
 
   const currentColors = darkMode ? Colors.dark : Colors.light;
 

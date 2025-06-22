@@ -12,6 +12,7 @@ import { getAzkarCategories } from "../../api/azkar/getAzkarCategories";
 import { useNavigation } from "@react-navigation/native";
 import { get } from "../../utils/localStorage/secureStore";
 import Colors from "../../constants/newColors";
+import { useSelector } from "react-redux";
 
 // Memoized card component
 const AzkarCard = React.memo(({ item, onPress, darkMode, currentColors }) => (
@@ -44,8 +45,8 @@ const AzkarCard = React.memo(({ item, onPress, darkMode, currentColors }) => (
 const AzkarCategories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
   const navigation = useNavigation();
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -61,13 +62,7 @@ const AzkarCategories = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      setDarkMode(storedDarkMode === "true" || storedDarkMode === null);
-    };
-    loadDarkMode();
-  }, []);
+
 
   const currentColors = darkMode ? Colors.dark : Colors.light;
 

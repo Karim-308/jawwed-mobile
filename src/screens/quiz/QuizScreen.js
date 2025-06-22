@@ -8,7 +8,6 @@ import {
   Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
 import { getQuiz } from "../../api/quiz/getquiz";
@@ -16,6 +15,7 @@ import { get } from "../../utils/localStorage/secureStore";
 import { postQuiz } from "../../api/quiz/postquiz";
 import QuizAlert from "../../components/Alert/QuizAlert";
 import Colors from "../../constants/newColors";
+import { useSelector } from "react-redux";
 
 const QuizScreen = () => {
   const navigation = useNavigation();
@@ -28,21 +28,9 @@ const QuizScreen = () => {
   const [sessionId, setSessionId] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
-  const [darkMode, setDarkMode] = useState(true);
+  const darkMode = useSelector((state) => state.darkMode.darkMode); // Redux for dark mode
 
   const shuffleArray = (arr) => [...arr].sort(() => Math.random() - 0.5);
-
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
-  }, []);
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -122,7 +110,11 @@ const QuizScreen = () => {
     const formattedAnswers = Object.values(answers);
     try {
       const response = await postQuiz(sessionId, formattedAnswers);
-      setAlertMessage(response.passed ? "تهانينا! لقد نجحت في الاختبار." : "للأسف، لم تنجح في الاختبار.");
+      setAlertMessage(
+        response.passed
+          ? "تهانينا! لقد نجحت في الاختبار."
+          : "للأسف، لم تنجح في الاختبار."
+      );
       setShowAlert(true);
     } catch (error) {
       console.error("Quiz submission failed:", error);
@@ -133,7 +125,12 @@ const QuizScreen = () => {
 
   if (!isLoggedIn) {
     return (
-      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: currentColors.background },
+        ]}
+      >
         <NotLoggedInMessage />
       </View>
     );
@@ -141,7 +138,12 @@ const QuizScreen = () => {
 
   if (loading) {
     return (
-      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: currentColors.background },
+        ]}
+      >
         <ActivityIndicator size="large" color={Colors.highlight} />
       </View>
     );
@@ -149,8 +151,15 @@ const QuizScreen = () => {
 
   if (quizQuestions.length === 0) {
     return (
-      <View style={[styles.container, { backgroundColor: currentColors.background }]}>
-        <Text style={[styles.optionText, { color: currentColors.optionText }]}>No quiz available.</Text>
+      <View
+        style={[
+          styles.container,
+          { backgroundColor: currentColors.background },
+        ]}
+      >
+        <Text style={[styles.optionText, { color: currentColors.optionText }]}>
+          No quiz available.
+        </Text>
       </View>
     );
   }
@@ -159,9 +168,15 @@ const QuizScreen = () => {
   const selectedAnswer = answers[currentQuestion.questionID];
 
   return (
-    <View style={[styles.container, { backgroundColor: currentColors.background }]}>
-      <Text style={[styles.timerText, { color: currentColors.timer }]}>⏳ {formatTime(timeLeft)}</Text>
-      <Text style={[styles.questionText, { color: currentColors.question }]}>{currentQuestion.questionHeader}</Text>
+    <View
+      style={[styles.container, { backgroundColor: currentColors.background }]}
+    >
+      <Text style={[styles.timerText, { color: currentColors.timer }]}>
+        ⏳ {formatTime(timeLeft)}
+      </Text>
+      <Text style={[styles.questionText, { color: currentColors.question }]}>
+        {currentQuestion.questionHeader}
+      </Text>
 
       {currentQuestion.shuffledOptions.map((option, index) => {
         const isSelected = selectedAnswer?.questionAnswer === option;
@@ -170,11 +185,20 @@ const QuizScreen = () => {
             key={index}
             style={[
               styles.optionButton,
-              { backgroundColor: isSelected ? currentColors.selectedOptionBackground : currentColors.optionBackground, borderColor: currentColors.timer }
+              {
+                backgroundColor: isSelected
+                  ? currentColors.selectedOptionBackground
+                  : currentColors.optionBackground,
+                borderColor: currentColors.timer,
+              },
             ]}
             onPress={() => selectAnswer(option)}
           >
-            <Text style={[styles.optionText, { color: currentColors.optionText }]}>{option}</Text>
+            <Text
+              style={[styles.optionText, { color: currentColors.optionText }]}
+            >
+              {option}
+            </Text>
           </TouchableOpacity>
         );
       })}
@@ -189,22 +213,39 @@ const QuizScreen = () => {
           onPress={goBack}
           disabled={currentQuestionIndex === 0}
         >
-          <Ionicons name="arrow-back" size={24} color={currentColors.navButtonText} />
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={currentColors.navButtonText}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={[styles.navButton, { backgroundColor: currentColors.navButtonBackground }]}
+          style={[
+            styles.navButton,
+            { backgroundColor: currentColors.navButtonBackground },
+          ]}
           onPress={goNext}
         >
           {currentQuestionIndex === quizQuestions.length - 1 ? (
-            <Ionicons name="checkmark-done" size={24} color={currentColors.navButtonText} />
+            <Ionicons
+              name="checkmark-done"
+              size={24}
+              color={currentColors.navButtonText}
+            />
           ) : (
-            <Ionicons name="arrow-forward" size={24} color={currentColors.navButtonText} />
+            <Ionicons
+              name="arrow-forward"
+              size={24}
+              color={currentColors.navButtonText}
+            />
           )}
         </TouchableOpacity>
       </View>
 
-      <Text style={[styles.progressText, { color: currentColors.progressText }]}>
+      <Text
+        style={[styles.progressText, { color: currentColors.progressText }]}
+      >
         {currentQuestionIndex + 1} of {quizQuestions.length}
       </Text>
 

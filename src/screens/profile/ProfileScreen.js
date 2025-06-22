@@ -12,8 +12,9 @@ import {
 import { get, remove, save } from '../../utils/localStorage/secureStore';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import NotLoggedInMessage from './components/NotLoggedInMessage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLoggedOut } from '../../redux/actions/authActions';
+import { setDarkMode } from '../../redux/actions/themeActions';
 import Colors from '../../constants/newColors'; // Adjust path as needed
 
 const TOKEN_KEY = 'userToken';
@@ -22,12 +23,12 @@ const NAME_KEY = 'userName';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userInfo, setUserInfo] = useState({ name: '', email: '' });
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -35,18 +36,6 @@ const ProfileScreen = () => {
       setIsLoggedIn(!!token);
     };
     checkLogin();
-  }, []);
-
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get('darkMode');
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === 'true');
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
   }, []);
 
   useEffect(() => {
@@ -91,8 +80,8 @@ const ProfileScreen = () => {
   const toggleDarkMode = async () => {
     try {
       const newDarkMode = !darkMode;
-      setDarkMode(newDarkMode);
       await save('darkMode', newDarkMode.toString());
+      dispatch(setDarkMode(newDarkMode));
     } catch (error) {
       console.error('Error toggling dark mode:', error);
     }

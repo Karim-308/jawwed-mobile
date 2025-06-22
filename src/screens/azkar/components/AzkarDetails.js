@@ -25,6 +25,7 @@ import {
 import postBookmark from "../../../api/bookmark/PostBookmark";
 import getBookmarks from "../../../api/bookmark/GetBookmark";
 import deleteBookmark from "../../../api/bookmark/DeleteBookmark";
+import { useSelector } from "react-redux"; // Redux for dark mode
 
 I18nManager.forceRTL(true);
 
@@ -35,11 +36,11 @@ const AzkarDetails = ({ route, navigation }) => {
   const [sound, setSound] = useState(null);
   const [playingZekrId, setPlayingZekrId] = useState(null);
   const [bufferingZekrId, setBufferingZekrId] = useState(null);
-  const [darkMode, setDarkMode] = useState(true);
   const isAudioPlayingRef = useRef(false);
   const [counts, setCounts] = useState({});
   const [bookmarkedZekrIDs, setBookmarkedZekrIDs] = useState([]);
   const [pressedZekrId, setPressedZekrId] = useState(null);
+  const darkMode = useSelector((state) => state.darkMode.darkMode); // Redux for dark mode
 
   useEffect(() => {
     (async () => {
@@ -106,16 +107,7 @@ const AzkarDetails = ({ route, navigation }) => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
-    })();
-  }, []);
+
 
   useFocusEffect(
     React.useCallback(() => {

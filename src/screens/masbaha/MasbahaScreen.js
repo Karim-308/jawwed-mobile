@@ -21,6 +21,7 @@ import {
   saveSebhaCount,
   resetSebhaCount,
 } from "../../utils/database/countsRepository";
+import { useSelector } from "react-redux"; // Redux for dark mode
 
 const { width } = Dimensions.get("window");
 const DIGIT_HEIGHT = 50; // Customize this to match the digit text size
@@ -65,20 +66,8 @@ export default function MasbahaScreen() {
   const [sebhas, setSebhas] = useState([...initialSebhas]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
+  const darkMode = useSelector((state) => state.darkMode.darkMode); // Redux state for dark mode
 
-  // Load dark mode from storage
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === "true");
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
-  }, []);
 
   // Load counts from SQLite
   useEffect(() => {

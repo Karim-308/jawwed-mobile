@@ -1,24 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { get } from '../../../utils/localStorage/secureStore'; // Adjust path as necessary
-import Colors from '../../../constants/newColors'; // Adjust path as necessary
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { get } from "../../../utils/localStorage/secureStore"; // Adjust path as necessary
+import Colors from "../../../constants/newColors"; // Adjust path as necessary
+import { useSelector } from "react-redux"; // Redux for dark mode
 
 const NotLoggedInMessage = () => {
   const navigation = useNavigation();
-  const [darkMode, setDarkMode] = useState(true);
-
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      const storedDarkMode = await get('darkMode');
-      if (storedDarkMode !== null) {
-        setDarkMode(storedDarkMode === 'true');
-      } else {
-        setDarkMode(true);
-      }
-    };
-    loadDarkMode();
-  }, []);
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
 
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
@@ -26,26 +15,20 @@ const NotLoggedInMessage = () => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: 'Login' }],
+        routes: [{ name: "Login" }],
       })
     );
   };
 
   return (
     <View
-      style={[
-        styles.container,
-        { backgroundColor: currentColors.background },
-      ]}
+      style={[styles.container, { backgroundColor: currentColors.background }]}
     >
       <Text style={[styles.message, { color: currentColors.text }]}>
         لا يمكنك عرض معلوماتك حاليًا، يجب عليك تسجيل الدخول أولًا
       </Text>
       <TouchableOpacity
-        style={[
-          styles.loginButton,
-          { backgroundColor: Colors.highlight },
-        ]}
+        style={[styles.loginButton, { backgroundColor: Colors.highlight }]}
         onPress={goToLogin}
       >
         <Text style={styles.loginButtonText}>تسجيل الدخول</Text>
@@ -57,13 +40,13 @@ const NotLoggedInMessage = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     padding: 25,
   },
   message: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 20,
   },
   loginButton: {
@@ -72,9 +55,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   loginButtonText: {
-    color: '#000',
+    color: "#000",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

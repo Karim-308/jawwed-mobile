@@ -126,6 +126,15 @@ const HomeScreen = () => {
       iconType: "Image-Sebha",
       screen: "MasbahaPage",
     },
+    {
+      id: "tasmee",
+      name: "تسميع",
+      icon: "AzkarIcon",
+      iconType: "Image-Azkar",
+      screen: "TasmeePage",
+    },
+    
+
   ];
 
   // Filter features based on search query

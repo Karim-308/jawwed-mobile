@@ -16,6 +16,7 @@ import { get } from "../../utils/localStorage/secureStore";
 import { useFocusEffect } from "@react-navigation/native";
 import NotLoggedInMessage from "../profile/components/NotLoggedInMessage";
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -23,10 +24,11 @@ const BookmarkTabs = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isFocused, setIsFocused] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  const darkMode = useSelector((state) => state.darkMode.darkMode);
 
   useFocusEffect(
     useCallback(() => {
@@ -37,9 +39,7 @@ const BookmarkTabs = () => {
 
   useEffect(() => {
     const loadDarkMode = async () => {
-      const storedDarkMode = await get("darkMode");
       const token = await get("userToken");
-      setDarkMode(storedDarkMode === "true");
       setIsLoggedIn(!!token);
       setIsLoading(false);
     };
