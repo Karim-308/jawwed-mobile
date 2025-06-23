@@ -129,8 +129,8 @@ const HomeScreen = () => {
     {
       id: "tasmee",
       name: "تسميع",
-      icon: "AzkarIcon",
-      iconType: "Image-Azkar",
+      icon: "Image-Tasmee",
+      iconType: "Image-Tasmee",
       screen: "TasmeePage",
     },
     
@@ -294,6 +294,18 @@ const HomeScreen = () => {
             source={require("../../assets/images/prayer-breads.png")}
             style={[
               styles.sebhaImage,
+              { tintColor: Colors.highlight },
+              styles.iconShine,
+            ]}
+            resizeMode="contain"
+          />
+        );
+        case "Image-Tasmee":
+        return (
+          <Image
+            source={require("../../assets/images/voice-recognition.png")}
+            style={[
+              styles.azkarImage,
               { tintColor: Colors.highlight },
               styles.iconShine,
             ]}
