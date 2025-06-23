@@ -32,3 +32,19 @@ export const getMinutesDiff = (currentTime, futureTime) => {
     else
         return Math.floor(((futureTime - currentTime + 24*60*60*1000) / 1000 / 60) % 60);
 }
+
+export const compareDateWithToday = (date) => {
+    dateToBeCompared = new Date (date);
+    todayDate = new Date();
+
+    // clear the time part (to compare dates)
+    dateToBeCompared.setHours(0, 0, 0, 0);
+    todayDate.setHours(0, 0, 0, 0);
+
+    if(dateToBeCompared.getTime() === todayDate.getTime())
+        return 'equal';
+    else if(dateToBeCompared.getTime() > todayDate.getTime())
+        return 'future';
+    else
+        return 'past';
+}

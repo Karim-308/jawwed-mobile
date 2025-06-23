@@ -6,7 +6,7 @@ import createReadingGoal from '../../api/goals/sendGoal'; // Adjust the import p
 const requestUserPermission = async () => {
   const messaging = getMessaging();
 
-  if (Platform.OS === 'android') {
+  if (Platform.OS === 'android' && Platform.Version > 33) {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
     );
@@ -22,7 +22,7 @@ const requestUserPermission = async () => {
 
     await registerTokenAtJawwed(token); //Let's call JawwedDB API
     console.log('Token registered successfully');
-    await createReadingGoal(); // Call the sendGoal function
+    // await createReadingGoal(); // Call the sendGoal function
 
     console.log('FCM Token:', token);
   } catch (err) {

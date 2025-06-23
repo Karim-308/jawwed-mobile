@@ -14,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
 import { get } from '../../../utils/localStorage/secureStore'; // Adjust the import path as necessary
 import NotLoggedInMessage from '../../profile/components/NotLoggedInMessage';
+import { updateKhtmaProgress } from '../../khtma/components/khtma-goal-view/KhtmaGoalViewFunctions';
 
 
 // Helper function: Identify ayah boundaries based on Arabic digits.
@@ -52,7 +53,9 @@ const MoshafPage = React.memo((route) => {
   const [selectedTafsirSource, setSelectedTafsirSource] = useState(1);
   const [isLoggedIn,setIsLoggedIn] = useState(null);
   
-  
+  // for Khtma (Goal) mode
+  const selectedGoalDay = useSelector((state) => state.khtma.selectedDay);
+
 
     useEffect(() => {
       const checkLogin = async () => {
@@ -72,13 +75,20 @@ const MoshafPage = React.memo((route) => {
   const onSwipe = useCallback(
     throttle((direction) => {
       const currentPage = Number(pageNumber); // Make sure it's a number
-  
-      if (direction === 'SWIPE_LEFT' && currentPage > 1) {
+
+      // for Khtma mode
+      const {routes} = navigation.getState();
+      const isKhtmaModeOn = (routes[routes.length-1].name === 'MoshafPage' && routes[routes.length-2].name === 'KhtmaPage');
+
+      if ((direction === 'SWIPE_LEFT' && currentPage > 1) &&
+          ((!isKhtmaModeOn) || (isKhtmaModeOn && currentPage > selectedGoalDay.startPage))) {
         toggleAyahSelection();
         setTooltipData(null);
         setTafsirVisible(false);
         dispatch(setPageNumber(currentPage - 1));
-      } else if (direction === 'SWIPE_RIGHT' && currentPage < 604) {
+      }
+      else if ((direction === 'SWIPE_RIGHT' && currentPage) &&
+        ((!isKhtmaModeOn) || (isKhtmaModeOn && currentPage < selectedGoalDay.endPage))) {
         toggleAyahSelection();
         setTooltipData(null);
         setTafsirVisible(false);
@@ -87,6 +97,22 @@ const MoshafPage = React.memo((route) => {
     }, 500),
     [dispatch, pageNumber]
   );
+
+
+  // update the goal (khtma) progress reached when leaving the Moshaf page (if khtma was chosen)
+  useEffect(() => {   
+    const navigationListener = navigation.addListener('beforeRemove', () => {
+      const {routes} = navigation.getState();
+      const isKhtmaModeOn = (routes[routes.length-1].name === 'MoshafPage' && routes[routes.length-2].name === 'KhtmaPage');
+      if (isKhtmaModeOn)
+        updateKhtmaProgress();
+    });
+
+    return () => {
+      navigationListener();
+    };
+  }, [navigation]);
+
 
   /** toggleAyahSelection Function
    * 
