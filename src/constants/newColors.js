@@ -35,6 +35,10 @@ const Colors = {
     qiblahBackground: "black", // Solid black for Qiblah screen
 
     highlight: "#DE9953", // Peachy-orange used across both modes
+
+    // Goals Specific
+    menuOptionBackground: '#1E1D1D',
+    menuOptionPlaceholderText: '#838383',
   },
   light: {
     // General Light Mode Colors
@@ -67,6 +71,10 @@ const Colors = {
     navButtonBackground: "#F4A950", // Orange button background
     navButtonText: "#000", // Black button text
     progressText: "#F4A950", // Orange progress bar text
+
+    // Goals Specific
+    menuOptionBackground: '#D3D3D3',
+    menuOptionPlaceholderText: '#6E6D6D',
   },
   trackColor: {
     false: "#767577", // Muted gray for toggle OFF

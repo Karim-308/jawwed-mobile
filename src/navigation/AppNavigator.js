@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import Colors from "../constants/newColors";
 import HomeScreen from "../screens/home/HomeScreen";
 import MoshafIndexScreen from "../screens/moshaf-index/MoshafIndexScreen";
+import KhtmaHeader from "../screens/khtma/components/khtma-header/KhtmaHeader";
 import MoshafScreen from "../screens/moshaf/MoshafScreen";
 import BookmarkTabs from "../screens/bookmark/BookmarkTabs";
 import Header from "../screens/moshaf/components/MoshafHeader";
@@ -16,6 +17,7 @@ import QuizScreen from "../screens/quiz/QuizScreen";
 import AzkarCategories from "../screens/azkar/AzkarCategoriesScreen";
 import AzkarDetails from "../screens/azkar/components/AzkarDetails";
 import PrayerTimesScreen from "../screens/prayer-times/PrayerTimesScreen";
+import KhtmaScreen from "../screens/khtma/KhtmaScreen";
 import QiblahCompass from "../screens/qiblah/QiblahScreen";
 import MasbahaScreen from "../screens/masbaha/MasbahaScreen";
 import TasmeeScreen from "../screens/tasmee/TasmeeScreen";
@@ -110,6 +112,19 @@ const AppNavigator = () => {
           name="PrayerTimesPage"
           component={PrayerTimesScreen}
           options={{ title: "مواقيت الصلاة" }}
+        />
+        <Stack.Screen
+          name="KhtmaPage"
+          component={KhtmaScreen}
+          options={{
+            headerRight: () => <KhtmaHeader />,
+            title: "ختــمة",
+            headerTitleStyle: {
+              fontFamily: "UthmanicHafs",
+              fontSize: 30,
+            },
+            headerTitleAlign: "center",
+          }}
         />
         <Stack.Screen
           name="QiblahPage"

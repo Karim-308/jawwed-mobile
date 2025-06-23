@@ -106,6 +106,13 @@ const HomeScreen = () => {
       screen: "PrayerTimesPage",
     },
     {
+      id: "khtma",
+      name: "ختمــة",
+      icon: "done-outline",
+      iconType: "MaterialIcons",
+      screen: "KhtmaPage",
+    },
+    {
       id: "quiz",
       name: "اختبار القرآن",
       icon: "chalkboard-teacher",
