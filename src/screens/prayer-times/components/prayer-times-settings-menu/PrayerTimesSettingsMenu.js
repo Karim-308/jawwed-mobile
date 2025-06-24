@@ -8,6 +8,7 @@ import { coordinatesOptionData, calculationMethodOptionData, mazhabOptionData } 
 import { getLocationBackgroundColor, getOptionBorderColor } from './PrayerTimesSettingsMenuFunctions';
 import { PRIMARY_GOLD, DARK_GREY, DARK_GOLD } from '../../../../constants/colors';
 import { getCurrentCoordinates } from '../../../../utils/location-utils/LocationUtils';
+import { save } from '../../../../utils/localStorage/secureStore';
 
 
 export default function PrayerTimesSettingsMenu() {
@@ -35,26 +36,35 @@ export default function PrayerTimesSettingsMenu() {
     const locationDeterminationMethod = useSelector((state) => state.prayerTimes.locationDeterminationMethod);
     const assignLocationDeterminationMethod = (locationDeterminationMethod) => {
         dispatch(setLocationDeterminationMethod(locationDeterminationMethod));
+        if(locationDeterminationMethod !== null)
+            save('locationDeterminationMethod', locationDeterminationMethod);
     }
 
     const country = useSelector((state) => state.prayerTimes.country);
     const assignCountry = (country) => {
         dispatch(setCountry(country));
+        if(country !== null)
+            save('country', country);
     }
 
     const city = useSelector((state) => state.prayerTimes.city);
     const assignCity = (city) => {
         dispatch(setCity(city));
+        if(city !== null)
+            save('city', city);
     }
     
     const mazhab = useSelector((state) => state.prayerTimes.mazhab);
     const assignMazhab = (mazhab) => {
         dispatch(setMazhab(mazhab));
+        if(mazhab !== null)
+            save('mazhab', mazhab);
     }
 
     const calculationMethod = useSelector((state) => state.prayerTimes.calculationMethod);
     const assignCalculationMethod = (calculationMethod) => {
         dispatch(setCalculationMethod(calculationMethod));
+        save('calculationMethod', calculationMethod);
     }
 
     const assignCoordinates = (coordinates) => {
