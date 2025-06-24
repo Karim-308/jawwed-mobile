@@ -81,9 +81,7 @@ const AppNavigator = () => {
           options={{
             headerTitle: () => <Header />,
             headerTintColor: currentColors.text,
-            headerStyle: {
-              backgroundColor: currentColors.background,
-            },
+
           }}
         />
         <Stack.Screen
@@ -142,9 +140,7 @@ const AppNavigator = () => {
           options={{
             headerTitle: () => <Header />,
             headerTintColor: currentColors.text,
-            headerStyle: {
-              backgroundColor: currentColors.background,
-            },
+
           }}
         />
       </Stack.Navigator>
