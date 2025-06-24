@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { getNextPrayer } from './PrayerTimesClockFunctions';
+import { triggerPrayerTimesNotification, muteVolume, unmuteVolume } from '../prayer-times-notifications-menu/PrayerTimesNotificationsMenuFunctions';
 import { formatTime, formatDate, convertTimeZone } from '../../../../utils/date-time-utils/DateTimeUtils';
 import { toArabicNumerals } from '../../../../utils/helpers';
 
@@ -21,22 +22,46 @@ export default function PrayerTimesClock() {
     const [hoursLeft, setHoursLeft] = useState('');
     const [minutesLeft, setMinutesLeft] = useState('');
 
+    // for prayer times notifications
+    const [currentPrayerName, setCurrentPrayerName] = useState('');
+    const isPrayerTimesNotificationsActive = useSelector((state) => state.prayerTimes.isPrayerTimesNotificationsActive);
+    const [volumeLevel, setVolumeLevel] = useState('');
+    const isMuteDuringPrayerTimesActive = useSelector((state) => state.prayerTimes.isMuteDuringPrayerTimesActive);
+
     useEffect(() => {
 
         const setPrayerTimesClock = async () => {
+            
             const zonedDateTimeNow = convertTimeZone(new Date(), timeZone.gmtOffset);
             setCurrentTime(formatTime(zonedDateTimeNow));
             setCurrentDate(formatDate(zonedDateTimeNow));
+
             const nextPrayer = await getNextPrayer(prayerTimes, zonedDateTimeNow);
             setNextPrayerName(nextPrayer.name);
             setHoursLeft(nextPrayer.hoursLeft);
             setMinutesLeft(nextPrayer.minutesLeft);
+
+            // trigger prayer notification once when its time comes
+            if (isPrayerTimesNotificationsActive &&
+                (nextPrayer.hoursLeft === 0 && nextPrayer.minutesLeft === 0) &&
+                (currentPrayerName !== nextPrayer.name))
+            {
+                setCurrentPrayerName(nextPrayer.name);
+                triggerPrayerTimesNotification(nextPrayer.name);
+                if(isMuteDuringPrayerTimesActive) {
+                    setVolumeLevel(muteVolume());
+                    setTimeout(() => {
+                        // unmute after 30 mins
+                        unmuteVolume(volumeLevel);
+                    }, 30 * 60 * 1000)
+                }
+            }
         };
 
         if (prayerTimes && timeZone) {
             setPrayerTimesClock();
             const interval = setInterval(setPrayerTimesClock, 1000);
-            return () => clearInterval(interval);
+            return () => {clearInterval(interval)};
         }
 
     }, [prayerTimes]);

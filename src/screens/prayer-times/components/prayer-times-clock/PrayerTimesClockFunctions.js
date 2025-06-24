@@ -13,8 +13,10 @@ export const getNextPrayer = async (prayerTimes, zonedDateTimeNow) => {
     const prayerKeys = Object.keys(prayerNames);
 
     prayerKeys.forEach((key) => {
+        //console.log(`${key} - ${prayerTimes[key]}`);
         const prayerHoursDiff = getHoursDiff(zonedDateTimeNow, prayerTimes[key]);
         const prayerMinutesDiff = getMinutesDiff(zonedDateTimeNow, prayerTimes[key]);
+        //console.log(`key: ${key}, hours left: ${prayerHoursDiff}, minutes left: ${prayerMinutesDiff}`);
         if ((prayerHoursDiff < nextPrayer.hoursLeft) || 
             ((prayerHoursDiff === nextPrayer.hoursLeft) && (prayerMinutesDiff < nextPrayer.minutesLeft)) ||
             (nextPrayer.hoursLeft === null))
@@ -22,6 +24,7 @@ export const getNextPrayer = async (prayerTimes, zonedDateTimeNow) => {
             nextPrayer.name = prayerNames[key];
             nextPrayer.hoursLeft = prayerHoursDiff;
             nextPrayer.minutesLeft = prayerMinutesDiff;
+            //console.log(`in for ${key}`);
         }
     });
 

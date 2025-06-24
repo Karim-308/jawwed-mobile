@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setLoggedOut } from '../../redux/actions/authActions';
 import { setDarkMode } from '../../redux/actions/themeActions';
 import Colors from '../../constants/newColors'; // Adjust path as needed
+import requestUserPermission from '../../api/notifications/firebasetoken';
+import { setNotificationsEnabled } from '../../redux/reducers/notificationReducer';
 
 const TOKEN_KEY = 'userToken';
 const EMAIL_KEY = 'userEmail';
@@ -26,6 +28,7 @@ const ProfileScreen = () => {
   const dispatch = useDispatch();
 
   const darkMode = useSelector((state) => state.darkMode.darkMode);
+  const notificationsEnabled = useSelector((state) => state.notification.notificationsEnabled);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   const [userInfo, setUserInfo] = useState({ name: '', email: '' });
   const [loading, setLoading] = useState(true);
@@ -87,6 +90,13 @@ const ProfileScreen = () => {
     }
   };
 
+  const handleToggleNotifications = async () => {
+    if (!notificationsEnabled) {
+      await requestUserPermission();
+    }
+    dispatch(setNotificationsEnabled(!notificationsEnabled));
+  };
+
   const currentColors = darkMode ? Colors.dark : Colors.light;
 
   if (!isLoggedIn) {
@@ -121,6 +131,15 @@ const ProfileScreen = () => {
             onValueChange={toggleDarkMode}
             trackColor={Colors.trackColor}
             thumbColor={darkMode ? Colors.dark.thumbColor : Colors.light.thumbColor}
+          />
+        </View>
+        <View style={styles.toggleContainer}>
+          <Text style={[styles.label, { color: currentColors.text }]}>تفعيل الاشعارات</Text>
+          <Switch
+            value={notificationsEnabled}
+            onValueChange={handleToggleNotifications}
+            trackColor={Colors.trackColor}
+            thumbColor={notificationsEnabled ? Colors.dark.thumbColor : Colors.light.thumbColor}
           />
         </View>
       </View>

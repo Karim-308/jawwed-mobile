@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { setIsNotificationsMenuVisible, switchIsPrayerTimesNotificationsActive,
          switchIsMuteDuringPrayerTimesActive, setErrorStatus } from '../../../../redux/reducers/prayerTimesReducer';
+import { requestNotificationsPermission } from '../../../../utils/notifications-utils/NotificationsUtils';
+import { save } from '../../../../utils/localStorage/secureStore';
 import { PRIMARY_GOLD, DARK_GREY, DARK_GOLD } from '../../../../constants/colors';
 
 export default function PrayerTimesNotificationsMenu() {
@@ -19,11 +21,35 @@ export default function PrayerTimesNotificationsMenu() {
     const isPrayerTimesNotificationsActive = useSelector((state) => state.prayerTimes.isPrayerTimesNotificationsActive);
     const toggleIsPrayerTimesNotificationsActive = () => {
         dispatch(switchIsPrayerTimesNotificationsActive());
+        save('isPrayerTimesNotificationsActive', String(!isPrayerTimesNotificationsActive));
     }
     const isMuteDuringPrayerTimesActive = useSelector((state) => state.prayerTimes.isMuteDuringPrayerTimesActive);
     const toggleIsMuteDuringPrayerTimesActive = () => {
         dispatch(switchIsMuteDuringPrayerTimesActive());
+        save('isMuteDuringPrayerTimesActive', String(!isMuteDuringPrayerTimesActive));
     }
+
+    const assignErrorStatus = (errorStatus) => {
+        dispatch(setErrorStatus(errorStatus));
+    }
+
+    let notificationPermissionResponse = null;
+
+    useEffect(() => {
+
+        const getNotificationsPermission = async() => {
+            if (isPrayerTimesNotificationsActive === true){
+                notificationPermissionResponse = await requestNotificationsPermission();
+                if (notificationPermissionResponse.status !== 'granted') {
+                    toggleIsPrayerTimesNotificationsActive();
+                    assignErrorStatus(notificationPermissionResponse.errorStatus);
+                }
+            } 
+        }
+
+        getNotificationsPermission();
+
+    }, [isPrayerTimesNotificationsActive]);
 
 
     return (

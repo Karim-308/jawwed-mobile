@@ -8,6 +8,7 @@ import prayerTimesReducer from './reducers/prayerTimesReducer';
 import khtmaReducer from './reducers/khtmaReducer';
 import authReducer from './reducers/authReducer';
 import darkModeReducer from './reducers/darkModeReducer'; // Import dark mode reducer
+import notificationReducer from './reducers/notificationReducer'; // Add notification reducer
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   khtma: khtmaReducer,
   auth: authReducer,
   darkMode: darkModeReducer, 
+  notification: notificationReducer, // Add notification reducer here
   // Add other reducers here
 });
 

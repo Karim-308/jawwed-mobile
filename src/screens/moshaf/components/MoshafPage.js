@@ -1,10 +1,10 @@
 // src/screens/moshaf/MoshafScreen.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, Image,TouchableOpacity, useWindowDimensions, ActivityIndicator , Share } from 'react-native';
+import { View, Text, StyleSheet, Image,TouchableOpacity, useWindowDimensions, ActivityIndicator , Share, ToastAndroid, Alert, Platform } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
-import {collectFullAyahText} from '../../../utils/helpers';
+import { collectFullAyahText, toArabicNumerals } from '../../../utils/helpers';
 import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AyahTooltip from './Tooltip/AyahTooltip';
@@ -93,6 +93,23 @@ const MoshafPage = React.memo((route) => {
         setTooltipData(null);
         setTafsirVisible(false);
         dispatch(setPageNumber(currentPage + 1));
+      }
+      if (isKhtmaModeOn) {
+        const amount = (direction === 'SWIPE_RIGHT' && currentPage < selectedGoalDay.endPage)? 2 
+        : (direction === 'SWIPE_LEFT' && currentPage > selectedGoalDay.startPage)? 0 : 1;
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(
+            `صفحة رقم ${toArabicNumerals(currentPage-selectedGoalDay.startPage+amount)} من أصل ${toArabicNumerals(selectedGoalDay.endPage-selectedGoalDay.startPage+1)}`,
+            ToastAndroid.SHORT
+          );
+        }
+        else
+        {
+          Alert.alert(
+            'Success',
+            `صفحة رقم ${toArabicNumerals(currentPage-selectedGoalDay.startPage+amount)} من أصل ${toArabicNumerals(selectedGoalDay.endPage-selectedGoalDay.startPage+1)}`
+          );
+        }
       }
     }, 500),
     [dispatch, pageNumber]
