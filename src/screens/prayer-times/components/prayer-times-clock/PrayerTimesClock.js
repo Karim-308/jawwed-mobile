@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { useSelector } from 'react-redux';
 import { getNextPrayer } from './PrayerTimesClockFunctions';
-import { triggerPrayerTimesNotification } from '../prayer-times-notifications-menu/PrayerTimesNotificationsMenuFunctions';
+import { triggerPrayerTimesNotification, muteVolume, unmuteVolume } from '../prayer-times-notifications-menu/PrayerTimesNotificationsMenuFunctions';
 import { formatTime, formatDate, convertTimeZone } from '../../../../utils/date-time-utils/DateTimeUtils';
 import { toArabicNumerals } from '../../../../utils/helpers';
 
@@ -25,6 +25,8 @@ export default function PrayerTimesClock() {
     // for prayer times notifications
     const [currentPrayerName, setCurrentPrayerName] = useState('');
     const isPrayerTimesNotificationsActive = useSelector((state) => state.prayerTimes.isPrayerTimesNotificationsActive);
+    const [volumeLevel, setVolumeLevel] = useState('');
+    const isMuteDuringPrayerTimesActive = useSelector((state) => state.prayerTimes.isMuteDuringPrayerTimesActive);
 
     useEffect(() => {
 
@@ -46,6 +48,13 @@ export default function PrayerTimesClock() {
             {
                 setCurrentPrayerName(nextPrayer.name);
                 triggerPrayerTimesNotification(nextPrayer.name);
+                if(isMuteDuringPrayerTimesActive) {
+                    setVolumeLevel(muteVolume());
+                    setTimeout(() => {
+                        // unmute after 30 mins
+                        unmuteVolume(volumeLevel);
+                    }, 30 * 60 * 1000)
+                }
             }
         };
 
