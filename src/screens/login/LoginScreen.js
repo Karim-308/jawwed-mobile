@@ -45,21 +45,23 @@ const LoginScreen = () => {
   });
 
   // --- Load dark mode before render ---
-  useEffect(() => {
-    const loadDarkMode = async () => {
-      try {
-        const value = await get("darkMode");
-        const dark = value === "true";
-        setDarkMode(dark);
-        dispatch(setDarkModeRedux(dark)); // <-- update Redux as well
-      } catch {
-        setDarkMode(false);
-        dispatch(setDarkModeRedux(false)); // <-- fallback to false in Redux
-      }
-      setDarkModeReady(true);
-    };
-    loadDarkMode();
-  }, []);
+useEffect(() => {
+  const loadDarkMode = async () => {
+    try {
+      const value = await get("darkMode");
+      // Default to true (dark mode) if nothing saved yet
+      const dark = value === null ? true : value === "true";
+      setDarkMode(dark);
+      dispatch(setDarkModeRedux(dark));
+    } catch {
+      setDarkMode(true);
+      dispatch(setDarkModeRedux(true));
+    }
+    setDarkModeReady(true);
+  };
+  loadDarkMode();
+}, []);
+
 
   // --- Login status check ---
   useEffect(() => {
