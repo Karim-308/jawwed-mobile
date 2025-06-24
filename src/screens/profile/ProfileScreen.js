@@ -125,7 +125,7 @@ const ProfileScreen = () => {
         <Text style={[styles.value, { color: currentColors.text }]}>{userInfo.email}</Text>
 
         <View style={styles.toggleContainer}>
-          <Text style={[styles.label, { color: currentColors.text }]}>الوضع الليلي:</Text>
+          <Text style={[styles.label, { color: currentColors.text }]}>الوضع الليلي</Text>
           <Switch
             value={darkMode}
             onValueChange={toggleDarkMode}
