@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setGoals, setDidGoalsChange, setErrorStatus } from '../../../../redux/reducers/khtmaReducer';
 import KhtmaListItem from '../khtma-list-item/KhtmaListItem';
 import { getAllGoals } from '../../../../api/khtma/getAllGoals';
+import { PRIMARY_GOLD } from '../../../../constants/colors';
 
 
 export default function KhtmaList() {
@@ -38,11 +39,15 @@ export default function KhtmaList() {
   
     return (
         <View style={styles.khtmaList}>
+            {(Object.keys(goals).length !== 0)?
             <FlatList
                 data={goals}
                 keyExtractor={(goal) => goal.goalId}
                 renderItem={({item}) => <KhtmaListItem goal={item} />}
             />
+            :
+            <Text style={styles.text}>قم بإنشاء ختمة جديدة حتى تظهر هنا</Text>
+            }
         </View>
     );
 }
@@ -55,5 +60,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'flex-start',
         marginTop: 25
+    },
+    text: {
+        fontSize: 12,
+        textAlign: 'center',
+        marginTop: '75%',
+        color: PRIMARY_GOLD
     }
 });

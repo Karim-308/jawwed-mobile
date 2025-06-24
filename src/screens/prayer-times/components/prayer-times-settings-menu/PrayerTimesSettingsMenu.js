@@ -192,7 +192,7 @@ export default function PrayerTimesSettingsMenu() {
     const setDefaultSettings = async () => {
         await detectCurrentCoordinates();
         assignMazhab('شافعي');
-        assignCalculationMethod('مكة - أم القرى');
+        assignCalculationMethod('رابطة العالم الإسلامي');
         setIsDefualtOptionsActivated(true);
     }
 
@@ -313,7 +313,7 @@ export default function PrayerTimesSettingsMenu() {
                             </TouchableOpacity>
                             :
                             <Text
-                                style={[styles.defaultsButton, {backgroundColor: `#CCC`}]}
+                                style={[styles.defaultsButton, {backgroundColor: `#666`}]}
                             >تم تطبيق الوضع الافتراضي</Text>
                         }
                     </View>
