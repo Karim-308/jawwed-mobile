@@ -3,13 +3,14 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
+  TouchableOpacity,
   ScrollView,
   PermissionsAndroid,
   Platform,
   Alert,
   useWindowDimensions,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import GestureRecognizer from "react-native-swipe-gestures";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,60 +18,75 @@ import { fetchPageData, setPageNumber } from "../../../redux/actions/pageActions
 import { SafeAreaView } from "react-native-safe-area-context";
 import AudioRecord from "react-native-audio-record";
 import { Buffer } from "buffer";
-
-// --- Helper regex ---
-const TASHKEEL_REGEX = /[\u064B-\u0652\u0670\u06D6-\u06ED]/g;
-const REMOVE_TASHKEEL = (str) => str.replace(TASHKEEL_REGEX, "");
-const EXTRACT_TASHKEEL = (str) => (str.match(TASHKEEL_REGEX) || []).join("");
+import GraphemeSplitter from "grapheme-splitter";
 
 const SAMPLE_RATE = 16000;
-const CHUNK_DURATION_MS = 10000;
-const HARDCODED_WS_URL = "wss://eaa0-197-57-234-162.ngrok-free.app/ws/mp3";
-const CHUNK_SIZE = (SAMPLE_RATE * CHUNK_DURATION_MS) / 1000;
+const splitter = new GraphemeSplitter();
+const BASMALLAH = "بسم الله الرحمن الرحيم";
+const QURAN_SYMBOL_REGEX = /^[۞۩۝ۣۗۘۙۚۛۜۢۤۥۦ۪ۭۧۨ۫۬ۮۯ۰۱ۺۻۼ۽۾ۿ]+$/;
 
-const normalizeWord = (str) =>
-  (str || "").trim().normalize("NFC").replace(/\u200c|\u200d/g, ""); // Remove ZWNJ/ZWJ too
+const highlightStyles = {
+  green:  { bg: "#44e27d", color: "#13351f" },
+  yellow: { bg: "#ffe04c", color: "#473a00" },
+  orange: { bg: "#ffb44c", color: "#523700" },
+  red:    { bg: "#ff5252", color: "#fff" },
+  gray:   { bg: "#222", color: "#aaa" },
+};
 
-const TasmeeMainScreen = ({ route }) => {
+function removeTashkeel(str = "") {
+  return str.replace(/[\u064B-\u065F\u0670-\u06ED\u0610-\u061A\u08CA-\u08FF]/g, "").replace(/[ـ]/g, "");
+}
+function normalizeArabic(str = "") {
+  return removeTashkeel(str)
+    .replace(/[\u200C-\u200F\u202A-\u202E\u2066-\u2069\u200B]/g, "")         // Remove invisible/zero-width chars
+    .replace(/ٱ/g, "ا")
+    .replace(/[إأآااُاِاَ]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "ء")
+    .replace(/ئ/g, "ء")
+    .replace(/ة/g, "ه")
+    .replace(/[ڕڑ]/g, "ر")
+    .replace(/[\u06D6-\u06ED]/g, "")                                         // Remove Quran annotation marks
+    .replace(/[\u0640]/g, "")                                                // Remove tatweel
+    .replace(/[^\u0621-\u063A\u0641-\u064A\u0660-\u0669a-zA-Z0-9\s]/g, "")
+    .trim();
+}
+
+
+function isBasmallahLine(text) {
+  const norm = (text || "").replace(/\s+/g, "");
+  return norm === BASMALLAH.replace(/\s+/g, "");
+}
+
+const TasmeeMainScreen = () => {
   const dispatch = useDispatch();
-  const routePageNumber = route?.params?.pageNumber || 1;
   const { loading, error, pageNumber } = useSelector((state) => state.page);
   const linesData = useSelector((state) => state.page?.data?.[pageNumber]);
   const { width } = useWindowDimensions();
-  const containerWidth = useMemo(() => width * 0.9, [width]);
-
+  const containerWidth = useMemo(() => width * 0.93, [width]);
   const [transcript, setTranscript] = useState("");
   const [recording, setRecording] = useState(false);
   const [highlightedWords, setHighlightedWords] = useState([]);
-  const [micPermissionGranted, setMicPermissionGranted] = useState(
-    Platform.OS === "ios"
-  );
-
+  const [micPermissionGranted, setMicPermissionGranted] = useState(Platform.OS === "ios");
   const wsRef = useRef(null);
   const bufferRef = useRef([]);
 
-  // Swipe gesture handler
-  const onSwipe = useCallback(
-    (direction) => {
-      if (!pageNumber) return;
-      const current = Number(pageNumber);
-      if (direction === "SWIPE_LEFT" && current > 1) {
-        dispatch(setPageNumber(current - 1));
-        dispatch(fetchPageData(current - 1));
-        console.log("[SWIPE] Left: Go to page", current - 1);
-      } else if (direction === "SWIPE_RIGHT" && current < 604) {
-        dispatch(setPageNumber(current + 1));
-        dispatch(fetchPageData(current + 1));
-        console.log("[SWIPE] Right: Go to page", current + 1);
-      }
-    },
-    [dispatch, pageNumber]
-  );
+  // Dynamic config
+  const [wsUrl, setWsUrl] = useState("");
+  const [chunkDuration, setChunkDuration] = useState("");
+  const [configSubmitted, setConfigSubmitted] = useState(false);
+
+  // Page navigation
+  const onSwipe = useCallback((direction) => {
+    if (!pageNumber) return;
+    const current = Number(pageNumber);
+    if (direction === "SWIPE_LEFT" && current > 1) dispatch(setPageNumber(current - 1));
+    else if (direction === "SWIPE_RIGHT" && current < 604) dispatch(setPageNumber(current + 1));
+  }, [dispatch, pageNumber]);
 
   useEffect(() => {
-    dispatch(setPageNumber(routePageNumber));
-    dispatch(fetchPageData(routePageNumber));
-  }, [dispatch, routePageNumber]);
+    if (pageNumber) dispatch(fetchPageData(pageNumber));
+  }, [dispatch, pageNumber]);
 
   useEffect(() => {
     if (Platform.OS === "android") {
@@ -79,145 +95,76 @@ const TasmeeMainScreen = ({ route }) => {
         message: "We need access to your microphone to record audio.",
         buttonPositive: "OK",
       }).then((granted) => {
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          setMicPermissionGranted(true);
-        } else {
-          Alert.alert(
-            "Permission Denied",
-            "Microphone access is required to record audio."
-          );
-        }
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) setMicPermissionGranted(true);
+        else Alert.alert("Permission Denied", "Microphone access is required to record audio.");
       });
     }
   }, []);
 
-  // --- Highlighting & Comparison Logic ---
+  // --- Highlight Logic: Only surah name is skipped, basmallah is included! ---
   useEffect(() => {
     if (!linesData) return;
+    const firstLineWords = linesData[0]?.text?.trim().split(/\s+/).filter(Boolean) || [];
+    const isFirstLineSurahName = firstLineWords.length === 1;
+    let skipWordsCount = 0;
+    if (isFirstLineSurahName) skipWordsCount += 1;
+    // Basmalah is *not* skipped, included in calculation.
 
-    const allWords = linesData.flatMap((line) => line.text.split(" "));
-    const quranText = allWords
-      .map((w) => normalizeWord(w))
-      .filter((w) => w && !/^[\d\u0660-\u0669]+$/.test(w));
-
+    const allWords = linesData.flatMap(line =>
+      line.text.split(" ").filter(Boolean)
+    );
+    const quranText = allWords.filter((w, i) =>
+      i >= skipWordsCount && w &&
+      !/^[\d\u0660-\u0669]+$/.test(w) &&
+      !QURAN_SYMBOL_REGEX.test(w)
+    );
+    if (!transcript.trim()) {
+      setHighlightedWords(Array(quranText.length).fill("gray"));
+      return;
+    }
     const spokenWords = transcript
       .trim()
       .split(" ")
-      .map((w) => normalizeWord(w))
+      .map((w) => (w || "").trim().normalize("NFC"))
       .filter(Boolean);
-
-    console.log("==== Quran text extraction ====");
-    console.log("All Quran words:", quranText);
-    console.log("Spoken words:", spokenWords);
-
-    // For each spoken word, log code points
-    spokenWords.forEach((w, idx) =>
-      console.log(
-        `Spoken[${idx}]: "${w}" codepoints:`,
-        [...w].map((c) => c.charCodeAt(0))
-      )
-    );
-    quranText.forEach((w, idx) =>
-      console.log(
-        `Quran[${idx}]: "${w}" codepoints:`,
-        [...w].map((c) => c.charCodeAt(0))
-      )
-    );
-
-    const used = Array(spokenWords.length).fill(false);
-
-    function countTashkeelOverlap(t1, t2) {
-      let count = 0;
-      for (let i = 0; i < t1.length; i++) {
-        if (t2.includes(t1[i])) count++;
-      }
-      return count;
-    }
-
-    const highlights = quranText.map((qWord, i) => {
-      let bestIdx = -1;
-      let bestColor = "red";
-      let bestScore = 0;
-
-      const qNoTashkeel = REMOVE_TASHKEEL(qWord);
-      const qTashkeel = EXTRACT_TASHKEEL(qWord);
-
-      for (let j = 0; j < spokenWords.length; j++) {
-        if (used[j]) continue;
-        const sWord = spokenWords[j];
-        const sNoTashkeel = REMOVE_TASHKEEL(sWord);
-        const sTashkeel = EXTRACT_TASHKEEL(sWord);
-
-        // Debug print before matching
-        console.log(
-          `[${i}:${j}]`,
-          `Q: "${qWord}" [${[...qWord].map((c) => c.charCodeAt(0))}]`,
-          `S: "${sWord}" [${[...sWord].map((c) => c.charCodeAt(0))}]`
-        );
-
-        // Normalize and compare exact with tashkeel
-        if (qWord === sWord) {
-          bestIdx = j;
-          bestColor = "green";
-          bestScore = 3;
-          console.log(`Matched GREEN (full): ${qWord} === ${sWord}`);
-          break;
-        }
-
-        // Both stripped (no tashkeel), and some tashkeel overlap
-        if (
-          qNoTashkeel === sNoTashkeel &&
-          qTashkeel &&
-          sTashkeel &&
-          countTashkeelOverlap(qTashkeel, sTashkeel) > 0 &&
-          bestScore < 2
-        ) {
-          bestIdx = j;
-          bestColor = "yellow";
-          bestScore = 2;
-          console.log(
-            `Matched YELLOW (tashkeel overlap): ${qNoTashkeel} === ${sNoTashkeel}, tashkeel: ${qTashkeel} & ${sTashkeel}`
-          );
-        } else if (qNoTashkeel === sNoTashkeel && bestScore < 1) {
-          bestIdx = j;
-          bestColor = "orange";
-          bestScore = 1;
-          console.log(
-            `Matched ORANGE (no tashkeel): ${qNoTashkeel} === ${sNoTashkeel}`
-          );
+    const highlights = quranText.map((qWord) => {
+      let best = "gray";
+      const qNorm = normalizeArabic(qWord);
+      for (let tIdx = 0; tIdx < spokenWords.length; tIdx++) {
+        const sWord = spokenWords[tIdx];
+        const sNorm = normalizeArabic(sWord);
+        if (qWord === sWord) { best = "green"; break; }
+        if (qNorm === sNorm) {
+          const qArr = Array.from(qWord);
+          const sArr = Array.from(sWord);
+          let matched = 0, checked = 0;
+          for (let i = 0, j = 0; i < qArr.length && j < sArr.length; ) {
+            if (normalizeArabic(qArr[i]) === normalizeArabic(sArr[j])) {
+              checked++; if (qArr[i] === sArr[j]) matched++; i++; j++;
+            } else { i++; j++; }
+          }
+          let percent = checked ? (matched / checked) : 0;
+          if (percent >= 0.8 && percent < 1) best = "yellow";
+          else if (percent > 0 && percent < 0.8) best = "orange";
         }
       }
-      if (bestIdx !== -1) used[bestIdx] = true;
-      const matched = bestIdx !== -1 ? spokenWords[bestIdx] : "";
-
-      if (bestColor === "red") {
-        // If it's red, show why
-        console.log(
-          `NO MATCH: Quran "${qWord}" [${[...qWord].map((c) =>
-            c.charCodeAt(0)
-          )}], No equivalent in transcript`
-        );
-      }
-      return bestColor;
+      return best;
     });
-
     setHighlightedWords(highlights);
-    console.log("Highlight colors:", highlights);
-    console.log(
-      "HIGHLIGHTS length:",
-      highlights.length,
-      "| Quran words:",
-      quranText.length
-    );
   }, [transcript, linesData]);
 
-  // --- Recording Logic ---
+  useEffect(() => {
+    setTranscript("");
+    setHighlightedWords([]);
+    stopRecording();
+    bufferRef.current = [];
+  }, [pageNumber]);
+
+  // Audio/WebSocket logic
   const connectWebSocket = () => {
-    const ws = new WebSocket(HARDCODED_WS_URL);
+    const ws = new WebSocket(wsUrl);
     ws.binaryType = "arraybuffer";
-    ws.onopen = () => {
-      wsRef.current = ws;
-    };
+    ws.onopen = () => { wsRef.current = ws; };
     ws.onmessage = (e) => {
       try {
         const msg = JSON.parse(e.data);
@@ -227,12 +174,8 @@ const TasmeeMainScreen = ({ route }) => {
         setTranscript((prev) => prev + e.data + " ");
       }
     };
-    ws.onerror = (e) => {
-      stopRecording();
-    };
-    ws.onclose = () => {
-      stopRecording();
-    };
+    ws.onerror = () => { stopRecording(); };
+    ws.onclose = () => { stopRecording(); };
   };
 
   const startRecording = () => {
@@ -240,6 +183,10 @@ const TasmeeMainScreen = ({ route }) => {
       Alert.alert("Permission Required", "Microphone access is required.");
       return;
     }
+    connectWebSocket();
+    bufferRef.current = [];
+    setTranscript("");
+    setRecording(true);
     AudioRecord.init({
       sampleRate: SAMPLE_RATE,
       channels: 1,
@@ -247,18 +194,12 @@ const TasmeeMainScreen = ({ route }) => {
       audioSource: 6,
       wavFile: "live.wav",
     });
-    connectWebSocket();
-    bufferRef.current = [];
-    setTranscript("");
-    setRecording(true);
     AudioRecord.start();
     AudioRecord.on("data", (data) => {
+      const CHUNK_SIZE = (SAMPLE_RATE * Number(chunkDuration || 10000)) / 1000;
       const pcm = Buffer.from(data, "base64");
       bufferRef.current.push(pcm);
-      const totalLength = bufferRef.current.reduce(
-        (sum, chunk) => sum + chunk.length,
-        0
-      );
+      const totalLength = bufferRef.current.reduce((sum, chunk) => sum + chunk.length, 0);
       if (totalLength >= CHUNK_SIZE * 2) {
         const chunk = Buffer.concat(bufferRef.current);
         bufferRef.current = [];
@@ -272,7 +213,7 @@ const TasmeeMainScreen = ({ route }) => {
 
   const stopRecording = () => {
     setRecording(false);
-    AudioRecord.stop();
+    try { AudioRecord.stop(); } catch {}
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       wsRef.current.close();
     }
@@ -282,131 +223,120 @@ const TasmeeMainScreen = ({ route }) => {
   const encodeWAV = (pcmData) => {
     const buffer = new ArrayBuffer(44 + pcmData.length);
     const view = new DataView(buffer);
-    const writeString = (offset, str) => {
-      for (let i = 0; i < str.length; i++) {
-        view.setUint8(offset + i, str.charCodeAt(i));
-      }
-    };
-    writeString(0, "RIFF");
-    view.setUint32(4, 36 + pcmData.length, true);
-    writeString(8, "WAVE");
-    writeString(12, "fmt ");
-    view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true);
-    view.setUint16(22, 1, true);
-    view.setUint32(24, SAMPLE_RATE, true);
-    view.setUint32(28, SAMPLE_RATE * 2, true);
-    view.setUint16(32, 2, true);
-    view.setUint16(34, 16, true);
-    writeString(36, "data");
-    view.setUint32(40, pcmData.length, true);
-    const wavBuffer = new Uint8Array(buffer);
-    wavBuffer.set(pcmData, 44);
-    return wavBuffer;
+    const writeString = (offset, str) => { for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i)); };
+    writeString(0, "RIFF"); view.setUint32(4, 36 + pcmData.length, true); writeString(8, "WAVE");
+    writeString(12, "fmt "); view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+    view.setUint32(24, SAMPLE_RATE, true); view.setUint32(28, SAMPLE_RATE * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true);
+    writeString(36, "data"); view.setUint32(40, pcmData.length, true);
+    const wavBuffer = new Uint8Array(buffer); wavBuffer.set(pcmData, 44); return wavBuffer;
   };
 
-  // --- Render UI ---
+  // Input validation
+  const wsUrlValid = wsUrl.startsWith("ws://") || wsUrl.startsWith("wss://");
+  const chunkValid = !!chunkDuration && !isNaN(chunkDuration) && Number(chunkDuration) > 0;
+  const canSubmitConfig = wsUrlValid && chunkValid && !recording;
+
+  // Render Quran lines
   const renderLines = () => {
-    if (loading) return <ActivityIndicator size="large" color="#EFB975" />;
+    if (loading) return <ActivityIndicator size="large" color="#FFD700" />;
     if (error) return <Text style={styles.errorText}>خطأ في تحميل الصفحة</Text>;
     if (!linesData) return null;
+    const firstLineWords = linesData[0]?.text?.trim().split(/\s+/).filter(Boolean) || [];
+    const isFirstLineSurahName = firstLineWords.length === 1;
     let runningIndex = 0;
-
     return linesData.map((line, idx) => {
-      const words = line.text.split(" ");
+      if (idx === 0 && isFirstLineSurahName) {
+        return (
+          <View key={idx} style={styles.lineWrapper}>
+            <Text style={[styles.ayahText, styles.surahNameText, { fontSize: containerWidth * 0.058 }]}>{line.text.trim()}</Text>
+          </View>
+        );
+      }
+      // basmallah is treated as normal line and will be highlighted as part of calculation
+      const words = line.text.split(" ").filter(Boolean);
       return (
         <View key={idx} style={styles.lineWrapper}>
-          {line.lineType === "surah_name" ? (
-            <Text style={[styles.ayahText, styles.surahNameText]}>
-              سُورَةُ {line.text}
-            </Text>
-          ) : line.lineType === "basmallah" ? (
-            words.map((word, i) => {
-              if (/^[\d\u0660-\u0669]+$/.test(word)) {
-                return (
-                  <Text key={i} style={[styles.ayahText]}>
-                    {word}
-                  </Text>
-                );
-              }
-              const highlight = highlightedWords[runningIndex++];
-              const bg =
-                highlight === "green"
-                  ? "#c8f7c5"
-                  : highlight === "yellow"
-                  ? "#fff3b0"
-                  : highlight === "orange"
-                  ? "#ffd8a6"
-                  : highlight === "red"
-                  ? "#f7c5c5"
-                  : "transparent";
+          {words.map((word, i) => {
+            if (QURAN_SYMBOL_REGEX.test(word)) return null;
+            if (/^[\d\u0660-\u0669]+$/.test(word)) {
               return (
-                <Text
-                  key={i}
-                  style={[
-                    styles.ayahText,
-                    {
-                      backgroundColor: bg,
-                      borderRadius: 18,
-                      borderWidth: highlight === "red" ? 2 : 0,
-                      borderColor:
-                        highlight === "red" ? "#e57373" : "transparent",
-                      margin: 4,
-                      paddingHorizontal: 14,
-                      paddingVertical: 6,
-                      fontSize: containerWidth * 0.052,
-                    },
-                  ]}
-                >
+                <Text key={i} style={styles.ayahNumberText}>
                   {word}
                 </Text>
               );
-            })
-          ) : (
-            words.map((word, i) => {
-              if (/^[\d\u0660-\u0669]+$/.test(word)) {
-                return (
-                  <Text key={i} style={[styles.ayahText]}>
-                    {word}
-                  </Text>
-                );
-              }
-              const highlight = highlightedWords[runningIndex++];
-              const bg =
-                highlight === "green"
-                  ? "#c8f7c5"
-                  : highlight === "yellow"
-                  ? "#fff3b0"
-                  : highlight === "orange"
-                  ? "#ffd8a6"
-                  : highlight === "red"
-                  ? "#f7c5c5"
-                  : "transparent";
-              return (
-                <Text
-                  key={i}
-                  style={[
-                    styles.ayahText,
-                    {
-                      backgroundColor: bg,
-                      borderRadius: 18,
-                      borderWidth: highlight === "red" ? 2 : 0,
-                      borderColor:
-                        highlight === "red" ? "#e57373" : "transparent",
-                      margin: 4,
-                      fontSize: containerWidth * 0.052,
-                    },
-                  ]}
-                >
-                  {word}
-                </Text>
-              );
-            })
-          )}
+            }
+            let highlight = highlightedWords[runningIndex++] || "gray";
+            let styleSet = highlightStyles[highlight] || highlightStyles.gray;
+            // Basmallah line: optional color override for pretty look
+            let customColor = (isBasmallahLine(line.text)) ? "#59d98d" : styleSet.color;
+            let customBg = (isBasmallahLine(line.text)) ? "#203f2e" : styleSet.bg;
+            return (
+              <Text
+                key={i}
+                style={[
+                  styles.ayahText,
+                  {
+                    backgroundColor: customBg,
+                    borderRadius: 18,
+                    margin: 4,
+                    paddingHorizontal: 14,
+                    paddingVertical: 6,
+                    fontSize: containerWidth * 0.052,
+                    color: customColor,
+                    fontWeight: "600",
+                  },
+                ]}
+              >
+                {word}
+              </Text>
+            );
+          })}
         </View>
       );
     });
   };
+
+  // UI for dynamic config
+  const renderConfigInputs = () => (
+    <View style={styles.configForm}>
+      <Text style={styles.configLabel}>WebSocket URL</Text>
+      <TextInput
+        style={[
+          styles.inputBox,
+          wsUrlValid ? styles.inputBoxValid : wsUrl ? styles.inputBoxInvalid : null,
+        ]}
+        value={wsUrl}
+        placeholder="ws://example.com/ws/mp3"
+        onChangeText={setWsUrl}
+        autoCapitalize="none"
+        autoCorrect={false}
+        placeholderTextColor="#666"
+        editable={!configSubmitted && !recording}
+      />
+      <Text style={styles.configLabel}>مدة كل جزء (ms)</Text>
+      <TextInput
+        style={[
+          styles.inputBox,
+          chunkValid ? styles.inputBoxValid : chunkDuration ? styles.inputBoxInvalid : null,
+        ]}
+        value={chunkDuration}
+        placeholder="10000"
+        onChangeText={setChunkDuration}
+        keyboardType="numeric"
+        editable={!configSubmitted && !recording}
+      />
+      <TouchableOpacity
+        style={[
+          styles.configButton,
+          canSubmitConfig ? null : styles.configButtonDisabled,
+        ]}
+        onPress={() => setConfigSubmitted(true)}
+        disabled={!canSubmitConfig}
+      >
+        <Text style={styles.configButtonText}>تأكيد الإعدادات</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -423,15 +353,37 @@ const TasmeeMainScreen = ({ route }) => {
           {renderLines()}
         </ScrollView>
       </GestureRecognizer>
-      <View style={styles.controls}>
-        <Button
-          title={recording ? "إيقاف التسجيل" : "بدء التسجيل"}
-          onPress={recording ? stopRecording : startRecording}
-          color={recording ? "red" : "green"}
-        />
-        <ScrollView style={styles.transcriptScroll}>
-          <Text style={styles.transcript}>{transcript}</Text>
-        </ScrollView>
+      <View style={styles.bottomArea}>
+        {!configSubmitted ? (
+          renderConfigInputs()
+        ) : (
+          <>
+            <TouchableOpacity
+              style={[
+                styles.recordButton,
+                { backgroundColor: recording ? "#FFD900" : "#FFD700", opacity: recording ? 0.75 : 1 },
+              ]}
+              onPress={recording ? stopRecording : startRecording}
+              activeOpacity={0.75}
+            >
+              <Text style={styles.recordButtonText}>{recording ? "إيقاف التسجيل" : "بدء التسجيل"}</Text>
+            </TouchableOpacity>
+            <ScrollView style={styles.transcriptScroll}>
+              <Text style={styles.transcript}>{transcript.trim()}</Text>
+            </ScrollView>
+            <TouchableOpacity
+              style={styles.configResetButton}
+              onPress={() => {
+                setConfigSubmitted(false);
+                setRecording(false);
+                setTranscript("");
+                wsRef.current = null;
+              }}
+            >
+              <Text style={styles.configResetText}>تعديل الإعدادات</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -442,8 +394,8 @@ export default TasmeeMainScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
-    padding: 10,
+    backgroundColor: "#111",
+    padding: 0,
   },
   lineWrapper: {
     flexDirection: "row-reverse",
@@ -459,31 +411,156 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   surahNameText: {
-    color: "#EFB975",
-    fontSize: 26,
-    textAlign: "center",
-    width: "100%",
+    backgroundColor: "transparent",
+    color: "#FFD700",
+    fontWeight: "bold",
+    borderRadius: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    alignSelf: "center",
     marginBottom: 16,
-    letterSpacing: 2,
+    marginTop: 8,
+    fontSize: 28,
+    letterSpacing: 1,
   },
-  controls: {
-    padding: 10,
-    backgroundColor: "#fff",
+  basmallahText: {
+    backgroundColor: "transparent",
+    color: "#59d98d",
+    fontWeight: "700",
+    borderRadius: 0,
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+  },
+  ayahNumberText: {
+    color: "#FFD700",
+    backgroundColor: "transparent",
+    borderRadius: 8,
+    paddingHorizontal: 7,
+    marginHorizontal: 2,
+    fontSize: 19,
+    fontWeight: "bold",
+    alignSelf: "center",
+    textAlign: "center",
+  },
+  bottomArea: {
+    padding: 18,
+    backgroundColor: "#181818",
     borderTopWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#191919",
+    alignItems: "center",
+  },
+  recordButton: {
+    width: "100%",
+    paddingVertical: 18,
+    borderRadius: 18,
+    marginBottom: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 2,
+    shadowColor: "#FFD700",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.13,
+    shadowRadius: 5,
+  },
+  recordButtonText: {
+    color: "#2d1c02",
+    fontWeight: "bold",
+    fontSize: 22,
+    letterSpacing: 1,
+    textShadowColor: "#fff2",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 2,
   },
   transcriptScroll: {
-    marginTop: 10,
-    maxHeight: 110,
+    width: "100%",
+    maxHeight: 120,
+    backgroundColor: "#191919",
+    borderRadius: 11,
+    marginTop: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
   },
   transcript: {
     fontSize: 16,
-    color: "#333",
-    lineHeight: 29,
+    color: "#FFD700",
+    fontFamily: Platform.OS === "ios" ? "Geeza Pro" : "sans-serif",
+    lineHeight: 28,
+    fontWeight: "500",
+    textAlign: "right",
   },
   errorText: {
-    color: "red",
+    color: "#FF6767",
     textAlign: "center",
     marginVertical: 10,
+  },
+  // --- Dynamic config UI styles
+  configForm: {
+    width: "100%",
+    marginBottom: 8,
+    marginTop: 8,
+    backgroundColor: "#171717",
+    padding: 14,
+    borderRadius: 12,
+    shadowColor: "#FFD70044",
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  configLabel: {
+    color: "#FFD700",
+    fontWeight: "bold",
+    marginTop: 8,
+    marginBottom: 4,
+    textAlign: "right",
+    fontSize: 16,
+  },
+  inputBox: {
+    backgroundColor: "#232323",
+    borderRadius: 8,
+    color: "#FFD700",
+    fontWeight: "500",
+    fontSize: 15,
+    paddingVertical: 9,
+    paddingHorizontal: 13,
+    marginBottom: 7,
+    borderWidth: 2,
+    borderColor: "#333",
+    textAlign: "right",
+  },
+  inputBoxValid: {
+    borderColor: "#44e27d",
+  },
+  inputBoxInvalid: {
+    borderColor: "#ff5252",
+  },
+  configButton: {
+    width: "100%",
+    backgroundColor: "#FFD700",
+    paddingVertical: 12,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 9,
+    elevation: 2,
+  },
+  configButtonDisabled: {
+    backgroundColor: "#b1a055",
+    opacity: 0.7,
+  },
+  configButtonText: {
+    color: "#2d1c02",
+    fontWeight: "bold",
+    fontSize: 18,
+    letterSpacing: 1,
+  },
+  configResetButton: {
+    marginTop: 10,
+    alignSelf: "center",
+    padding: 7,
+  },
+  configResetText: {
+    color: "#FFD700",
+    fontSize: 15,
+    fontWeight: "bold",
+    textDecorationLine: "underline",
   },
 });
