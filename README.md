@@ -1,6 +1,6 @@
 # 🕌 AI Assisted Holy Quran App
 
-> An AI-powered mobile & web application designed to enhance reading, learning, and memorization of the Holy Quran with interactive feedback, recitation assessment, and spiritual tools.
+> An AI-powered mobile application designed to enhance reading, learning, and memorization of the Holy Quran with interactive feedback, recitation assessment, and spiritual tools.
 
 ---
 
@@ -9,12 +9,14 @@
 ### 🔸 Core Quran Features
 - 📖 **Complete Digital Quran** – Uthmanic script (UthmanicHafs font) with authentic Mushaf layout (604 pages)
 - 📑 **Page-by-Page Navigation** – Swipe gestures for Mushaf-style reading
-- ✨ **Verse Selection** – Long-press ayahs with highlighting
+- 📖 **Moshaf Index** – Navigate quickly by **Surah**, **Juz**, or **page**, with integrated search and bookmarks  
+- ✨ **Verse Selection** – Long-press ayahs with highlighting to display multipe options to be done for the ayah (Bookmark, Tafsir, Share, Audio Play)
+- 📚 **Tafsir** – Access verse explanations by long-pressing an ayah → opens **Tafsir modal** with multiple sources (Ibn Kathir, Al-Muyassar, Al-Tabari)
 - 🔊 **Audio Recitation** – Multiple reciters, word-by-word highlighting
 - ⏯ **Playback Controls** – Single verse, continuous, pause/resume
 - 🔍 **Text Search** – Advanced keyword search with highlights
-- 🔖 **Bookmarking System** – Save verses with notes & categories
-- 📤 **Sharing** – Export verses as text or images
+- 🔖 **Bookmarking System** – Quran verses and Azkar could be bookmarked with their metadata
+- 📤 **Sharing** – Export verses as text
 
 ### 🔸 AI-Powered Tasmee (Recitation Assessment)
 - 🎙 **Real-time Voice Recognition** (WebSocket-based Arabic ASR)
@@ -29,14 +31,15 @@
 
 ### 🔸 Spiritual Tools & Worship Aid
 - 🕌 **Prayer Times** (Adhan library, multiple methods, notifications)
-- 📿 **Azkar (Dhikr)** – Morning/evening azkar + digital tasbih counter
+- 📿 **Azkar (Dhikr)** – Multiple categories that include multiple Azkar (✔️ Play audio (reciter), ✔️ Count dhikr by tapping with vibration, ✔️ Bookmark items)
 - 📈 **Khatma Planning** – Reading goals & progress visualization
 - 📆 **Daily Reading Targets** – Custom schedules & reminders
+- 🧮 **Sebha (Digital Tasbeeh)** – Animated counting, vibration feedback, swipeable phrases, offline persistence
+- 🧭 **Qiblah Compass** – Real-time sensor-driven Qiblah direction with orientation feedback
 
 ### 🔸 Educational Features
 - ❓ **Interactive Quiz System** – Adaptive difficulty & analytics
 - 📚 **Tafsir Integration** – Verse-by-verse explanations, multilingual
-- 🎓 **Study Mode** – Distraction-free reading interface
 
 ### 🔸 User Experience
 - 👤 Profile management (Google OAuth, preferences)
@@ -120,17 +123,36 @@
 
 ---
 
-## 📂 Project Structure
+## 🔗 Team Integration
 
-```bash
-src/
-├── 📁 api/            # Service layer (auth, azkar, bookmark, khatma, quiz, tafsir)
-├── 📁 assets/         # Fonts, images, audio, data (quran-text.json, translations.json)
-├── 📁 components/     # Reusable UI components (quran, prayer, forms, etc.)
-├── 📁 constants/      # Colors, fonts, API configs, islamic constants
-├── 📁 lib/            # External libs (adhan, audio processing, utils)
-├── 📁 navigation/     # App, Auth, Tab, Drawer navigators
-├── 📁 redux/          # Actions, reducers, middleware, store
-├── 📁 screens/        # Feature-based screens (moshaf, prayer-times, tasmee, quiz, etc.)
-├── 📁 styles/         # Global themes, typography, animations
-└── 📁 utils/          # Helpers (arabicTextProcessor, audioUtils, networkUtils, etc.)
+This application was developed by three collaborating sub-teams:
+
+- 📱 **Mobile Team (React Native)**  
+  - Built the Quran reading interface (Moshaf, Index, Tafsir modal, Azkar, Sebha, Qiblah, etc.)  
+  - Implemented navigation, UI, offline features, and integrations with APIs  
+
+- 🌐 **Backend Team (.NET + Clean Architecture)**  
+  - Provided REST APIs for Quran pages, tafsir, azkar, bookmarks, goals (Khatma), quizzes, authentication, and notifications  
+  - Designed structured schemas for Mushaf text, chapters, verses, and azkar  
+  - Implemented cloud sync, Google OAuth, and real-time WebSocket endpoints  
+
+- 🤖 **AI Team (Speech Recognition)**  
+  - Developed the **Tasmee feature** (recitation assessment)  
+  - Fine-tuned **Wav2Vec2** and **Whisper** models for Quranic Arabic speech recognition  
+  - Built real-time voice recognition with **FastAPI WebSocket streaming** for immediate feedback  
+  - Integrated accuracy scoring (color-coded feedback) into the mobile app
+
+
+## 🎥 Demo
+
+Watch a quick demo of the app in action here:  
+▶️ [YouTube Demo Video](https://www.youtube.com/shorts/Qakl_oXfRgM)
+
+---
+
+## 📖 Documentation
+
+Full technical report with implementation details, AI models, backend APIs, and testing:  
+📄 [Read Full Documentation (Google Drive)](https://drive.google.com/file/d/1uZxMyg3W5X5ko3e5mQuCvApMm8rkVDTh/view?usp=sharing)
+
+---
