@@ -1,11 +1,19 @@
-import { getMessaging, requestPermission, getToken, isDeviceRegisteredForRemoteMessages } from '@react-native-firebase/messaging';
 import { PermissionsAndroid, Platform } from 'react-native';
+import { getApp } from '@react-native-firebase/app';
+import {
+  getMessaging,
+  requestPermission,
+  getToken,
+  AuthorizationStatus,
+} from '@react-native-firebase/messaging';
 import axios from 'axios';
-import createReadingGoal from '../../api/goals/sendGoal'; // Adjust the import path as necessary
+import createReadingGoal from '../../api/goals/sendGoal'; // Adjust if needed
 
 const requestUserPermission = async () => {
-  const messaging = getMessaging();
+  const app = getApp();
+  const messaging = getMessaging(app);
 
+  // ✅ Android 13+ requires explicit POST_NOTIFICATIONS permission
   if (Platform.OS === 'android' && Platform.Version > 33) {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
@@ -17,16 +25,25 @@ const requestUserPermission = async () => {
   }
 
   try {
-    await requestPermission(messaging); // NEW modular API
+    const authStatus = await requestPermission(messaging);
+    const enabled =
+      authStatus === AuthorizationStatus.AUTHORIZED ||
+      authStatus === AuthorizationStatus.PROVISIONAL;
+
+    if (!enabled) {
+      console.warn('Push permission not granted');
+      return;
+    }
+
     const token = await getToken(messaging);
-
-    await registerTokenAtJawwed(token); //Let's call JawwedDB API
-    console.log('Token registered successfully');
-    // await createReadingGoal(); // Call the sendGoal function
-
     console.log('FCM Token:', token);
+
+    await registerTokenAtJawwed(token); // Call backend API
+    console.log('Token registered successfully');
+
+    // Optionally: await createReadingGoal();
   } catch (err) {
-    console.error('Permission rejected', err);
+    console.error('Permission rejected or error occurred:', err);
   }
 };
 
@@ -35,22 +52,22 @@ const registerTokenAtJawwed = async (token) => {
     const response = await axios.post(
       'https://jawwed-api.runasp.net/api/Notification/register-device',
       { deviceToken: token },
-      {
-        headers: { 'Content-Type': 'application/json' }
-      }
+      { headers: { 'Content-Type': 'application/json' } }
     );
+
     if (response.status === 200) {
       console.log('Token registration successful');
     } else {
-      console.warn('Token registration failed');
+      console.warn('Token registration failed with status:', response.status);
     }
     return response.data;
   } catch (error) {
-    console.error('Token registration failed:', error.response?.data || error.message);
-    throw error; // Re-throw to let caller handle if needed
+    console.error(
+      'Token registration failed:',
+      error.response?.data || error.message
+    );
+    throw error; // rethrow for caller to handle
   }
 };
-
-
 
 export default requestUserPermission;

@@ -10,6 +10,9 @@
     "test": "jest",
     "coverage": "jest --coverage"
   },
+  "overrides": {
+    "@expo/config-plugins": "~9.0.17"
+  },
   "dependencies": {
     "@expo/metro-runtime": "~4.0.1",
     "@expo/vector-icons": "^14.0.2",
@@ -80,5 +83,20 @@
     "jest": "~29.7.0",
     "react-test-renderer": "^18.2.0"
   },
-  "private": true
+  "private": true,
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "react-native-keyboard-aware-scroll-view",
+          "adhan",
+          "lodash",
+          "react-native-stack",
+          "react-native-swipe-gestures",
+          "react-native-vector-icons"
+        ],
+        "listUnknownPackages": false
+      }
+    }
+  }
 }

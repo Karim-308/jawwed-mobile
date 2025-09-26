@@ -9,7 +9,7 @@ import IntroScreen from "./src/screens/Intro/IntroScreen";
 import AppNavigator from "./src/navigation/AppNavigator";
 import requestUserPermission from "./src/api/notifications/firebasetoken";
 import { setupDatabase } from "./src/utils/database/setupDatabase";
-import * as Updates from 'expo-updates';
+import * as Updates from "expo-updates";
 
 // Enable all logs for debugging
 LogBox.ignoreAllLogs(false);
@@ -27,13 +27,13 @@ export default function App() {
     const loadAppResources = async () => {
       try {
         await Font.loadAsync({
-          'UthmanicHafs': require('./src/assets/fonts/Hafs.ttf'),
-          'digitalkhatt': require('./src/assets/fonts/digitalkhatt4.otf'),
-          'PRO': require('./src/assets/fonts/AQEEQSANSPRO-Thin.otf'),
+          UthmanicHafs: require("./src/assets/fonts/Hafs.ttf"),
+          digitalkhatt: require("./src/assets/fonts/digitalkhatt4.otf"),
+          PRO: require("./src/assets/fonts/AQEEQSANSPRO-Thin.otf"),
         });
         setFontLoaded(true);
       } catch (error) {
-        console.error('Error loading fonts: ', error);
+        console.error("Error loading fonts: ", error);
         setError(error.message);
       }
     };
@@ -46,7 +46,7 @@ export default function App() {
       try {
         await requestUserPermission();
       } catch (error) {
-        console.error('Error setting up notifications:', error);
+        console.error("Error setting up notifications:", error);
       }
     };
     setupNotifications();
@@ -57,7 +57,7 @@ export default function App() {
       try {
         await setupDatabase();
       } catch (error) {
-        console.error('Error setting up database:', error);
+        console.error("Error setting up database:", error);
       }
     };
     setupDB();
