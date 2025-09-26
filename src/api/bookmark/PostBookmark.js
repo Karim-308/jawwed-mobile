@@ -1,51 +1,51 @@
-import axios from 'axios';
 import { ToastAndroid, Alert, Platform } from 'react-native';
-const postBookmark = async (bookmarkData) => {
-  const url = 'https://jawwed-api.runasp.net/api/Bookmark';
+import jawwedHttpClient from '../../utils/httpclient';
 
+const postBookmark = async (bookmarkData) => {
+  const url = 'Bookmark';
+
+  // Construct request body dynamically based on bookmarkType
+  const body = {
+    bookmarkType: bookmarkData.bookmarkType,
+  };
+
+  if (bookmarkData.bookmarkType === 0) {
+    // Bookmarking a verse
+    body.verseKey = bookmarkData.verseKey;
+    body.verse = bookmarkData.verse;
+    body.page = bookmarkData.page;
+  } else if (bookmarkData.bookmarkType === 1) {
+    // Bookmarking a zekr
+    body.zekrID = bookmarkData.zekrID;
+  }
 
   try {
-    const response = await axios.post(url, {
-      userId: bookmarkData.userId,
-      verseKey: bookmarkData.verseKey,
-      verse: bookmarkData.verse,
-      page: bookmarkData.page,
-    }, {
-      timeout: 10000 // Timeout set to 10 seconds
-    });
+    const response = await jawwedHttpClient.post(url, body);
 
-    // Handle success
     console.log('Bookmark successfully posted:', response.data);
-    // Display success message
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Bookmark Saved', ToastAndroid.SHORT);
+      ToastAndroid.show('تم حفظ الإشارة المرجعية بنجاح', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Success', 'Bookmark Saved');
+      Alert.alert('تم الحفظ', 'تم حفظ الإشارة المرجعية بنجاح');
     }
 
     return response.data;
   } catch (error) {
-    // Handle errors
     if (error.response) {
-      // Server responded with a status code out of the range of 2xx
       console.error('Error response:', error.response);
     } else if (error.request) {
-      // Request was made but no response was received
       console.error('Error request:', error.request);
     } else {
-      // Something else happened while setting up the request
       console.error('Error message:', error.message);
     }
 
-     // Show error feedback to the user
-     // I did "Bookmark already saved" but it can be anything this is just for demo
-     if (Platform.OS === 'android') {
-      ToastAndroid.show('Failed to save bookmark', ToastAndroid.SHORT);
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('فشل في حفظ الإشارة المرجعية', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Error', 'Failed to save bookmark');
+      Alert.alert('خطأ', 'فشل في حفظ الإشارة المرجعية');
     }
 
-    throw error; // Re-throw the error for further handling
+    throw error;
   }
 };
 

@@ -1,10 +1,10 @@
 // src/screens/moshaf/MoshafScreen.js
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, Image,TouchableOpacity, useWindowDimensions, ActivityIndicator , Share } from 'react-native';
+import { View, Text, StyleSheet, Image,TouchableOpacity, useWindowDimensions, ActivityIndicator , Share, ToastAndroid, Alert, Platform } from 'react-native';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchPageData, setPageNumber } from '../../../redux/actions/pageActions';
-import {collectFullAyahText} from '../../../utils/helpers';
+import { collectFullAyahText, toArabicNumerals } from '../../../utils/helpers';
 import { stopAudio,playAudioForOneVerse,playAudioForMultipleVerses,resumeAudio,pauseAudio } from '../../../api/services/audio/AudioService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AyahTooltip from './Tooltip/AyahTooltip';
@@ -12,6 +12,9 @@ import postBookmark from '../../../api/bookmark/PostBookmark';
 import TafsirModal from './Modals/TafsirModal';
 import { useNavigation } from '@react-navigation/native';
 import throttle from 'lodash/throttle';
+import { get } from '../../../utils/localStorage/secureStore'; // Adjust the import path as necessary
+import NotLoggedInMessage from '../../profile/components/NotLoggedInMessage';
+import { updateKhtmaProgress } from '../../khtma/components/khtma-goal-view/KhtmaGoalViewFunctions';
 
 
 // Helper function: Identify ayah boundaries based on Arabic digits.
@@ -48,6 +51,19 @@ const MoshafPage = React.memo((route) => {
   const [tooltipData, setTooltipData] = useState(null);
   const [tafsirVisible, setTafsirVisible] = useState(false);
   const [selectedTafsirSource, setSelectedTafsirSource] = useState(1);
+  const [isLoggedIn,setIsLoggedIn] = useState(null);
+  
+  // for Khtma (Goal) mode
+  const selectedGoalDay = useSelector((state) => state.khtma.selectedDay);
+
+
+    useEffect(() => {
+      const checkLogin = async () => {
+        const token = await get('userToken');
+        setIsLoggedIn(!!token);
+      };
+      checkLogin();
+    }, []);
 
   useEffect(() => {
     if (routePageNumber) {
@@ -59,21 +75,61 @@ const MoshafPage = React.memo((route) => {
   const onSwipe = useCallback(
     throttle((direction) => {
       const currentPage = Number(pageNumber); // Make sure it's a number
-  
-      if (direction === 'SWIPE_LEFT' && currentPage > 1) {
+
+      // for Khtma mode
+      const {routes} = navigation.getState();
+      const isKhtmaModeOn = (routes[routes.length-1].name === 'MoshafPage' && routes[routes.length-2].name === 'KhtmaPage');
+
+      if ((direction === 'SWIPE_LEFT' && currentPage > 1) &&
+          ((!isKhtmaModeOn) || (isKhtmaModeOn && currentPage > selectedGoalDay.startPage))) {
         toggleAyahSelection();
         setTooltipData(null);
         setTafsirVisible(false);
         dispatch(setPageNumber(currentPage - 1));
-      } else if (direction === 'SWIPE_RIGHT' && currentPage < 604) {
+      }
+      else if ((direction === 'SWIPE_RIGHT' && currentPage) &&
+        ((!isKhtmaModeOn) || (isKhtmaModeOn && currentPage < selectedGoalDay.endPage))) {
         toggleAyahSelection();
         setTooltipData(null);
         setTafsirVisible(false);
         dispatch(setPageNumber(currentPage + 1));
       }
+      if (isKhtmaModeOn) {
+        const amount = (direction === 'SWIPE_RIGHT' && currentPage < selectedGoalDay.endPage)? 2 
+        : (direction === 'SWIPE_LEFT' && currentPage > selectedGoalDay.startPage)? 0 : 1;
+        if (Platform.OS === 'android') {
+          ToastAndroid.show(
+            `صفحة رقم ${toArabicNumerals(currentPage-selectedGoalDay.startPage+amount)} من أصل ${toArabicNumerals(selectedGoalDay.endPage-selectedGoalDay.startPage+1)}`,
+            ToastAndroid.SHORT
+          );
+        }
+        else
+        {
+          Alert.alert(
+            'Success',
+            `صفحة رقم ${toArabicNumerals(currentPage-selectedGoalDay.startPage+amount)} من أصل ${toArabicNumerals(selectedGoalDay.endPage-selectedGoalDay.startPage+1)}`
+          );
+        }
+      }
     }, 500),
     [dispatch, pageNumber]
   );
+
+
+  // update the goal (khtma) progress reached when leaving the Moshaf page (if khtma was chosen)
+  useEffect(() => {   
+    const navigationListener = navigation.addListener('beforeRemove', () => {
+      const {routes} = navigation.getState();
+      const isKhtmaModeOn = (routes[routes.length-1].name === 'MoshafPage' && routes[routes.length-2].name === 'KhtmaPage');
+      if (isKhtmaModeOn)
+        updateKhtmaProgress();
+    });
+
+    return () => {
+      navigationListener();
+    };
+  }, [navigation]);
+
 
   /** toggleAyahSelection Function
    * 
@@ -221,16 +277,18 @@ const selectAyahFromWord = useCallback((line, wordIndex, position) => {
   const handleBookmark = async (key) => {
     // Prepare the data for the API request
     const bookmarkData = {
-      userId: 2, // Replace with the actual userId or fetch it dynamically
       verseKey: key, // Pass the key as the verseKey
       verse: tooltipData.ayahText, // Assume tooltipData.ayahText contains the text
+      bookmarkType: 0, // 0 for verse
       page: pageNumber.toString(), // Ensure pageNumber is a string
     };
   
     try {
-      // Send the data to the API
+      if (!isLoggedIn) {
+        console.log("User is not logged in. Cannot bookmark.");
+        return;
+      }
       const response = await postBookmark(bookmarkData);
-      //console.log('Bookmark successfully posted:', response);
     } catch (error) {
       console.error('Error posting bookmark:', error);
     }

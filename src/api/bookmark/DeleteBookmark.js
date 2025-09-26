@@ -1,47 +1,42 @@
-import axios from 'axios';
 import { ToastAndroid, Alert, Platform } from 'react-native';
-const deleteBookmark = async (userId, verseKey) => {
-  const url = 'https://jawwed-api.runasp.net/api/Bookmark';
+import jawwedHttpClient from '../../utils/httpclient';
+
+const deleteBookmark = async ({ identifier, type }) => {
+  const url = 'Bookmark';
 
   try {
-    const response = await axios.delete(url, {
-      params: { userId, verseKey },
-      timeout: 10000 // Timeout set to 10 seconds
+    const response = await jawwedHttpClient.delete(url, {
+      params: {
+        identifier: identifier.toString(),
+        type: type,
+      },
+      timeout: 10000,
     });
 
-    // Handle success
-    console.log('Bookmark successfully posted:', response.data);
-    // Display success message
+    console.log('Bookmark successfully deleted:', response.data);
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Bookmark Deleted', ToastAndroid.SHORT);
+      ToastAndroid.show('تم حذف الإشارة المرجعية بنجاح', ToastAndroid.SHORT);
     } else {
-      Alert.alert('Success', 'Bookmark Deleted');
+      Alert.alert('تم الحذف', 'تم حذف الإشارة المرجعية بنجاح');
     }
-    
 
     return response.data;
   } catch (error) {
-    // Handle errors
     if (error.response) {
-      // Server responded with a status code out of the range of 2xx
       console.error('Error response:', error.response);
     } else if (error.request) {
-      // Request was made but no response was received
       console.error('Error request:', error.request);
     } else {
-      // Something else happened while setting up the request
       console.error('Error message:', error.message);
     }
 
-    // Show error feedback to the user
-         // I did "Bookmark already saved" but it can be anything this is just for demo
-         if (Platform.OS === 'android') {
-          ToastAndroid.show('Failed to delete bookmark', ToastAndroid.SHORT);
-        } else {
-          Alert.alert('Error', 'Failed to delete bookmark');
-        }
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('فشل في حذف الإشارة المرجعية', ToastAndroid.SHORT);
+    } else {
+      Alert.alert('خطأ', 'فشل في حذف الإشارة المرجعية');
+    }
 
-    throw error; // Re-throw the error for further handling
+    throw error;
   }
 };
 

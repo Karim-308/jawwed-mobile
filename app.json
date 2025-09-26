@@ -2,6 +2,7 @@
   "expo": {
     "name": "Jawwed",
     "slug": "jawwed",
+    "jsEngine": "jsc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/images/Jawwed-Icon.png",
@@ -12,30 +13,36 @@
       "backgroundColor": "#000000"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIViewSemanticContentAttribute": "forceRightToLeft"
+      }
     },
     "android": {
+      "allowRTL": false,
+      "supportsRTL": false,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/for-splash.png",
         "backgroundColor": "#000000"
       },
       "package": "com.karim308.jawwed",
+      "usesCleartextTraffic": true,
       "permissions": [
         "INTERNET"
       ],
-       "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./src/assets/images/favicon.png"
     },
     "plugins": [
       "expo-font",
-      "@react-native-firebase/app",
-      "@react-native-firebase/messaging"
+      "expo-secure-store",
+      "expo-sqlite"
     ],
     "extra": {
       "eas": {
-        "projectId": "54d22dcb-376a-43a8-b210-2b32bf442b27"
+        "projectId": "7cd3cd6f-30f7-49f0-ab80-a204836bc8ad"
       }
     }
   }

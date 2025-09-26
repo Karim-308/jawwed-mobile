@@ -1,22 +1,28 @@
 import axios from 'axios';
 
-// Get timezone from coordinates
-export const getTimezone = async (apiKey, lat, lon) => {
+// Get timeZone from coordinates
+export const getTimeZone = async (apiKey, lat, lon) => {
 
-    let timezoneErrorStatus = null;
+    const responseData = {
+        'zoneName': null,
+        'gmtOffset': null,
+        'errorStatus': null
+    };
     
     try {
         const url = `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
         const response = await axios.get(url);
-        if (response.data.status === 'OK')
-            return {'timezone': response.data.zoneName, 'errorStatus': timezoneErrorStatus};
-        else {
-            timezoneErrorStatus = 'حدث خطأ ما أثناء تحديد المنطقة الزمنية';
-            return {'timezone': null, 'errorStatus': timezoneErrorStatus};
+        if (response.data.status === 'OK') {
+            responseData.zoneName = response.data.zoneName;
+            responseData.gmtOffset = response.data.gmtOffset
         }
+        else {
+            responseData.errorStatus = 'حدث خطأ ما أثناء تحديد المنطقة الزمنية';
+        }
+        return responseData;
     }
     catch (error) {
-        timezoneErrorStatus = 'حدث خطأ ما أثناء تحديد المنطقة الزمنية';
-        return {'timezone': null, 'errorStatus': timezoneErrorStatus};
+        responseData.errorStatus = 'حدث خطأ ما أثناء تحديد المنطقة الزمنية';
+        return responseData;
     }
 };

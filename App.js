@@ -1,40 +1,40 @@
-import { LogBox } from 'react-native';
-/*// Ignore all log notifications
+import { LogBox, I18nManager } from "react-native";
+import { useEffect, useState } from "react";
+import React from "react";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
+import * as Font from "expo-font";
+import { Provider } from "react-redux";
+import store from "./src/redux/store";
+import IntroScreen from "./src/screens/Intro/IntroScreen";
+import AppNavigator from "./src/navigation/AppNavigator";
+import requestUserPermission from "./src/api/notifications/firebasetoken";
+import { setupDatabase } from "./src/utils/database/setupDatabase";
+import * as Updates from "expo-updates";
+
+// Enable all logs for debugging
 LogBox.ignoreAllLogs(false);
 
-// Override console methods
-if (__DEV__) {
-  console.log = () => {};
-  console.warn = () => {};
-  console.error = () => {};
-}*/
-
-
-import React, { useState, useEffect } from 'react';
-import { View, ActivityIndicator, StyleSheet, Platform } from 'react-native';
-import * as Font from 'expo-font';
-import { Provider } from 'react-redux';
-import store from './src/redux/store';
-import IntroScreen from './src/screens/Intro/IntroScreen';
-import AppNavigator from './src/navigation/AppNavigator';
-import { getFcmTokenAndSendToJawwed } from './src/api/notifications/firebasetoken';
-import { get } from 'lodash';
+// Configure RTL
+I18nManager.allowRTL(false);
+I18nManager.forceRTL(false);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadAppResources = async () => {
       try {
         await Font.loadAsync({
-          'UthmanicHafs': require('./src/assets/fonts/Hafs.ttf'),
-          'digitalkhatt': require('./src/assets/fonts/digitalkhatt (4).otf'),
-          'PRO': require('./src/assets/fonts/AQEEQSANSPRO-Thin.otf'),
+          UthmanicHafs: require("./src/assets/fonts/Hafs.ttf"),
+          digitalkhatt: require("./src/assets/fonts/digitalkhatt4.otf"),
+          PRO: require("./src/assets/fonts/AQEEQSANSPRO-Thin.otf"),
         });
         setFontLoaded(true);
       } catch (error) {
-        console.error('Error loading fonts: ', error);
+        console.error("Error loading fonts: ", error);
+        setError(error.message);
       }
     };
 
@@ -42,9 +42,34 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log('App mounted');
-    console.log(getFcmTokenAndSendToJawwed());
+    const setupNotifications = async () => {
+      try {
+        await requestUserPermission();
+      } catch (error) {
+        console.error("Error setting up notifications:", error);
+      }
+    };
+    setupNotifications();
   }, []);
+
+  useEffect(() => {
+    const setupDB = async () => {
+      try {
+        await setupDatabase();
+      } catch (error) {
+        console.error("Error setting up database:", error);
+      }
+    };
+    setupDB();
+  }, []);
+
+  if (error) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#EFB975" />
+      </View>
+    );
+  }
 
   if (showIntro) {
     return <IntroScreen onFinish={() => setShowIntro(false)} />;
@@ -68,8 +93,8 @@ export default function App() {
 const styles = StyleSheet.create({
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#000",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

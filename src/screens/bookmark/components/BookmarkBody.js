@@ -1,50 +1,122 @@
-import React from 'react';
-import { View, FlatList, Text, StyleSheet, ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setPageNumber } from '../../../redux/actions/pageActions';
 import { useNavigation } from '@react-navigation/native';
+import Colors from '../../../constants/newColors';
+import { get } from '../../../utils/localStorage/secureStore';
+import { indexTypesItems } from '../../../screens/moshaf-index/components/IndexData';
 
-const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
-
-  // Navigate to a the page with the bookmarked verse
+const Body = ({ bookmarks, loading, error, handleDelete }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const [darkMode, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    const loadDarkMode = async () => {
+      const storedDarkMode = await get("darkMode");
+      if (storedDarkMode !== null) {
+        setDarkMode(storedDarkMode === "true");
+      } else {
+        setDarkMode(true);
+      }
+    };
+    loadDarkMode();
+  }, []);
+
+  const currentColors = darkMode ? Colors.dark : Colors.light;
+
+  const toArabicNumber = (num) => {
+    return num
+      .toString()
+      .replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+  };
+
+  const getNameByPageNumber = (pageNumber) => {
+    const chapters = indexTypesItems.Chapter;
+    let selectedChapter = chapters[0];
+    for (let i = 0; i < chapters.length; i++) {
+      if (pageNumber >= chapters[i].pageNumber) {
+        selectedChapter = chapters[i];
+      } else {
+        break;
+      }
+    }
+    return selectedChapter.name;
+  };
+
   const goToVerse = (pageNumber) => {
     dispatch(setPageNumber(Number(pageNumber)));
-    navigation.navigate('MoshafPage'); // Pass pageNumber as navigation parameter
-  }
-  
-  const renderBookmark = ({ item }) => (
-    <View style={styles.bookmarkCard}>
-      <View>
-        <Text style={[styles.basmala, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>
-        بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ
-        </Text>
-        <Text style={[styles.verse, fontLoaded && { fontFamily: 'UthmanicHafs' }]}>{item.verse}</Text>
+    navigation.navigate('MoshafPage');
+  };
+
+  const renderBookmark = ({ item }) => {
+    const surahName = getNameByPageNumber(item.page);
+
+    return (
+      <View
+        style={[
+          styles.bookmarkCard,
+          { backgroundColor: currentColors.cardBackground || (darkMode ? '#23272f' : '#fff') },
+        ]}
+      >
+        <View style={styles.cardContent}>
+          <Text
+            style={[
+              styles.verse,
+              { color: currentColors.text, fontFamily: 'UthmanicHafs' },
+            ]}
+          >
+            {item.verse}
+          </Text>
+        </View>
+        <View style={[
+          styles.divider,
+          {
+            backgroundColor: darkMode ? '#e0e0e0' : '#000',
+            opacity: darkMode ? 0.18 : 0.3,
+          }
+        ]} />
+        <View style={styles.footer}>
+          <View style={styles.pageSurahContainer}>
+            <Text style={[styles.pageNumber, { color: currentColors.text }]}>صفحة: {toArabicNumber(item.page)}</Text>
+            <Text style={[styles.surahName, { color: currentColors.text }]}>{surahName}</Text>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => handleDelete(item.verseKey)}
+              style={[styles.deleteButton, { backgroundColor: '#ff4d4d' }]}
+            >
+              <Text style={styles.buttonText}>إلغاء</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => goToVerse(item.page)}
+              style={[styles.goToButton, { backgroundColor: Colors.highlight }]}
+            >
+              <Text style={styles.buttonText}>اذهب</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-      <View style={styles.footer}>
-        <Text style={styles.pageNumber}>صــفحة: {Intl.NumberFormat('ar-EG').format(item.page)}</Text>
-        <TouchableOpacity
-          onPress={() => handleDelete(2, item.verseKey)} // Assuming userId = 2
-          style={styles.deleteButton}
-        >
-          <Text style={styles.ButtonText}>إلغاء الحفظ</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => goToVerse(item.page)}
-          style={styles.goToButton}
-        >
-          <Text style={styles.ButtonText}>اذهب إلى</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
+    );
+  };
 
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#f0ad4e" />
-        <Text style={styles.loadingText}>Loading bookmarks... </Text>
+        <ActivityIndicator size="large" color={Colors.highlight} />
+        <Text
+          style={[styles.loadingText, { color: currentColors.loadingText }]}
+        >
+          جاري التحميل...
+        </Text>
       </View>
     );
   }
@@ -52,7 +124,11 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
   if (error) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>{error} </Text>
+        <Text
+          style={[styles.errorText, { color: currentColors.errorText }]}
+        >
+          {error}
+        </Text>
       </View>
     );
   }
@@ -63,67 +139,84 @@ const Body = ({ bookmarks, loading, error, fontLoaded, handleDelete }) => {
       keyExtractor={(item) => item.verseKey}
       renderItem={renderBookmark}
       contentContainerStyle={styles.listContainer}
+      showsVerticalScrollIndicator={false}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  bookmarkCard: {
-    backgroundColor: '#1c1c1e',
-    borderColor: '#EFB975',
-    borderWidth: 1,
-    minWidth: '90%',
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+  listContainer: {
+    padding: 2,
   },
-  basmala: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 8,
+  bookmarkCard: {
+    borderRadius: 18,
+    padding: 22,
+    marginBottom: 22,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.13,
+    shadowRadius: 12,
+    elevation: 7,
+    borderWidth: 0,
+  },
+  cardContent: {
+    marginBottom: 18,
   },
   verse: {
-    color: '#fff',
-    fontSize: 16,
+    fontSize: 24,
+    paddingTop: 10,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 34,
+    letterSpacing: 0.5,
+  },
+  divider: {
+    height: 1,
+    marginVertical: 10,
+  },
+  pageSurahContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    backgroundColor: 'transparent',
+  },
+  pageNumber: {
+    fontSize: 15,
+    opacity: 0.7,
+    fontWeight: '500',
+  },
+  surahName: {
+    fontSize: 15,
+    opacity: 0.7,
+    fontWeight: '500',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 6,
   },
-  pageNumber: {
-    color: '#f0ad4e',
-    fontSize: 14,
-    width: 80,
-    marginTop: 15
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 12,
   },
   deleteButton: {
-    backgroundColor: '#ff4d4d',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 4,
-    marginLeft: 20
+    paddingVertical: 8,
+    paddingHorizontal: 22,
+    borderRadius: 20,
+    minWidth: 64,
+    alignItems: 'center',
   },
   goToButton: {
-    backgroundColor: `#DE9953`,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 22,
+    borderRadius: 20,
+    minWidth: 64,
+    alignItems: 'center',
   },
-  ButtonText: {
+  buttonText: {
     color: '#fff',
-    fontSize: 14,
     fontWeight: 'bold',
+    fontSize: 13,
   },
   loadingContainer: {
     flex: 1,
@@ -131,7 +224,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    color: '#fff',
     fontSize: 16,
     marginTop: 8,
   },
@@ -141,7 +233,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorText: {
-    color: 'red',
     fontSize: 16,
   },
 });
